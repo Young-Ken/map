@@ -65,6 +65,7 @@ public class LineSegment extends Line
 
     public double distance(Coordinate p)
     {
+        //ssss
         return 0;
     }
 
