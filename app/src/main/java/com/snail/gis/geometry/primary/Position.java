@@ -10,11 +10,11 @@ public abstract class Position extends Geometry
     /**
      * x 坐标
      */
-    protected double x = Double.MAX_VALUE;
+    public double x = Double.NaN;
 
     /**
      * y 坐标
      */
-    protected double y = Double.MAX_VALUE;
+    public double y = Double.NaN;
 
 }

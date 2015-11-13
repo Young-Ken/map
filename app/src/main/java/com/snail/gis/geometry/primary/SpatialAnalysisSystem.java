@@ -7,5 +7,5 @@ package com.snail.gis.geometry.primary;
  */
 public interface SpatialAnalysisSystem
 {
-    double getDistance(Geometry geometry);
+    //double getDistance(Geometry geometry);
 }

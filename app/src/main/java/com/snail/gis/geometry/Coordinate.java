@@ -22,6 +22,22 @@ public class Coordinate extends Position
         this.y = y;
     }
 
+    /**
+     * 构造函数
+     * @param coordinate coordinate
+     */
+    public Coordinate(Coordinate coordinate)
+    {
+        this.x = coordinate.x;
+        this.y = coordinate.y;
+    }
+
+    /**
+     * 构造函数
+     */
+    public Coordinate()
+    {
+    }
 
     /**
      * 因为是点外接矩形就是点本身
@@ -49,11 +65,17 @@ public class Coordinate extends Position
         }
     }
 
-    @Override
-    public double getDistance(Geometry geometry)
-    {
 
-        return 0;
+    /**
+     * 返回点到点的距离
+     * @param coordinate Coordinate
+     * @return double 返回点到点的距离
+     */
+    public double distance(Coordinate coordinate)
+    {
+        double dx = x - coordinate.x;
+        double dy = y - coordinate.y;
+        return Math.sqrt(dx * dx + dy * dy);
     }
 
     public double getX()
