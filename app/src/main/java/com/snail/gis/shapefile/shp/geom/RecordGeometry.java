@@ -13,11 +13,11 @@ import java.nio.ByteOrder;
 public abstract class RecordGeometry
 {
     /**
-     * Ä¬ÈÏshapeTypeÎª0 Ò²¾ÍÊÇnull
+     * é»˜è®¤shapeTypeä¸º0 ä¹Ÿå°±æ˜¯null
      */
     private int shapeType = 0;
     /**
-     *  Õâ¸öÊÇ´Ó1¿ªÊ¼
+     *  è¿™ä¸ªæ˜¯ä»Ž1å¼€å§‹
      */
     private int recordNumber = 0;
 

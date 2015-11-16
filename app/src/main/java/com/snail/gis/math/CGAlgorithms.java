@@ -37,6 +37,4 @@ public class CGAlgorithms
         double s = ((A.y - p.y) * (B.x - A.x) - (A.x - p.x) * (B.y - A.y)) / len2;
         return Math.abs(s) * Math.sqrt(len2);
     }
-
-
 }

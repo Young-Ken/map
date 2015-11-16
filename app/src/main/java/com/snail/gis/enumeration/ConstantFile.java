@@ -8,37 +8,37 @@ package com.snail.gis.enumeration;
 public class ConstantFile
 {
     /**
-     * Õâ¸öAppµÄ¸ùÄ¿Â¼
+     * è¿™ä¸ªAppçš„æ ¹ç›®å½•
      */
     public static final String ROOT = "AZY";
 
     /**
-     * »º´æÂ·¾¶
+     * ç¼“å­˜è·¯å¾„
      */
     public static final String MAP_CACHE = "MapCache";
 
     /**
-     * shapeÎÄ¼şµÄ¸ùÄ¿Â¼
+     * shapeæ–‡ä»¶çš„æ ¹ç›®å½•
      */
     public static final String SHAPE_ROOT = "Shape";
 
     /**
-     * ×°ÖÃShapeÎÄ¼şµÄÎÄ¼şÄ¿Â¼
+     * è£…ç½®Shapeæ–‡ä»¶çš„æ–‡ä»¶ç›®å½•
      */
     public static final String SHAPE_FILE = "File";
 
     /**
-     * ·ÅÖÃshape xmlµÄÎÄ¼ş¼Ğ
+     * æ”¾ç½®shape xmlçš„æ–‡ä»¶å¤¹
      */
     public static final String SHAPE_XML = "XML";
 
     /**
-     * ·ÅÖÃshape Image ÎÄ¼ş¼Ğ
+     * æ”¾ç½®shape Image æ–‡ä»¶å¤¹
      */
     public static final String SHAPE_IMAGE = "Image";
 
     /**
-     * äÖÈ¾shape xml ÎÄ¼şÃû
+     * æ¸²æŸ“shape xml æ–‡ä»¶å
      */
     public static final String SHAPE_XML_NAME = "shapeXML.xml";
 }

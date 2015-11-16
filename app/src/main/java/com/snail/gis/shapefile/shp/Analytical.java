@@ -25,7 +25,7 @@ public class Analytical
     }
 
     /**
-     * 单例模式
+     * 鍗曚緥妯″紡
      * @return Analytical
      */
     public static Analytical getInstance(OnShapeStatusListener onShapeStatusListener)
@@ -44,7 +44,7 @@ public class Analytical
     }
 
     /**
-     * 解析shape文件
+     * 瑙ｆ瀽shape鏂囦欢
      * @param accessFile RandomAccessFile
      * @throws IOException
      */

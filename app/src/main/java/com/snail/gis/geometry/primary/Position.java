@@ -10,11 +10,11 @@ public abstract class Position extends Geometry
     /**
      * x 坐标
      */
-    public double x = Double.NaN;
+    public double x = 0.0;
 
     /**
      * y 坐标
      */
-    public double y = Double.NaN;
+    public double y = 0.0;
 
 }

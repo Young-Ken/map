@@ -12,11 +12,11 @@ public class ShapeFileManger
 {
 
     /**
-     * ShapeFile 集合
+     * ShapeFile 闆嗗悎
      */
     private List<ShapeFile> list = new ArrayList<>();
     /**
-     * 单例模式
+     * 鍗曚緥妯″紡
      */
     private volatile static ShapeFileManger instance = null;
 
@@ -25,8 +25,8 @@ public class ShapeFileManger
     }
 
     /**
-     * 单例模式返回ShapeFileManager实例
-     * @return ShapeFileManager实例
+     * 鍗曚緥妯″紡杩斿洖ShapeFileManager瀹炰緥
+     * @return ShapeFileManager瀹炰緥
      */
     public static ShapeFileManger getInstance()
     {

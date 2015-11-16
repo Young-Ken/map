@@ -62,7 +62,7 @@ public class ShapeFileHeader
     {
         if (fileCode != MAGIC)
         {
-           throw ShapeException.throwException(ShapeException.TYPE.MAGIC_IS_ERROR, "Œƒº˛¬ÎŒ™" + fileCode);
+           throw ShapeException.throwException(ShapeException.TYPE.MAGIC_IS_ERROR, "Êñá‰ª∂Á†Å‰∏∫" + fileCode);
         }
     }
 
@@ -70,7 +70,7 @@ public class ShapeFileHeader
     {
         if (version != VERSION)
         {
-           throw ShapeException.throwException(ShapeException.TYPE.VERSION_IS_ERROR, "Œƒº˛∞Ê±æ «" + version);
+           throw ShapeException.throwException(ShapeException.TYPE.VERSION_IS_ERROR, "Êñá‰ª∂ÁâàÊú¨ÊòØ" + version);
         }
     }
 

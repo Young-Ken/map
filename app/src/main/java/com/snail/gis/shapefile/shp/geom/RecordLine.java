@@ -1,7 +1,8 @@
 package com.snail.gis.shapefile.shp.geom;
 
-import com.esri.core.geometry.Point;
-import com.youngken.shapefile.shp.exception.ShapeException;
+
+import com.snail.gis.geometry.Coordinate;
+import com.snail.gis.shapefile.shp.exception.ShapeException;
 
 import java.io.IOException;
 import java.io.RandomAccessFile;
@@ -17,23 +18,23 @@ import java.nio.channels.FileChannel;
 public class RecordLine extends RecordGeometry
 {
     /**
-     * Íâ½Ó¾ØĞÎ£¬ÎªÁË½ÚÊ¡ÄÚ´æ¾Í²»ÓÃ¶ÔÏó·â×°ÁË Ë³ĞòÎªXmin, Ymin, Xmax,Ymax.
+     * å¤–æ¥çŸ©å½¢ï¼Œä¸ºäº†èŠ‚çœå†…å­˜å°±ä¸ç”¨å¯¹è±¡å°è£…äº† é¡ºåºä¸ºXmin, Ymin, Xmax,Ymax.
      */
     private double[] box = new double[4];
 
     /**
-     * ±íÊ¾¹¹³Éµ±Ç°ÏßÄ¿±êµÄ×ÓÏß¶ÎµÄ¸öÊı
+     * è¡¨ç¤ºæ„æˆå½“å‰çº¿ç›®æ ‡çš„å­çº¿æ®µçš„ä¸ªæ•°
      */
     private int numParts = -1;
 
     /**
-     * µãµÄ¸öÊı
+     * ç‚¹çš„ä¸ªæ•°
      */
     private int numPoints = -1;
 
     private int[] parts;
 
-    private Point[] points;
+    private Coordinate[] points;
 
     /**
      *
@@ -57,7 +58,7 @@ public class RecordLine extends RecordGeometry
         numParts = byteBuffer.getInt();
         parts = new int[numParts];
         numPoints = byteBuffer.getInt();
-        points = new Point[numPoints];
+        points = new Coordinate[numPoints];
 
         ByteBuffer lineBuffer = ByteBuffer.allocate(numPoints*16 + numParts*4);
         FileChannel channel = accessFile.getChannel();
@@ -71,7 +72,7 @@ public class RecordLine extends RecordGeometry
 
         for (int i = 0; i < numPoints; i++)
         {
-           points[i] = new Point(lineBuffer.getDouble(), lineBuffer.getDouble());
+           points[i] = new Coordinate(lineBuffer.getDouble(), lineBuffer.getDouble());
         }
     }
 

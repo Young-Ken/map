@@ -1,7 +1,11 @@
 package com.snail.gis.geometry;
 
 import com.snail.gis.geometry.primary.Curve;
+import com.snail.gis.geometry.primary.Envelope;
 import com.snail.gis.geometry.primary.Geometry;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * @author Young Ken
@@ -10,22 +14,62 @@ import com.snail.gis.geometry.primary.Geometry;
  */
 public class LineString extends Curve
 {
-    @Override
-    public Envelope getEnvelope()
+
+    private List<Coordinate> list = null;
+    public LineString()
     {
-        return null;
+        list = new ArrayList<>();
     }
 
-    @Override
-    public boolean equals(Geometry geometry)
+    public LineString(Coordinate[] coordinates)
     {
-        return false;
+        this();
+        init(coordinates);
     }
 
+    public LineString(LineString lineString)
+    {
+        this();
+        init(lineString);
+    }
+
+    private void init(Coordinate[] coordinates)
+    {
+        for(Coordinate coordinate : coordinates)
+        {
+            list.add(coordinate);
+        }
+    }
+
+    private void init(LineString lineString)
+    {
+        List<Coordinate> tempList = lineString.getList();
+        for (Coordinate coordinate : tempList)
+        {
+            list.add(coordinate);
+        }
+    }
+
+    public List<Coordinate> getList()
+    {
+        return list;
+    }
+
+
+    @Override
+    public int getPointNum()
+    {
+        return list.size();
+    }
 
     @Override
     public double getLength()
     {
+        double result = 0.0;
+        for (Coordinate coordinate : list)
+        {
+           // result  = result + MathUtil.distanceTwoPoint(coordinate)
+        }
         return 0;
     }
 
@@ -39,5 +83,24 @@ public class LineString extends Curve
     public boolean isRing()
     {
         return false;
+    }
+
+
+    @Override
+    public boolean equals(Geometry geometry)
+    {
+       return true;
+    }
+
+    @Override
+    public Envelope getEnvelope()
+    {
+       return getEnvelope(list);
+    }
+
+    @Override
+    public boolean isEmpty()
+    {
+        return (list.size() == 0);
     }
 }

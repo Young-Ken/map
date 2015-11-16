@@ -1,5 +1,6 @@
 package com.snail.gis.geometry;
 
+import com.snail.gis.geometry.primary.Envelope;
 import com.snail.gis.geometry.primary.Geometry;
 import com.snail.gis.geometry.primary.Position;
 
@@ -46,6 +47,12 @@ public class Coordinate extends Position
     public Envelope getEnvelope()
     {
         return new Envelope(new Coordinate(this.x, this.y));
+    }
+
+    @Override
+    public boolean isEmpty()
+    {
+        return false;
     }
 
     /**

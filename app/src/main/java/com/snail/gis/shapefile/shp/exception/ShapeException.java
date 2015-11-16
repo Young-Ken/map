@@ -29,23 +29,23 @@ public class ShapeException extends Exception
 
     public static IOException throwException(TYPE type, String errorString)
     {
-        StringBuffer error = new StringBuffer("ShapeFile Òì³££¬");
+        StringBuffer error = new StringBuffer("ShapeFile å¼‚å¸¸ï¼Œ");
         switch (type)
         {
             case BYTE_IS_NULL:
-                error.append("byte Îª¿Õ¡£");
+                error.append("byte ä¸ºç©ºã€‚");
                 break;
             case MAGIC_IS_ERROR:
-                error.append("ÎÄ¼ş²»¶Ô¡£");
+                error.append("æ–‡ä»¶ä¸å¯¹ã€‚");
                 break;
             case VERSION_IS_ERROR:
-                error.append("ÎÄ¼ş°æ±¾²»¶Ô");
+                error.append("æ–‡ä»¶ç‰ˆæœ¬ä¸å¯¹");
                 break;
             case FILE_IS_NULL:
-                error.append("ÎÄ¼şÎª¿Õ");
+                error.append("æ–‡ä»¶ä¸ºç©º");
                 break;
             default:
-                error.append("Î´ÖªÒì³£¡£");
+                error.append("æœªçŸ¥å¼‚å¸¸ã€‚");
                 break;
         }
         return new IOException(error.append(errorString).toString());

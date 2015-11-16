@@ -8,42 +8,42 @@ package com.snail.gis.enumeration;
 public class ConstantMap
 {
     /**
-     * ×î´ó±ÈÀı³ß
+     * æœ€å¤§æ¯”ä¾‹å°º
      */
     public static final int MAX_LEVEL = 19;
 
     /**
-     * ×îĞ¡±ÈÀı³ß
+     * æœ€å°æ¯”ä¾‹å°º
      */
     public static final int MIN_LEVEL = 0;
 
     /**
-     * Ä¬ÈÏdpi
+     * é»˜è®¤dpi
      */
     public static final int DEFAULT_DPI = 96;
 
     /**
-     * Ä¬ÈÏÇĞÆ¬´óĞ¡
+     * é»˜è®¤åˆ‡ç‰‡å¤§å°
      */
     public static final int DEFAULT_SIZE = 256;
 
     /**
-     * ÏßÄ¬ÈÏ¿í¶È
+     * çº¿é»˜è®¤å®½åº¦
      */
     public static final int DEFAULT_LINE_WIDTH = 5;
 
     /**
-     * µãÄ¬ÈÏ´óĞ¡
+     * ç‚¹é»˜è®¤å¤§å°
      */
     public static final int DEFAULT_POINT_SIZE = 20;
 
     /**
-     * ¼òµ¥·ûºÅÄ¬ÈÏÑùÊ½
+     * ç®€å•ç¬¦å·é»˜è®¤æ ·å¼
      */
     //public static final SimpleMarkerSymbol.STYLE DEFAULT_STYLE_SIMPLE_MARK = SimpleMarkerSymbol.STYLE.CIRCLE;
 
     /**
-     * Ïß·ûºÅÄ¬ÈÏÑùÊ½
+     * çº¿ç¬¦å·é»˜è®¤æ ·å¼
      */
    // public static final  SimpleLineSymbol.STYLE DEFAULT_STYLE_SIMPLE_LINE = SimpleLineSymbol.STYLE.DASHDOT;
 

@@ -2,6 +2,7 @@ package com.snail.gis;
 
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 
@@ -13,7 +14,25 @@ public class MainActivity extends ActionBarActivity
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        double x =Double.MAX_VALUE;
+        double y =6000;
+
+
+        boolean xx = false;
+
+
+        boolean c = !(!Double.isNaN(x) || !Double.isNaN(y));
+        if(c)
+        {
+            Log.e("sss", "sss");
+        } else
+        {
+            Log.e("sss","xxxx");
+        }
     }
+
+
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu)

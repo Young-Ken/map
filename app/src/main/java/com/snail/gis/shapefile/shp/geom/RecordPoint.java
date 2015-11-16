@@ -1,6 +1,7 @@
 package com.snail.gis.shapefile.shp.geom;
 
-import com.youngken.shapefile.shp.exception.ShapeException;
+
+import com.snail.gis.shapefile.shp.exception.ShapeException;
 
 import java.io.IOException;
 import java.io.RandomAccessFile;
@@ -15,17 +16,17 @@ public class RecordPoint extends RecordGeometry
 {
 
     /**
-     * x ×ø±ê
+     * x åæ ‡
      */
     private double x = 0;
 
     /**
-     * y ×ø±ê
+     * y åæ ‡
      */
     private double y = 0;
 
     /**
-     *  ´ÓĞ´¶ÁÈ¡µã
+     *  ä»å†™è¯»å–ç‚¹
      * @param byteBuffer
      * @throws IOException
      */

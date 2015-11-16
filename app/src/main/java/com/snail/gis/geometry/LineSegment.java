@@ -1,5 +1,6 @@
 package com.snail.gis.geometry;
 
+import com.snail.gis.geometry.primary.Envelope;
 import com.snail.gis.geometry.primary.Geometry;
 import com.snail.gis.geometry.primary.Line;
 import com.snail.gis.math.CGAlgorithms;
@@ -52,10 +53,20 @@ public class LineSegment extends Line
     }
 
 
+    /**
+     * 线段返回的线段的外包络线
+     * @return
+     */
     @Override
     public Envelope getEnvelope()
     {
-        return null;
+       return new Envelope(startPoint, endPoint);
+    }
+
+    @Override
+    public boolean isEmpty()
+    {
+        return (startPoint == null || endPoint == null);
     }
 
     @Override
