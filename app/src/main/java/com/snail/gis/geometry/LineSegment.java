@@ -2,6 +2,7 @@ package com.snail.gis.geometry;
 
 import com.snail.gis.geometry.primary.Geometry;
 import com.snail.gis.geometry.primary.Line;
+import com.snail.gis.math.CGAlgorithms;
 import com.snail.gis.math.MathUtil;
 
 /**
@@ -63,11 +64,21 @@ public class LineSegment extends Line
         return false;
     }
 
+    /**
+     * 点到线的距离
+     * @param p 点p
+     * @return double 点到线的距离
+     */
     public double distance(Coordinate p)
     {
-        //ssgdgdgdg
-        return 0;
+        return CGAlgorithms.distancePointLine(p,startPoint, endPoint);
     }
+
+    public double distance(LineSegment lineSegment)
+    {
+        return 0.0;
+    }
+
 
     @Override
     public double getLength()

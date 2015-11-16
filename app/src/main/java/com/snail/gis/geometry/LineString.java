@@ -22,11 +22,6 @@ public class LineString extends Curve
         return false;
     }
 
-    @Override
-    public double getDistance(Geometry geometry)
-    {
-        return 0;
-    }
 
     @Override
     public double getLength()
