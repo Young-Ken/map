@@ -3,7 +3,7 @@ package com.snail.gis.tool;
 import android.app.Application;
 import android.graphics.drawable.Drawable;
 
-import com.youngken.zy_gis_demo_001.R;
+import com.snail.gis.R;
 
 /**
  * Created by Young Ken on 2015/8/19.
