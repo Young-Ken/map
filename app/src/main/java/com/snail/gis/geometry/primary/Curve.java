@@ -1,6 +1,6 @@
 package com.snail.gis.geometry.primary;
 
-import com.snail.gis.geometry.*;
+import com.snail.gis.geometry.Coordinate;
 
 import java.util.List;
 
@@ -11,15 +11,6 @@ import java.util.List;
  */
 public abstract class Curve extends Geometry
 {
-    /**
-     * 起始点
-     */
-    public Coordinate startPoint;
-
-    /**
-     * 结束点
-     */
-    public Coordinate endPoint;
 
     /**
      * 得当当前线的点数
@@ -37,13 +28,14 @@ public abstract class Curve extends Geometry
      * 曲线是不是闭合的
      * @return 闭合返回true，不闭合返回false
      */
-    public abstract boolean isClose();
+    public abstract boolean isClosed();
 
     /**
      * 曲线是不环
      * @return 是环返回true，不是环返回false
      */
-    public abstract boolean isRing();
+   // public abstract boolean isRing();
+
 
     /**
      * 返回线的外包络线

@@ -1,8 +1,8 @@
 package com.snail.gis.geometry;
 
+import com.snail.gis.geometry.primary.Curve;
 import com.snail.gis.geometry.primary.Envelope;
 import com.snail.gis.geometry.primary.Geometry;
-import com.snail.gis.geometry.primary.Line;
 import com.snail.gis.math.CGAlgorithms;
 import com.snail.gis.math.MathUtil;
 
@@ -11,9 +11,11 @@ import com.snail.gis.math.MathUtil;
  * @version 0.1
  * @since 2015/11/12
  */
-public class LineSegment extends Line
+public class LineSegment extends Curve
 {
 
+    private Coordinate startPoint;
+    private Coordinate endPoint;
     /**
      * 线段构造函数
      * @param startPoint 起始点
@@ -92,19 +94,25 @@ public class LineSegment extends Line
 
 
     @Override
+    public int getPointNum()
+    {
+        if(isEmpty())
+        {
+            return 0;
+        } else
+        {
+            return 2;
+        }
+    }
+
+    @Override
     public double getLength()
     {
         return MathUtil.distanceTwoPoint(startPoint, endPoint);
     }
 
     @Override
-    public boolean isClose()
-    {
-        return false;
-    }
-
-    @Override
-    public boolean isRing()
+    public boolean isClosed()
     {
         return false;
     }

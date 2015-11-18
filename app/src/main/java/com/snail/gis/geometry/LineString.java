@@ -3,6 +3,7 @@ package com.snail.gis.geometry;
 import com.snail.gis.geometry.primary.Curve;
 import com.snail.gis.geometry.primary.Envelope;
 import com.snail.gis.geometry.primary.Geometry;
+import com.snail.gis.math.MathUtil;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -15,7 +16,7 @@ import java.util.List;
 public class LineString extends Curve
 {
 
-    private List<Coordinate> list = null;
+    protected List<Coordinate> list = null;
     public LineString()
     {
         list = new ArrayList<>();
@@ -35,7 +36,7 @@ public class LineString extends Curve
 
     private void init(Coordinate[] coordinates)
     {
-        for(Coordinate coordinate : coordinates)
+        for (Coordinate coordinate : coordinates)
         {
             list.add(coordinate);
         }
@@ -62,27 +63,56 @@ public class LineString extends Curve
         return list.size();
     }
 
+    /**
+     * 得到线的长度
+     * @return
+     */
     @Override
     public double getLength()
     {
         double result = 0.0;
-        for (Coordinate coordinate : list)
+        int size = list.size();
+
+        for (int i = 0; i < size-1; i++)
         {
-           // result  = result + MathUtil.distanceTwoPoint(coordinate)
+            result = result + MathUtil.distanceTwoPoint(list.get(i),list.get(i+1));
         }
-        return 0;
+
+        return result;
+    }
+
+    /**
+     * 得到第一个点
+     * @return Coordinate
+     */
+    public Coordinate getStartPoint()
+    {
+        return getPoint(0);
+    }
+
+    /**
+     * 得到最后一个点
+     * @return Coordinate
+     */
+    public Coordinate getEndPoint()
+    {
+        return getPoint(getPointNum() - 1);
+    }
+
+    /**
+     *  通过index得到LineString上的点，这里直接用list的get()方法
+     * @param index 索引号
+     * @return Coordinate
+     */
+    public Coordinate getPoint(int index)
+    {
+        return list.get(index);
     }
 
     @Override
-    public boolean isClose()
+    public boolean isClosed()
     {
-        return false;
-    }
-
-    @Override
-    public boolean isRing()
-    {
-        return false;
+        return !isEmpty() && getPoint(0).equals(getPoint(getPointNum() - 1));
     }
 
 

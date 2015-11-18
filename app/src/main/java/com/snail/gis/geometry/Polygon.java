@@ -11,6 +11,10 @@ import com.snail.gis.geometry.primary.Surface;
  */
 public class Polygon extends Surface
 {
+
+    private LinearRing linearRing = null;
+
+
     @Override
     public Envelope getEnvelope()
     {
