@@ -16,6 +16,14 @@ public class LineSegment extends Curve
 
     private Coordinate startPoint;
     private Coordinate endPoint;
+
+    /**
+     * 线段构造函数
+     */
+    public LineSegment()
+    {
+        this(new Coordinate(), new Coordinate());
+    }
     /**
      * 线段构造函数
      * @param startPoint 起始点
@@ -42,16 +50,11 @@ public class LineSegment extends Curve
 
     /**
      * 线段构造函数
-     * @param lineSegment line
+     * @param lineSegment LineSegment
      */
     public LineSegment(LineSegment lineSegment)
     {
         this(lineSegment.startPoint, lineSegment.endPoint);
-    }
-
-    public LineSegment()
-    {
-        this(new Coordinate(), new Coordinate());
     }
 
 
@@ -74,7 +77,13 @@ public class LineSegment extends Curve
     @Override
     public boolean equals(Geometry geometry)
     {
-        return false;
+        if (geometry instanceof LineSegment)
+        {
+            LineSegment lineSegment = (LineSegment) geometry;
+            return startPoint.equals(lineSegment.startPoint) && endPoint.equals(lineSegment.endPoint);
+        } else {
+            return false;
+        }
     }
 
     /**
@@ -117,4 +126,15 @@ public class LineSegment extends Curve
         return false;
     }
 
+    public double angle()
+    {
+        return Math.atan2(startPoint.y - endPoint.y, startPoint.x - endPoint.x);
+    }
+    public String toString()
+    {
+        return "LINESTRING( " +
+                startPoint.x + " " + startPoint.y
+                + ", " +
+                endPoint.x + " " + endPoint.y + ")";
+    }
 }

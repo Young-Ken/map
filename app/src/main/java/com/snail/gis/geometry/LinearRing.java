@@ -16,48 +16,24 @@ public class LinearRing extends LineString
 
     public LinearRing(List<Coordinate> list)
     {
-        this();
-        init(list);
+        super(list);
     }
 
     public LinearRing(LineString lineString)
     {
-        this();
-        init(lineString);
+        super(lineString);
     }
 
-    private void init(LineString lineString)
+    public LinearRing(LinearRing linearRing)
     {
-        for (Coordinate coordinate : lineString.list)
-        {
-            this.list.add(coordinate);
-        }
+        this(linearRing.list);
     }
 
-    private void init(List<Coordinate> list)
-    {
-        for(Coordinate coordinate : list)
-        {
-           this.list.add(coordinate);
-        }
-    }
 
     @Override
     public boolean isClosed()
     {
-        return getPointNum() > 4;
+        return super.isClosed();
     }
 
-
-    @Override
-    public boolean isEmpty()
-    {
-        return this.list.size() < 3;
-    }
-
-    @Override
-    public int getPointNum()
-    {
-       return this.list.size();
-    }
 }
