@@ -16,18 +16,18 @@ public interface SpatialReferenceSystem
 
 
     /**
-     * 不相交 判断两个Geometry 是不是不相交
+     * 不相交 判断两个Geometry 是不是相离
      * @param geometry geometry
      * @return 不相交返回 true
      */
-    //boolean disjoint(Geometry geometry);
+    boolean disjoint(Geometry geometry);
 
     /**
-     * 相交 判断两个Geometry 是不是不相交
+     * 相交 判断两个Geometry 是不是相交
      * @param geometry geometry
      * @return 相交返回 true
      */
-    //boolean intersects(Geometry geometry);
+    boolean intersects(Geometry geometry);
     //boolean touches(Geometry geometry);
     //boolean crosses(Geometry geometry);
 

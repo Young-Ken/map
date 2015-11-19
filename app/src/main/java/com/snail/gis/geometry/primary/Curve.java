@@ -14,7 +14,7 @@ public abstract class Curve extends Geometry
 
     /**
      * 得当当前线的点数
-     * @return
+     * @return int
      */
     public abstract int getPointNum();
 

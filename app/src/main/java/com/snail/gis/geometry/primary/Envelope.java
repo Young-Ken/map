@@ -181,6 +181,20 @@ public class Envelope
         maxY = -1;
     }
 
+    /**
+     *  利用快排的方法先排除一些情况，如果返回true一定不想交，返回false 可能相交
+     * @param other Envelope
+     * @return
+     */
+    public boolean intersects(Envelope other)
+    {
+        if (isNull() || other.isNull())
+        {
+            return false;
+        }
+        return !(other.minX > maxX || other.minY > maxY || other.maxX < minX || other.maxY < minY);
+    }
+
     public double getMaxX()
     {
         return maxX;
