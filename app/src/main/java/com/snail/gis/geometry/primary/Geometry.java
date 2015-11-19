@@ -34,6 +34,7 @@ public abstract class Geometry implements SpatialReferenceSystem,SpatialAnalysis
         if (getEnvelope().intersects(geometry.getEnvelope()))
         {
             return false;
+
         }
 
         return false;
