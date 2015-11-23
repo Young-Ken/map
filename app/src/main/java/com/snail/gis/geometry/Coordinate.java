@@ -3,6 +3,7 @@ package com.snail.gis.geometry;
 import com.snail.gis.geometry.primary.Envelope;
 import com.snail.gis.geometry.primary.Geometry;
 import com.snail.gis.geometry.primary.Position;
+import com.snail.gis.geometry.topo.Dimension;
 
 /**
  * @author Young Ken
@@ -84,6 +85,19 @@ public class Coordinate extends Position
         double dy = y - coordinate.y;
         return Math.sqrt(dx * dx + dy * dy);
     }
+
+    @Override
+    public int getDimension()
+    {
+        return 0;
+    }
+
+    @Override
+    public int getBoundaryDimension()
+    {
+        return Dimension.FALSE;
+    }
+
 
     public double getX()
     {

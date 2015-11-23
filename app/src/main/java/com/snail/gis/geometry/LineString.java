@@ -150,6 +150,18 @@ public class LineString extends Curve
     }
 
     @Override
+    public int getDimension()
+    {
+        return 1;
+    }
+
+    @Override
+    public int getBoundaryDimension()
+    {
+        return 0;
+    }
+
+    @Override
     public boolean equals(Geometry geometry)
     {
        return true;

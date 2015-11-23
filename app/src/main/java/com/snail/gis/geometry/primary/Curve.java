@@ -58,4 +58,10 @@ public abstract class Curve extends Geometry
 
         return new Envelope(maxX, minX, maxY, minY);
     }
+
+    @Override
+    public int getDimension()
+    {
+        return 1;
+    }
 }

@@ -1,10 +1,13 @@
 package com.snail.gis;
 
-import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+
+import com.snail.gis.geometry.Coordinate;
+import com.snail.gis.geometry.primary.Envelope;
 
 
 public class MainActivity extends ActionBarActivity
@@ -15,21 +18,13 @@ public class MainActivity extends ActionBarActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        double x =Double.MAX_VALUE;
-        double y =6000;
+        Envelope envelope = new Envelope(new Coordinate(0,0), new Coordinate(100,100));
 
+        Envelope envelope1 = new Envelope(new Coordinate(200, 200), new Coordinate(400,400));
 
-        boolean xx = false;
+        boolean b  = envelope.intersects(envelope1);
 
-
-        boolean c = !(!Double.isNaN(x) || !Double.isNaN(y));
-        if(c)
-        {
-            Log.e("sss", "sss");
-        } else
-        {
-            Log.e("sss","xxxx");
-        }
+        Log.e("e", b + "");
     }
 
 

@@ -3,6 +3,7 @@ package com.snail.gis.geometry;
 import com.snail.gis.geometry.primary.Curve;
 import com.snail.gis.geometry.primary.Envelope;
 import com.snail.gis.geometry.primary.Geometry;
+import com.snail.gis.geometry.topo.Dimension;
 import com.snail.gis.math.CGAlgorithms;
 import com.snail.gis.math.MathUtil;
 
@@ -112,6 +113,12 @@ public class LineSegment extends Curve
         {
             return 2;
         }
+    }
+
+    @Override
+    public int getBoundaryDimension()
+    {
+        return Dimension.FALSE;
     }
 
     @Override

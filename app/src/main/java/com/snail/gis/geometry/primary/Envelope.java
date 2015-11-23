@@ -182,7 +182,7 @@ public class Envelope
     }
 
     /**
-     *  利用快排的方法先排除一些情况，如果返回true一定不想交，返回false 可能相交
+     *  如果矩形在矩形外部一定不相交
      * @param other Envelope
      * @return
      */
@@ -194,6 +194,35 @@ public class Envelope
         }
         return !(other.minX > maxX || other.minY > maxY || other.maxX < minX || other.maxY < minY);
     }
+    /**
+     *  如果点在矩形外部一定不相交
+     * @param point Coordinate
+     * @return
+     */
+    public boolean intersects(Coordinate point)
+    {
+        if (isNull() || point.isEmpty())
+        {
+            return false;
+        }
+        return intersects(point.x, point.y);
+    }
+
+    /**
+     * 如果点在矩形外部一定不相交
+     * @param x x
+     * @param y y
+     * @return
+     */
+    public boolean intersects(double x, double y)
+    {
+        if (isNull())
+        {
+            return false;
+        }
+        return ! (x > maxX || x < minX || y > maxY || y < minY);
+    }
+
 
     public double getMaxX()
     {
@@ -222,6 +251,6 @@ public class Envelope
      */
     public String toString()
     {
-        return "Env[" + minX + " : " + maxX + ", " + minY + " : " + maxY + "]";
+        return "Envelope[" + minX + " : " + maxX + ", " + minY + " : " + maxY + "]";
     }
 }

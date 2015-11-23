@@ -10,6 +10,8 @@ public abstract class Geometry implements SpatialReferenceSystem,SpatialAnalysis
 
     public abstract Envelope getEnvelope();
     public abstract boolean isEmpty();
+    public abstract int getDimension();
+    public abstract int getBoundaryDimension();
 
     /**
      * 判断两个图形是不是相离 ! intersects
@@ -23,7 +25,7 @@ public abstract class Geometry implements SpatialReferenceSystem,SpatialAnalysis
     }
 
     /**
-     * 判断两个图形是不是相交
+     * 判断两个图形是不是相交, 先不考虑环
      * 详见博客
      * @param geometry geometry
      * @return
@@ -31,10 +33,9 @@ public abstract class Geometry implements SpatialReferenceSystem,SpatialAnalysis
     @Override
     public boolean intersects(Geometry geometry)
     {
-        if (getEnvelope().intersects(geometry.getEnvelope()))
+        if (!getEnvelope().intersects(geometry.getEnvelope()))
         {
             return false;
-
         }
 
         return false;
