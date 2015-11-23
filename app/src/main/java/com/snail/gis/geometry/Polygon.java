@@ -1,5 +1,6 @@
 package com.snail.gis.geometry;
 
+
 import com.snail.gis.geometry.primary.Envelope;
 import com.snail.gis.geometry.primary.Geometry;
 import com.snail.gis.geometry.primary.Surface;
@@ -13,8 +14,11 @@ import java.util.List;
 public class Polygon extends Surface
 {
 
-    protected LinearRing outLine = null;
+    /**
+     * 多个内环
+     */
     protected LinearRing[] inLine = null;
+    protected LinearRing outLine = null;
 
     public Polygon(LinearRing line)
     {
@@ -27,6 +31,17 @@ public class Polygon extends Surface
         this.inLine = inLine;
     }
 
+    @Override
+    public int getDimension()
+    {
+        return 2;
+    }
+
+    @Override
+    public int getBoundaryDimension()
+    {
+        return 1;
+    }
 
     public boolean isRectangle()
     {
@@ -121,7 +136,8 @@ public class Polygon extends Surface
     }
 
     @Override
-    public boolean equals(Geometry geometry) {
+    public boolean equals(Geometry geometry)
+    {
         return false;
     }
 }
