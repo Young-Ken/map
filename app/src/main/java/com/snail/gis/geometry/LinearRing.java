@@ -26,7 +26,7 @@ public class LinearRing extends LineString
 
     public LinearRing(LinearRing linearRing)
     {
-        this(linearRing.list);
+        this(linearRing.pointArray);
     }
 
 

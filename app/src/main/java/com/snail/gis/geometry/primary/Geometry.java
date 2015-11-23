@@ -1,5 +1,11 @@
 package com.snail.gis.geometry.primary;
 
+import com.snail.gis.geometry.Coordinate;
+import com.snail.gis.geometry.Polygon;
+import com.snail.gis.topology.RectangleIntersects;
+
+import java.util.List;
+
 /**
  * @author Young Ken
  * @version 0.1
@@ -38,6 +44,39 @@ public abstract class Geometry implements SpatialReferenceSystem,SpatialAnalysis
             return false;
         }
 
+        if (isRectangle())
+        {
+           return RectangleIntersects.intersects((Polygon)this, geometry);
+        }
+
+        if (geometry.isRectangle())
+        {
+            return RectangleIntersects.intersects((Polygon) geometry, this);
+        }
+
+
         return false;
+    }
+    public boolean isRectangle()
+    {
+        // Polygon overrides to check for actual rectangle
+        return false;
+    }
+
+    protected Envelope getEnvelope(final List<Coordinate> list )
+    {
+        double maxX = 0.0;
+        double maxY = 0.0;
+        double minX = 0.0;
+        double minY = 0.0;
+        for (Coordinate coordinate : list)
+        {
+            maxX = Math.max(coordinate.x, maxX);
+            maxY = Math.max(coordinate.y, maxY);
+            minX = Math.min(coordinate.x, minX);
+            minY = Math.min(coordinate.y, minY);
+        }
+
+        return new Envelope(maxX, minX, maxY, minY);
     }
 }

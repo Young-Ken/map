@@ -6,23 +6,20 @@ import com.snail.gis.geometry.primary.Geometry;
 import com.snail.gis.geometry.primary.Surface;
 import com.snail.gis.math.MathUtil;
 
-import java.util.List;
-
 /**
  * Created by Young-Ken on 2015/11/22.
  */
 public class Polygon extends Surface
 {
-
     /**
      * 多个内环
      */
     protected LinearRing[] inLine = null;
-    protected LinearRing outLine = null;
+    protected LinearRing exteriorRing = null;
 
     public Polygon(LinearRing line)
     {
-        outLine = new LinearRing(line);
+        exteriorRing = new LinearRing(line);
     }
 
     public Polygon(LinearRing outLine, LinearRing[] inLine)
@@ -43,10 +40,14 @@ public class Polygon extends Surface
         return 1;
     }
 
+    /**
+     * 判断环是不是矩形,详见博客
+     * @return 如果是矩形返回true
+     */
     public boolean isRectangle()
     {
-        if(outLine.getPointNum() != 5) return false;
-        if(outLine.isEmpty()) return false;
+        if(exteriorRing.getPointNum() != 5) return false;
+        if(exteriorRing.isEmpty()) return false;
         if(getNumInteriorRing() != 0) return false;
 
         Envelope envelope = getEnvelope();
@@ -55,7 +56,7 @@ public class Polygon extends Surface
         double envelopeWidth = envelope.getWidth();
         for (int i = 0 ; i < 5; i ++)
         {
-            Coordinate coordinate = outLine.getPoint(i);
+            Coordinate coordinate = exteriorRing.getPoint(i);
             double x = coordinate.getX();
             double y = coordinate.getY();
 
@@ -75,8 +76,8 @@ public class Polygon extends Surface
             return true;
         }
 
-        Coordinate upCoor = outLine.getPoint(0);
-        Coordinate nextCoor = outLine.getPoint(1);
+        Coordinate upCoor = exteriorRing.getPoint(0);
+        Coordinate nextCoor = exteriorRing.getPoint(1);
 
         double doubleEnvelopeHeight = envelopeHeight * envelopeHeight;
         double doubleEnvelopWidth = envelopeWidth * envelopeWidth;
@@ -87,10 +88,9 @@ public class Polygon extends Surface
             {
                 return false;
             }
-            upCoor = outLine.getPoint(i);
-            nextCoor = outLine.getPoint(i+1);
+            upCoor = exteriorRing.getPoint(i);
+            nextCoor = exteriorRing.getPoint(i+1);
         }
-
         return true;
     }
 
@@ -107,29 +107,17 @@ public class Polygon extends Surface
         }
         return inLine.length;
     }
+
+    public LinearRing getExteriorRing()
+    {
+        return exteriorRing;
+    }
     @Override
     public Envelope getEnvelope()
     {
-        return getEnvelope(outLine.list);
+        return getEnvelope(exteriorRing.pointArray);
     }
 
-
-    private Envelope getEnvelope(final List<Coordinate> list )
-    {
-        double maxX = 0.0;
-        double maxY = 0.0;
-        double minX = 0.0;
-        double minY = 0.0;
-        for (Coordinate coordinate : list)
-        {
-            maxX = Math.max(coordinate.x, maxX);
-            maxY = Math.max(coordinate.y, maxY);
-            minX = Math.min(coordinate.x, minX);
-            minY = Math.min(coordinate.y, minY);
-        }
-
-        return new Envelope(maxX, minX, maxY, minY);
-    }
     @Override
     public boolean isEmpty() {
         return false;

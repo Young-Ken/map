@@ -1,9 +1,5 @@
 package com.snail.gis.geometry.primary;
 
-import com.snail.gis.geometry.Coordinate;
-
-import java.util.List;
-
 /**
  * @author Young Ken
  * @version 0.1
@@ -35,29 +31,6 @@ public abstract class Curve extends Geometry
      * @return 是环返回true，不是环返回false
      */
    // public abstract boolean isRing();
-
-
-    /**
-     * 返回线的外包络线
-     * @param list 线集合
-     * @return Envelope
-     */
-    public Envelope getEnvelope(final List<Coordinate> list )
-    {
-        double maxX = 0.0;
-        double maxY = 0.0;
-        double minX = 0.0;
-        double minY = 0.0;
-        for (Coordinate coordinate : list)
-        {
-            maxX = Math.max(coordinate.x, maxX);
-            maxY = Math.max(coordinate.y, maxY);
-            minX = Math.min(coordinate.x, minX);
-            minY = Math.min(coordinate.y, minY);
-        }
-
-        return new Envelope(maxX, minX, maxY, minY);
-    }
 
     @Override
     public int getDimension()

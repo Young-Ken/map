@@ -20,14 +20,14 @@ public class LineString extends Curve
     /**
      * 点的集合，每个线都是点的集合
      */
-    protected List<Coordinate> list = null;
+    protected List<Coordinate> pointArray = null;
 
     /**
      * 构造函数
      */
     public LineString()
     {
-        list = new ArrayList<>();
+        pointArray = new ArrayList<>();
     }
 
     /**
@@ -62,7 +62,7 @@ public class LineString extends Curve
      */
     private void init(List<Coordinate> coordinates)
     {
-        list.addAll(coordinates);
+        pointArray.addAll(coordinates);
     }
     /**
      * 初始化函数
@@ -70,7 +70,7 @@ public class LineString extends Curve
      */
     private void init(Coordinate[] coordinates)
     {
-        list =  Arrays.asList(coordinates);
+        pointArray =  Arrays.asList(coordinates);
     }
 
     /**
@@ -79,12 +79,12 @@ public class LineString extends Curve
      */
     private void init(LineString lineString)
     {
-        list.addAll(lineString.getList());
+        pointArray.addAll(lineString.getPointArray());
     }
 
-    public List<Coordinate> getList()
+    public List<Coordinate> getPointArray()
     {
-        return list;
+        return pointArray;
     }
 
 
@@ -95,7 +95,7 @@ public class LineString extends Curve
     @Override
     public int getPointNum()
     {
-        return getList().size();
+        return getPointArray().size();
     }
 
     /**
@@ -109,7 +109,7 @@ public class LineString extends Curve
         int size = getPointNum();
         for (int i = 0; i < size - 1; i++)
         {
-            result = result + MathUtil.distanceTwoPoint(list.get(i),list.get(i+1));
+            result = result + MathUtil.distanceTwoPoint(pointArray.get(i), pointArray.get(i+1));
         }
 
         return result;
@@ -140,7 +140,7 @@ public class LineString extends Curve
      */
     public Coordinate getPoint(int index)
     {
-        return getList().get(index);
+        return getPointArray().get(index);
     }
 
     @Override
@@ -170,12 +170,12 @@ public class LineString extends Curve
     @Override
     public Envelope getEnvelope()
     {
-       return getEnvelope(list);
+       return getEnvelope(pointArray);
     }
 
     @Override
     public boolean isEmpty()
     {
-        return (list.size() == 0);
+        return (pointArray.size() == 0);
     }
 }
