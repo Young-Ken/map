@@ -3,7 +3,7 @@ package com.snail.gis.geometry;
 import com.snail.gis.geometry.primary.Curve;
 import com.snail.gis.geometry.primary.Envelope;
 import com.snail.gis.geometry.primary.Geometry;
-import com.snail.gis.math.MathUtil;
+import com.snail.gis.lgorithm.MathUtil;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -177,5 +177,10 @@ public class LineString extends Curve
     public boolean isEmpty()
     {
         return (pointArray.size() == 0);
+    }
+
+    public void setPointArray(List<Coordinate> pointArray)
+    {
+        this.pointArray = pointArray;
     }
 }

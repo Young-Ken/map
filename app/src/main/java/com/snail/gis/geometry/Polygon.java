@@ -4,7 +4,7 @@ package com.snail.gis.geometry;
 import com.snail.gis.geometry.primary.Envelope;
 import com.snail.gis.geometry.primary.Geometry;
 import com.snail.gis.geometry.primary.Surface;
-import com.snail.gis.math.MathUtil;
+import com.snail.gis.lgorithm.MathUtil;
 
 /**
  * Created by Young-Ken on 2015/11/22.
@@ -17,9 +17,15 @@ public class Polygon extends Surface
     protected LinearRing[] inLine = null;
     protected LinearRing exteriorRing = null;
 
+    public Polygon()
+    {
+        exteriorRing = new LinearRing();
+    }
+
     public Polygon(LinearRing line)
     {
-        exteriorRing = new LinearRing(line);
+        this();
+        exteriorRing = line;
     }
 
     public Polygon(LinearRing outLine, LinearRing[] inLine)
@@ -27,6 +33,7 @@ public class Polygon extends Surface
         this(outLine);
         this.inLine = inLine;
     }
+
 
     @Override
     public int getDimension()

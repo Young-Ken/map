@@ -1,32 +1,20 @@
 package com.snail.gis;
 
+import android.app.Activity;
 import android.os.Bundle;
-import android.support.v7.app.ActionBarActivity;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 
-import com.snail.gis.geometry.Coordinate;
-import com.snail.gis.geometry.primary.Envelope;
 
-
-public class MainActivity extends ActionBarActivity
+public class MainActivity extends Activity
 {
+
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
-        Envelope envelope = new Envelope(new Coordinate(0,0), new Coordinate(100,100));
-
-        Envelope envelope1 = new Envelope(new Coordinate(200, 200), new Coordinate(400,400));
-
-        boolean b  = envelope.intersects(envelope1);
-
-        Log.e("e", b + "");
     }
-
 
 
     @Override
@@ -53,4 +41,5 @@ public class MainActivity extends ActionBarActivity
 
         return super.onOptionsItemSelected(item);
     }
+
 }
