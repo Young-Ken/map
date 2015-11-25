@@ -3,9 +3,9 @@ package com.snail.gis.geometry;
 import com.snail.gis.geometry.primary.Curve;
 import com.snail.gis.geometry.primary.Envelope;
 import com.snail.gis.geometry.primary.Geometry;
-import com.snail.gis.geometry.topo.Dimension;
-import com.snail.gis.math.CGAlgorithms;
-import com.snail.gis.math.MathUtil;
+import com.snail.gis.enumeration.Dimension;
+import com.snail.gis.lgorithm.cg.CGAlgorithms;
+import com.snail.gis.lgorithm.MathUtil;
 
 /**
  * @author Young Ken

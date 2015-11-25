@@ -1,4 +1,4 @@
-package com.snail.gis.math;
+package com.snail.gis.lgorithm.cg;
 
 import com.snail.gis.geometry.Coordinate;
 
@@ -36,5 +36,11 @@ public class CGAlgorithms
 
         double s = ((A.y - p.y) * (B.x - A.x) - (A.x - p.x) * (B.y - A.y)) / len2;
         return Math.abs(s) * Math.sqrt(len2);
+    }
+
+    public static boolean isPointInRing(Coordinate p, Coordinate[] ring)
+    {
+        //return locatePointInRing(p, ring) != Location.EXTERIOR;
+        return false;
     }
 }

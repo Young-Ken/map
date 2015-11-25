@@ -1,4 +1,4 @@
-package com.snail.gis.math;
+package com.snail.gis.lgorithm;
 
 import com.snail.gis.geometry.Coordinate;
 
@@ -174,13 +174,9 @@ public class RobustDeterminant
             }
         }
 
-    /*
-     *  all entries strictly positive   x1 <= x2 and y1 <= y2
-     */
+
         while (true) {
             count = count + 1;
-            // MD - UNSAFE HACK for testing only!
-//      k = (int) (x2 / x1);
             k = Math.floor(x2 / x1);
             x2 = x2 - k * x1;
             y2 = y2 - k * y1;

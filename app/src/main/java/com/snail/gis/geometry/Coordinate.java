@@ -3,7 +3,7 @@ package com.snail.gis.geometry;
 import com.snail.gis.geometry.primary.Envelope;
 import com.snail.gis.geometry.primary.Geometry;
 import com.snail.gis.geometry.primary.Position;
-import com.snail.gis.geometry.topo.Dimension;
+import com.snail.gis.enumeration.Dimension;
 
 /**
  * @author Young Ken
