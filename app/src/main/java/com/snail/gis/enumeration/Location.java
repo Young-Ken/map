@@ -1,4 +1,4 @@
-package com.snail.gis.geometry.topo;
+package com.snail.gis.enumeration;
 
 /**
  * @author Young Ken

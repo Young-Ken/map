@@ -1,7 +1,7 @@
 package com.snail.gis.lgorithm.cg;
 
 import com.snail.gis.geometry.Coordinate;
-import com.snail.gis.geometry.topo.Location;
+import com.snail.gis.enumeration.Location;
 import com.snail.gis.lgorithm.RobustDeterminant;
 
 /**

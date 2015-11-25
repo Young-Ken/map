@@ -1,4 +1,4 @@
-package com.snail.gis.geometry.topo;
+package com.snail.gis.enumeration;
 
 /**
  * @author Young Ken
@@ -8,63 +8,54 @@ package com.snail.gis.geometry.topo;
 public class Dimension
 {
     /**
-     *  Dimension value of a point (0).
+     *  点
      */
     public final static int P = 0;
 
     /**
-     *  Dimension value of a curve (1).
+     *  线
      */
     public final static int L = 1;
 
     /**
-     *  Dimension value of a surface (2).
+     *  面
      */
     public final static int A = 2;
 
     /**
-     *  Dimension value of the empty geometry (-1).
+     *  空Geometry
      */
     public final static int FALSE = -1;
 
     /**
-     *  Dimension value of non-empty geometries (= {P, L, A}).
+     *   不是空的 geometries (= {P, L, A}).
      */
     public final static int TRUE = -2;
 
     /**
-     *  Dimension value for any dimension (= {FALSE, TRUE}).
+     * 代表 (= {FALSE, TRUE}).
      */
     public final static int DONTCARE = -3;
 
     /**
-     * Symbol for the FALSE pattern matrix entry
+     *  FALSE
      */
     public final static char SYM_FALSE = 'F';
 
     /**
-     * Symbol for the TRUE pattern matrix entry
+     * TRUE
      */
     public final static char SYM_TRUE = 'T';
 
     /**
-     * Symbol for the DONTCARE pattern matrix entry
+     * DONTCARE
      */
     public final static char SYM_DONTCARE = '*';
 
-    /**
-     * Symbol for the P (dimension 0) pattern matrix entry
-     */
     public final static char SYM_P = '0';
 
-    /**
-     * Symbol for the L (dimension 1) pattern matrix entry
-     */
     public final static char SYM_L = '1';
 
-    /**
-     * Symbol for the A (dimension 2) pattern matrix entry
-     */
     public final static char SYM_A = '2';
 
     public static char toDimensionSymbol(int dimensionValue) {
@@ -82,7 +73,7 @@ public class Dimension
             case A:
                 return SYM_A;
         }
-        throw new IllegalArgumentException("Unknown dimension value: " + dimensionValue);
+        throw new IllegalArgumentException("未知: " + dimensionValue);
     }
 
 
@@ -101,6 +92,6 @@ public class Dimension
             case SYM_A:
                 return A;
         }
-        throw new IllegalArgumentException("Unknown dimension symbol: " + dimensionSymbol);
+        throw new IllegalArgumentException("未知 ：" + dimensionSymbol);
     }
 }
