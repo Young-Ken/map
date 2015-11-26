@@ -223,6 +223,71 @@ public class Envelope
         return ! (x > maxX || x < minX || y > maxY || y < minY);
     }
 
+    /**
+     * 矩形包含矩形
+     * @param other 矩形
+     * @return 包含返回true
+     */
+    public boolean contains(Envelope other)
+    {
+        if (isNull())
+        {
+            return false;
+        }
+        return (minX <= other.minX && minY <= other.minY && maxX >= other.maxX && maxY >= other.maxY);
+    }
+
+    /**
+     * 包含点
+     * @param point 点
+     * @return 包含返回true
+     */
+    public boolean contains(Coordinate point)
+    {
+        if (isNull())
+        {
+            return false;
+        }
+        return contains(point.x, point.y);
+    }
+
+    /**
+     * 包含 x ，y
+     * @param x x
+     * @param y y
+     * @return 包含返回true
+     */
+    public boolean contains(double x, double y)
+    {
+        if (isNull())
+        {
+            return false;
+        }
+        return (x >= minX && x <= maxX && y >= minY && y <= maxY);
+    }
+
+    public void expandToInclude(double x, double y) {
+        if (isNull()) {
+            minX = x;
+            maxX = x;
+            minY = y;
+            maxY = y;
+        }
+        else {
+            if (x < minX) {
+                minX = x;
+            }
+            if (x > maxX) {
+                maxX = x;
+            }
+            if (y < minY) {
+                minY = y;
+            }
+            if (y > maxY) {
+                maxY = y;
+            }
+        }
+    }
 
     public double getMaxX()
     {

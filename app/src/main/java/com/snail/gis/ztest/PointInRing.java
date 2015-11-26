@@ -37,7 +37,7 @@ public class PointInRing extends Activity
         context= this.getApplicationContext();
 
         final LinearLayout layout=(LinearLayout) findViewById(R.id.root);
-        drawView =new DrawView(this);
+        drawView =new DrawView(this, this.findViewById(R.id.main));
         drawView.setMinimumHeight(500);
         drawView.setMinimumWidth(300);
         //通知view组件重绘

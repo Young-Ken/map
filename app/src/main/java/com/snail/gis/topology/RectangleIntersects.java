@@ -5,6 +5,7 @@ import com.snail.gis.geometry.Polygon;
 import com.snail.gis.geometry.primary.Envelope;
 import com.snail.gis.geometry.primary.Geometry;
 import com.snail.gis.geometry.util.ShortCircuitedGeometryVisitor;
+import com.snail.gis.lgorithm.cg.CGPointInRing;
 
 import java.util.List;
 
@@ -37,16 +38,45 @@ public class RectangleIntersects
             return false;
         }
 
+        EnvelopeIntersectsVisitor envelopeIntersectsVisitor = new EnvelopeIntersectsVisitor(rectEnv);
+
+
+        GeometryContainsPointVisitor ecpVisitor = new GeometryContainsPointVisitor(rectangle);
+        ecpVisitor.applyTo(geometry);
+        if (ecpVisitor.containsPoint())
+        {
+            return true;
+        }
 
         return false;
     }
 
     class EnvelopeIntersectsVisitor extends ShortCircuitedGeometryVisitor
     {
+        private Envelope envelope;
+        private boolean intersects = false;
+        public EnvelopeIntersectsVisitor(Envelope envelope)
+        {
+            this.envelope = envelope;
+        }
 
         @Override
         protected void visit(Geometry element)
         {
+            Envelope elementEnv = element.getEnvelope();
+
+            if(!envelope.intersects(elementEnv))
+            {
+                return;
+            }
+
+            if(envelope.contains(elementEnv))
+            {
+                intersects = true;
+                return;
+            }
+
+
 
         }
 
@@ -90,7 +120,7 @@ public class RectangleIntersects
             {
                 return;
             }
-            Coordinate point = new Coordinate();
+            Coordinate point;
             for (int i = 0; i < 4; i++)
             {
                 point = rectSeq.get(i);
@@ -98,16 +128,19 @@ public class RectangleIntersects
                 {
                     continue;
                 }
-
-
+                int isPointInRing = CGPointInRing.locationPointInRing(point, ((Polygon) element).getExteriorRing().getPointArray());
+                if (isPointInRing == 0)
+                {
+                    containsPoint = true;
+                    return;
+                }
             }
         }
-
 
         @Override
         protected boolean isDone()
         {
-            return false;
+            return containsPoint;
         }
     }
 }
