@@ -65,10 +65,10 @@ public abstract class Geometry implements SpatialReferenceSystem,SpatialAnalysis
 
     protected Envelope getEnvelope(final List<Coordinate> list )
     {
-        double maxX = 0.0;
-        double maxY = 0.0;
-        double minX = 0.0;
-        double minY = 0.0;
+        double maxX = Double.MIN_VALUE;
+        double maxY = Double.MIN_VALUE;
+        double minX = Double.MAX_VALUE;
+        double minY = Double.MAX_VALUE;
         for (Coordinate coordinate : list)
         {
             maxX = Math.max(coordinate.x, maxX);

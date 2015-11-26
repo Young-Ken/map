@@ -4,6 +4,8 @@ import com.snail.gis.geometry.Coordinate;
 import com.snail.gis.enumeration.Location;
 import com.snail.gis.lgorithm.RobustDeterminant;
 
+import java.util.List;
+
 /**
  * 用射线法判断点是否在面内
  * @author Young Ken
@@ -18,6 +20,12 @@ public class CGPointInRing
     private CGPointInRing(Coordinate coordinate)
     {
         this.point = coordinate;
+    }
+
+    public static int locationPointInRing(Coordinate coordinate, List<Coordinate> lists)
+    {
+        Coordinate[] ring = lists.toArray(new Coordinate[lists.size()]);
+        return locationPointInRing(coordinate, ring);
     }
 
     public static int locationPointInRing(Coordinate coordinate, Coordinate[] ring)
@@ -40,8 +48,8 @@ public class CGPointInRing
     public void crossSegment(Coordinate startPoint, Coordinate endPoint)
     {
         //完全在右侧,完全在左侧
-       // if ((point.x > startPoint.x && point.x > endPoint.x)
-       //         || (point.x < startPoint.x && point.x < endPoint.x))
+//        if ((point.x > startPoint.x && point.x < endPoint.x)
+//                || (point.x < startPoint.x && point.x > endPoint.x))
         if ((point.x > startPoint.x && point.x > endPoint.x))
         {
             return;
@@ -85,7 +93,8 @@ public class CGPointInRing
             {
                 xIntSign = -xIntSign;
             }
-            if (xIntSign > 0.0) {
+            if (xIntSign > 0.0)
+            {
                 crossingCount++;
             }
         }
