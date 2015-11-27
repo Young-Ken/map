@@ -289,6 +289,30 @@ public class Envelope
         }
     }
 
+    public static boolean intersects(Coordinate p1, Coordinate p2, Coordinate q1, Coordinate q2)
+    {
+        double minq = Math.min(q1.x, q2.x);
+        double maxq = Math.max(q1.x, q2.x);
+        double minp = Math.min(p1.x, p2.x);
+        double maxp = Math.max(p1.x, p2.x);
+
+        if( minp > maxq )
+            return false;
+        if( maxp < minq )
+            return false;
+
+        minq = Math.min(q1.y, q2.y);
+        maxq = Math.max(q1.y, q2.y);
+        minp = Math.min(p1.y, p2.y);
+        maxp = Math.max(p1.y, p2.y);
+
+        if( minp > maxq )
+            return false;
+        if( maxp < minq )
+            return false;
+        return true;
+    }
+
     public double getMaxX()
     {
         return maxX;

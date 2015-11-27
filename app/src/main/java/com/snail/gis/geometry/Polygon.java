@@ -6,6 +6,8 @@ import com.snail.gis.geometry.primary.Geometry;
 import com.snail.gis.geometry.primary.Surface;
 import com.snail.gis.lgorithm.MathUtil;
 
+import java.util.List;
+
 /**
  * Created by Young-Ken on 2015/11/22.
  */
@@ -45,6 +47,16 @@ public class Polygon extends Surface
     public int getBoundaryDimension()
     {
         return 1;
+    }
+
+    /**
+     * 暂时返回外环
+     * @return
+     */
+    @Override
+    public List<Coordinate> getLines()
+    {
+        return exteriorRing.pointArray;
     }
 
     /**

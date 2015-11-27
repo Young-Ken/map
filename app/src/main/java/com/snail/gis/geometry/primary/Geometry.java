@@ -18,6 +18,8 @@ public abstract class Geometry implements SpatialReferenceSystem,SpatialAnalysis
     public abstract boolean isEmpty();
     public abstract int getDimension();
     public abstract int getBoundaryDimension();
+    public abstract List<Coordinate> getLines();
+
 
     /**
      * 判断两个图形是不是相离 ! intersects

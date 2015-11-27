@@ -7,6 +7,9 @@ import com.snail.gis.enumeration.Dimension;
 import com.snail.gis.lgorithm.cg.CGAlgorithms;
 import com.snail.gis.lgorithm.MathUtil;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * @author Young Ken
  * @version 0.1
@@ -119,6 +122,15 @@ public class LineSegment extends Curve
     public int getBoundaryDimension()
     {
         return Dimension.FALSE;
+    }
+
+    @Override
+    public List<Coordinate> getLines()
+    {
+        List<Coordinate> list = new ArrayList<>();
+        list.add(startPoint);
+        list.add(endPoint);
+        return list;
     }
 
     @Override

@@ -5,6 +5,9 @@ import com.snail.gis.geometry.primary.Geometry;
 import com.snail.gis.geometry.primary.Position;
 import com.snail.gis.enumeration.Dimension;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * @author Young Ken
  * @version 0.1
@@ -96,6 +99,27 @@ public class Coordinate extends Position
     public int getBoundaryDimension()
     {
         return Dimension.FALSE;
+    }
+
+    public int compareTo(Object o)
+    {
+        Coordinate other = (Coordinate) o;
+
+        if (x < other.x) return -1;
+        if (x > other.x) return 1;
+        if (y < other.y) return -1;
+        if (y > other.y) return 1;
+        return 0;
+    }
+
+    /**
+     * 因为点没有线 返回空的list
+     * @return
+     */
+    @Override
+    public List<Coordinate> getLines()
+    {
+        return new ArrayList<>();
     }
 
 
