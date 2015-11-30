@@ -24,10 +24,10 @@ public class LineIntersector
     }
 
     /**
-     * @param c1
-     * @param c2
-     * @param p1
-     * @param p2
+     * @param c1 Coordinate
+     * @param c2 Coordinate
+     * @param p1 Coordinate
+     * @param p2 Coordinate
      * @return
      */
     public boolean intersector(Coordinate a, Coordinate b, Coordinate c, Coordinate d)
