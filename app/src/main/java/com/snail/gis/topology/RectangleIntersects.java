@@ -1,7 +1,6 @@
 package com.snail.gis.topology;
 
 import com.snail.gis.geometry.Coordinate;
-import com.snail.gis.geometry.LineString;
 import com.snail.gis.geometry.Polygon;
 import com.snail.gis.geometry.primary.Envelope;
 import com.snail.gis.geometry.primary.Geometry;
@@ -39,7 +38,12 @@ public class RectangleIntersects
             return false;
         }
 
-        EnvelopeIntersectsVisitor envelopeIntersectsVisitor = new EnvelopeIntersectsVisitor(rectEnv);
+        EnvelopeIntersectsVisitor visitor = new EnvelopeIntersectsVisitor(rectEnv);
+        visitor.applyTo(geometry);
+        if (visitor.intersects())
+        {
+            return true;
+        }
 
 
         GeometryContainsPointVisitor ecpVisitor = new GeometryContainsPointVisitor(rectangle);
@@ -66,12 +70,12 @@ public class RectangleIntersects
         {
             Envelope elementEnv = element.getEnvelope();
 
-            if(!envelope.intersects(elementEnv))
+            if (!envelope.intersects(elementEnv))
             {
                 return;
             }
 
-            if(envelope.contains(elementEnv))
+            if (envelope.contains(elementEnv))
             {
                 intersects = true;
                 return;
@@ -91,10 +95,14 @@ public class RectangleIntersects
             }
         }
 
+        public boolean intersects()
+        {
+            return intersects;
+        }
         @Override
         protected boolean isDone()
         {
-            return intersects;
+            return intersects == true;
         }
     }
 
@@ -157,51 +165,13 @@ public class RectangleIntersects
 
     class RectangleIntersectsSegmentVisitor extends ShortCircuitedGeometryVisitor
     {
-        private Envelope rectEnv;
-        private RectangleLineIntersector rectIntersector;
-        private boolean hasIntersection = false;
-        private Coordinate p0 = new Coordinate();
-        private Coordinate p1 = new Coordinate();
-
-        public RectangleIntersectsSegmentVisitor(Polygon rectangle)
-        {
-            rectEnv = rectangle.getEnvelope();
-            rectIntersector = new RectangleLineIntersector(rectEnv);
-        }
-        public boolean intersects()
-        {
-            return hasIntersection;
-        }
 
         @Override
-        protected void visit(Geometry geometry)
-        {
-
-            Envelope elementEnv = geometry.getEnvelope();
-            if (!rectEnv.intersects(elementEnv))
-            {
-                return;
-            }
-
-            List<Coordinate> list = geometry.getLines();
-
-
-        }
-
-        private void checkIntersectionWithLineStrings(List<Coordinate> lines)
-        {
-            for (int i = 1 ; i < lines.size(); i++)
-            {
-                Coordinate c1 = lines.get(i);
-                Coordinate c2 = lines.get(i-1);
-            }
-            rectIntersector
-        }
-
-        private void checkIntersectionWithSegments(LineString lineString)
+        protected void visit(Geometry element)
         {
 
         }
+
         @Override
         protected boolean isDone()
         {

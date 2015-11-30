@@ -71,6 +71,7 @@ public abstract class Geometry implements SpatialReferenceSystem,SpatialAnalysis
         double maxY = Double.MIN_VALUE;
         double minX = Double.MAX_VALUE;
         double minY = Double.MAX_VALUE;
+
         for (Coordinate coordinate : list)
         {
             maxX = Math.max(coordinate.x, maxX);

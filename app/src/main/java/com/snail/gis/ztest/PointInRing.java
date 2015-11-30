@@ -41,7 +41,7 @@ public class PointInRing extends Activity
         drawView.setMinimumHeight(500);
         drawView.setMinimumWidth(300);
         //通知view组件重绘
-        drawView.init();
+       // drawView.init();
         drawView.invalidate();
         layout.addView(drawView);
 

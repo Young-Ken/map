@@ -149,6 +149,27 @@ public class LineSegment extends Curve
     {
         return Math.atan2(startPoint.y - endPoint.y, startPoint.x - endPoint.x);
     }
+
+    public Coordinate getStartPoint()
+    {
+        return startPoint;
+    }
+
+    public Coordinate getEndPoint()
+    {
+        return endPoint;
+    }
+
+    public void setStartPoint(Coordinate startPoint)
+    {
+        this.startPoint = startPoint;
+    }
+
+    public void setEndPoint(Coordinate endPoint)
+    {
+        this.endPoint = endPoint;
+    }
+
     public String toString()
     {
         return "LINESTRING( " +
