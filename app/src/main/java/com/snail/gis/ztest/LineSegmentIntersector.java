@@ -9,6 +9,8 @@ import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import com.snail.gis.R;
+import com.snail.gis.geometry.Coordinate;
+import com.snail.gis.geometry.LineSegment;
 import com.snail.gis.topology.LineIntersector;
 import com.snail.gis.ztest.view.Lines_in_Lines;
 
@@ -53,7 +55,15 @@ public class LineSegmentIntersector extends Activity
             @Override
             public void onClick(View view)
             {
-                boolean isIn = false;
+                /**
+                 * 测试共线情况
+                 */
+
+                drawView.line1 = new LineSegment(new Coordinate(100,100), new Coordinate(200,200));
+                drawView.line2 = new LineSegment(new Coordinate(150, 150), new Coordinate(160,160));
+                //drawView.line1 = new LineSegment(new Coordinate(100,100), new Coordinate(300,300));
+                //drawView.line2 = new LineSegment(new Coordinate(100, 0), new Coordinate(300,200));
+                int isIn = -1;
                 if (drawView.line1 != null && drawView.line2 != null)
                 {
                     LineIntersector lineIntersector = new LineIntersector();

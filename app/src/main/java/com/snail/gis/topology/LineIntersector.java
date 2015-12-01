@@ -1,5 +1,7 @@
 package com.snail.gis.topology;
 
+import android.util.Log;
+
 import com.snail.gis.geometry.Coordinate;
 import com.snail.gis.geometry.LineSegment;
 import com.snail.gis.geometry.primary.Envelope;
@@ -11,14 +13,28 @@ import com.snail.gis.geometry.primary.Envelope;
  */
 public class LineIntersector
 {
+    /**
+     * Indicates that line segments do not intersect
+     */
+    public final static int NO_INTERSECTION = 0;
 
-    public boolean intersector(LineSegment segment1, LineSegment segment2)
+    /**
+     * Indicates that line segments intersect in a single point
+     */
+    public final static int POINT_INTERSECTION = 1;
+
+    /**
+     * Indicates that line segments intersect in a line segment
+     */
+    public final static int COLLINEAR_INTERSECTION = 2;
+
+    public int intersector(LineSegment segment1, LineSegment segment2)
     {
         return intersector(segment1.getStartPoint(), segment1.getEndPoint(),
                 segment2.getStartPoint(), segment2.getEndPoint());
     }
 
-    public boolean intersector(Coordinate c1, Coordinate c2, LineSegment segment)
+    public int intersector(Coordinate c1, Coordinate c2, LineSegment segment)
     {
         return intersector(c1, c2, segment.getStartPoint(), segment.getEndPoint());
     }
@@ -30,31 +46,97 @@ public class LineIntersector
      * @param p2 Coordinate
      * @return
      */
-    public boolean intersector(Coordinate a, Coordinate b, Coordinate c, Coordinate d)
+    public int intersector(Coordinate a, Coordinate b, Coordinate c, Coordinate d)
     {
         /**
          * 如果 ab 和 cd 的外接矩形不相交就一定不相交
          */
-        if(!Envelope.intersects(a, b, c, d))
+        if (!Envelope.intersects(a, b, c, d))
         {
-            return false;
+            return NO_INTERSECTION;
         }
 
         //判断在ab两侧
-        double abBothSides = cross(a, b, c) * cross(a, b, d);
+        double abc = cross(a, b, c);
+        double abd = cross(a, b, d);
 
-        //判断在cd两侧
-        double cdBothSides = cross(c, d, a) * cross(c, d, b);
-
-        if (cdBothSides > 0 || abBothSides > 0)
+        if (abc * abd > 0)
         {
-            return false;
+            return NO_INTERSECTION;
+        }
+        //判断在cd两侧
+        double cda = cross(c, d, a);
+        double cdb = cross(c, d, b);
+
+        if (cda * cdb > 0)
+        {
+            return NO_INTERSECTION;
         }
 
+        if (abc == 0 && abd == 0 && cda==0 && cdb==0)
+        {
+           return computeCollinearIntersection(a, b, c, d);
+        }
 
-        return true;
+        if (abc == 0 || abd == 0 || cda == 0 || cdb == 0)
+        {
+            return POINT_INTERSECTION;
+        }
+
+        return NO_INTERSECTION;
     }
 
+    private int computeCollinearIntersection(Coordinate a, Coordinate b, Coordinate c, Coordinate d)
+    {
+        boolean abc = Envelope.intersects(a, b, c);
+        boolean abd = Envelope.intersects(a, b, d);
+        boolean cda = Envelope.intersects(c, d, a);
+        boolean cdb = Envelope.intersects(c, d, b);
+
+        if (abc && abd)
+        {
+            return COLLINEAR_INTERSECTION;
+        }
+
+        if (cda && cdb)
+        {
+            return COLLINEAR_INTERSECTION;
+        }
+
+        if (a.equals(c) || b.equals(c))
+        {
+            if (!abd)
+            {
+               return POINT_INTERSECTION;
+            } else
+            {
+                return COLLINEAR_INTERSECTION;
+            }
+        }
+
+        if (c.equals(a) || d.equals(a))
+        {
+            if(!cdb)
+            {
+                return POINT_INTERSECTION;
+            } else
+            {
+                return COLLINEAR_INTERSECTION;
+            }
+        }
+
+        if (abc || abd)
+        {
+            return COLLINEAR_INTERSECTION;
+        }
+
+        if (cda || cdb)
+        {
+            return COLLINEAR_INTERSECTION;
+        }
+
+        return NO_INTERSECTION;
+    }
     /**
      * 向量 ac ab 的叉积
      * @param a Coordinate
