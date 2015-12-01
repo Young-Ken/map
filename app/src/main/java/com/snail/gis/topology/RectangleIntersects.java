@@ -31,6 +31,7 @@ public class RectangleIntersects
         RectangleIntersects rp = new RectangleIntersects(rectangle);
         return rp.intersects(geometry);
     }
+
     public boolean intersects(Geometry geometry)
     {
         if(!rectEnv.intersects(geometry.getEnvelope()))

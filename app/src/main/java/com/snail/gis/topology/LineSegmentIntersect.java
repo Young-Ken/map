@@ -11,21 +11,14 @@ import com.snail.gis.geometry.primary.Envelope;
  * @version 0.1
  * @since 2015/11/27
  */
-public class LineIntersector
+public class LineSegmentIntersect
 {
-    /**
-     * Indicates that line segments do not intersect
-     */
+    public int result = -1;
+
     public final static int NO_INTERSECTION = 0;
 
-    /**
-     * Indicates that line segments intersect in a single point
-     */
     public final static int POINT_INTERSECTION = 1;
 
-    /**
-     * Indicates that line segments intersect in a line segment
-     */
     public final static int COLLINEAR_INTERSECTION = 2;
 
     public int intersector(LineSegment segment1, LineSegment segment2)
@@ -40,11 +33,12 @@ public class LineIntersector
     }
 
     /**
+     * 判断两条线段相交
      * @param c1 Coordinate
      * @param c2 Coordinate
      * @param p1 Coordinate
      * @param p2 Coordinate
-     * @return
+     * @return 相交返回 POINT_INTERSECTION 或者 COLLINEAR_INTERSECTION
      */
     public int intersector(Coordinate a, Coordinate b, Coordinate c, Coordinate d)
     {
@@ -137,6 +131,7 @@ public class LineIntersector
 
         return NO_INTERSECTION;
     }
+
     /**
      * 向量 ac ab 的叉积
      * @param a Coordinate
@@ -146,7 +141,6 @@ public class LineIntersector
      */
     private double cross(Coordinate a, Coordinate b, Coordinate c)
     {
-        // (x2-x1)(y3-y1) - (y2-y1)(x3-x1)
         return (b.x - a.x)*(c.y - a.y)- (c.x - a.x) *(b.y - a.y);
     }
 
@@ -164,4 +158,8 @@ public class LineIntersector
         }
     }
 
+    public boolean hasIntersection()
+    {
+        return result != NO_INTERSECTION;
+    }
 }
