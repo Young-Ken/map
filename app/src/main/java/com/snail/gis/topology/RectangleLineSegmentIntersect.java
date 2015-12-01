@@ -12,7 +12,7 @@ public class RectangleLineSegmentIntersect
 {
 
     Envelope rectangle = null;
-    LineSegmentIntersect lineIntersector = new LineSegmentIntersect();
+    LineSegmentIntersect lineIntersect = new LineSegmentIntersect();
     public RectangleLineSegmentIntersect(Envelope rectangle)
     {
         this.rectangle = rectangle;
@@ -38,12 +38,12 @@ public class RectangleLineSegmentIntersect
         Coordinate rectangle4 = new Coordinate(rectangle.getMinX(), rectangle.getMaxY());
 
         //判断矩形的对角线是不是很矩形相交
-        if (lineIntersector.intersector(p1, p2, rectangle1, rectangle3) != 2)
+        if (lineIntersect.intersector(p1, p2, rectangle1, rectangle3) != 2)
         {
             return true;
         }
 
-        if (lineIntersector.intersector(p1, p2, rectangle2, rectangle4) != 2)
+        if (lineIntersect.intersector(p1, p2, rectangle2, rectangle4) != 2)
         {
             return true;
         }

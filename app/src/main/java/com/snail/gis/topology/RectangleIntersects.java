@@ -17,7 +17,6 @@ import java.util.List;
 public class RectangleIntersects
 {
     private Polygon rectangle;
-
     private Envelope rectEnv;
 
     public RectangleIntersects(Polygon rectangle)
@@ -54,6 +53,12 @@ public class RectangleIntersects
             return true;
         }
 
+        RectangleIntersectsSegmentVisitor ecpSegment = new RectangleIntersectsSegmentVisitor(rectEnv);
+        ecpSegment.applyTo(geometry);
+        if (ecpSegment.intersects())
+        {
+            return true;
+        }
         return false;
     }
 
@@ -166,17 +171,38 @@ public class RectangleIntersects
 
     class RectangleIntersectsSegmentVisitor extends ShortCircuitedGeometryVisitor
     {
-
+        private boolean intersects = false;
+        Envelope rectangle = null;
+        RectangleLineSegmentIntersect segmentIntersect;
+        public RectangleIntersectsSegmentVisitor(Envelope rectangle)
+        {
+            this.rectangle = rectangle;
+            segmentIntersect = new RectangleLineSegmentIntersect(rectangle);
+        }
         @Override
         protected void visit(Geometry element)
         {
+            List<Coordinate> list = element.getLines();
+
+            int size = list.size();
+            for (int i = 0; i < size - 1; i++)
+            {
+                if (segmentIntersect.intersects(list.get(i),list.get(i+1)))
+                {
+                    intersects = true;
+                    return;
+                }
+            }
 
         }
-
+        public boolean intersects()
+        {
+            return intersects;
+        }
         @Override
         protected boolean isDone()
         {
-            return false;
+            return intersects == true;
         }
     }
 
