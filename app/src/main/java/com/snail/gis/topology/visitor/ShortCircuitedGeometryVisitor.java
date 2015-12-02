@@ -1,4 +1,4 @@
-package com.snail.gis.geometry.util;
+package com.snail.gis.topology.visitor;
 
 import com.snail.gis.geometry.primary.Geometry;
 

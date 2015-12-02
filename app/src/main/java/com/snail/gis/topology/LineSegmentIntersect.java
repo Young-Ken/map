@@ -21,15 +21,15 @@ public class LineSegmentIntersect
 
     public final static int COLLINEAR_INTERSECTION = 2;
 
-    public int intersector(LineSegment segment1, LineSegment segment2)
+    public int intersects(LineSegment segment1, LineSegment segment2)
     {
-        return intersector(segment1.getStartPoint(), segment1.getEndPoint(),
+        return intersects(segment1.getStartPoint(), segment1.getEndPoint(),
                 segment2.getStartPoint(), segment2.getEndPoint());
     }
 
-    public int intersector(Coordinate c1, Coordinate c2, LineSegment segment)
+    public int intersects(Coordinate c1, Coordinate c2, LineSegment segment)
     {
-        return intersector(c1, c2, segment.getStartPoint(), segment.getEndPoint());
+        return intersects(c1, c2, segment.getStartPoint(), segment.getEndPoint());
     }
 
     /**
@@ -40,7 +40,7 @@ public class LineSegmentIntersect
      * @param p2 Coordinate
      * @return 相交返回 POINT_INTERSECTION 或者 COLLINEAR_INTERSECTION
      */
-    public int intersector(Coordinate a, Coordinate b, Coordinate c, Coordinate d)
+    public int intersects(Coordinate a, Coordinate b, Coordinate c, Coordinate d)
     {
         /**
          * 如果 ab 和 cd 的外接矩形不相交就一定不相交

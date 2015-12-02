@@ -38,12 +38,12 @@ public class RectangleLineSegmentIntersect
         Coordinate rectangle4 = new Coordinate(rectangle.getMinX(), rectangle.getMaxY());
 
         //判断矩形的对角线是不是很矩形相交
-        if (lineIntersect.intersector(p1, p2, rectangle1, rectangle3) != 2)
+        if (lineIntersect.intersects(p1, p2, rectangle1, rectangle3) != 2)
         {
             return true;
         }
 
-        if (lineIntersect.intersector(p1, p2, rectangle2, rectangle4) != 2)
+        if (lineIntersect.intersects(p1, p2, rectangle2, rectangle4) != 2)
         {
             return true;
         }

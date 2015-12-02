@@ -67,7 +67,7 @@ public class LineSegmentIntersector extends Activity
                 if (drawView.line1 != null && drawView.line2 != null)
                 {
                     LineSegmentIntersect lineIntersector = new LineSegmentIntersect();
-                    isIn =  lineIntersector.intersector(drawView.line1, drawView.line2);
+                    isIn =  lineIntersector.intersects(drawView.line1, drawView.line2);
                     Toast.makeText(context, isIn + " lineString ", Toast.LENGTH_LONG).show();
                 }
 
