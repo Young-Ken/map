@@ -4,20 +4,33 @@ import com.snail.gis.geometry.Coordinate;
 import com.snail.gis.geometry.primary.Envelope;
 
 /**
+ * 矩形和线相交
  * @author Young Ken
  * @version 0.1
  * @since 2015/11/27
  */
-public class RectangleLineSegmentIntersect
+public class RectangleIntersectSegment
 {
-
+    /**
+     * 矩形
+     */
     Envelope rectangle = null;
-    LineSegmentIntersect lineIntersect = new LineSegmentIntersect();
-    public RectangleLineSegmentIntersect(Envelope rectangle)
+
+    /**
+     * 线段和线段相交
+     */
+    SegmentIntersectSegment lineIntersect = new SegmentIntersectSegment();
+    public RectangleIntersectSegment(Envelope rectangle)
     {
         this.rectangle = rectangle;
     }
 
+    /**
+     * 矩形和线相交
+     * @param p1 Coordinate
+     * @param p2 Coordinate
+     * @return 相交返回 true 不相交返回 false
+     */
     public boolean intersects(Coordinate p1, Coordinate p2)
     {
         Envelope lineEnv = new Envelope(p1, p2);

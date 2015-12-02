@@ -14,7 +14,7 @@ import com.snail.gis.R;
 import com.snail.gis.geometry.Coordinate;
 import com.snail.gis.geometry.LineString;
 import com.snail.gis.geometry.Polygon;
-import com.snail.gis.lgorithm.cg.CGPointInRing;
+import com.snail.gis.topology.PointInPolygon;
 import com.snail.gis.ztest.view.DrawView;
 
 import java.util.List;
@@ -109,7 +109,7 @@ public class PointInRing extends Activity
 
                 //Coordinate[] cc = (Coordinate[]) drawView.polygon.getExteriorRing().getPointArray().toArray();
 
-                int s = CGPointInRing.locationPointInRing(drawView.point, cc);
+                int s = PointInPolygon.locationPointInRing(drawView.point, cc);
                 Toast.makeText(context, s + "", Toast.LENGTH_LONG).show();
             }
         });

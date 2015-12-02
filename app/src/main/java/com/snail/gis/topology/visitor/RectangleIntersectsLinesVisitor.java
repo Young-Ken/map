@@ -3,7 +3,7 @@ package com.snail.gis.topology.visitor;
 import com.snail.gis.geometry.Coordinate;
 import com.snail.gis.geometry.primary.Envelope;
 import com.snail.gis.geometry.primary.Geometry;
-import com.snail.gis.topology.RectangleLineSegmentIntersect;
+import com.snail.gis.topology.RectangleIntersectSegment;
 
 import java.util.List;
 
@@ -16,12 +16,12 @@ public class RectangleIntersectsLinesVisitor extends ShortCircuitedGeometryVisit
 {
     private boolean intersects = false;
     Envelope rectangle = null;
-    RectangleLineSegmentIntersect segmentIntersect;
+    RectangleIntersectSegment segmentIntersect;
 
     public RectangleIntersectsLinesVisitor(Envelope rectangle)
     {
         this.rectangle = rectangle;
-        segmentIntersect = new RectangleLineSegmentIntersect(rectangle);
+        segmentIntersect = new RectangleIntersectSegment(rectangle);
     }
 
     @Override

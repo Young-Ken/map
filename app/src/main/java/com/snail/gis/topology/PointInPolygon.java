@@ -1,4 +1,4 @@
-package com.snail.gis.lgorithm.cg;
+package com.snail.gis.topology;
 
 import com.snail.gis.geometry.Coordinate;
 import com.snail.gis.enumeration.Location;
@@ -12,12 +12,12 @@ import java.util.List;
  * @version 0.1
  * @since 2015/11/24
  */
-public class CGPointInRing
+public class PointInPolygon
 {
     private Coordinate point = null;
     private boolean isPointOnSegment = false;
     private int crossingCount = 0;
-    private CGPointInRing(Coordinate coordinate)
+    private PointInPolygon(Coordinate coordinate)
     {
         this.point = coordinate;
     }
@@ -30,7 +30,7 @@ public class CGPointInRing
 
     public static int locationPointInRing(Coordinate coordinate, Coordinate[] ring)
     {
-        CGPointInRing pointInRing = new CGPointInRing(coordinate);
+        PointInPolygon pointInRing = new PointInPolygon(coordinate);
         for (int i = 1; i < ring.length; i++)
         {
             Coordinate startPoint = ring[i];
@@ -106,7 +106,8 @@ public class CGPointInRing
         {
             return Location.BOUNDARY;
         }
-        if ((crossingCount % 2) == 1) {
+        if ((crossingCount % 2) == 1)
+        {
             return Location.INTERIOR;
         }
         return Location.EXTERIOR;

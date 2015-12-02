@@ -1,17 +1,16 @@
 package com.snail.gis.topology;
 
-import android.util.Log;
-
 import com.snail.gis.geometry.Coordinate;
 import com.snail.gis.geometry.LineSegment;
 import com.snail.gis.geometry.primary.Envelope;
 
 /**
+ * 线段和线段相交
  * @author Young Ken
  * @version 0.1
  * @since 2015/11/27
  */
-public class LineSegmentIntersect
+public class SegmentIntersectSegment
 {
     public int result = -1;
 

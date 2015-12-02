@@ -4,7 +4,7 @@ import com.snail.gis.geometry.Coordinate;
 import com.snail.gis.geometry.Polygon;
 import com.snail.gis.geometry.primary.Envelope;
 import com.snail.gis.geometry.primary.Geometry;
-import com.snail.gis.lgorithm.cg.CGPointInRing;
+import com.snail.gis.topology.PointInPolygon;
 
 import java.util.List;
 
@@ -40,11 +40,13 @@ public class GeometryContainsPointsVisitor extends ShortCircuitedGeometryVisitor
         {
             return;
         }
+
         Envelope envelope = geometry.getEnvelope();
         if (!outerRectangle.intersects(envelope))
         {
             return;
         }
+
         Coordinate point;
         for (int i = 0; i < 4; i++)
         {
@@ -53,7 +55,7 @@ public class GeometryContainsPointsVisitor extends ShortCircuitedGeometryVisitor
             {
                 continue;
             }
-            int isPointInRing = CGPointInRing.locationPointInRing(point, ((Polygon) geometry).getExteriorRing().getPointArray());
+            int isPointInRing = PointInPolygon.locationPointInRing(point, ((Polygon) geometry).getExteriorRing().getPointArray());
             if (isPointInRing == 0)
             {
                 containsPoint = true;

@@ -12,12 +12,12 @@ import com.snail.gis.topology.visitor.RectangleIntersectsVisitor;
  * @version 0.1
  * @since 2015/11/23
  */
-public class RectangleIntersect
+public class RectangleIntersectGeometry
 {
     private Polygon rectangle;
     private Envelope rectEnv;
 
-    public RectangleIntersect(Polygon rectangle)
+    public RectangleIntersectGeometry(Polygon rectangle)
     {
         this.rectangle = rectangle;
         rectEnv = rectangle.getEnvelope();
@@ -25,7 +25,7 @@ public class RectangleIntersect
 
     public static boolean intersects(Polygon rectangle, Geometry geometry)
     {
-        RectangleIntersect rp = new RectangleIntersect(rectangle);
+        RectangleIntersectGeometry rp = new RectangleIntersectGeometry(rectangle);
         return rp.intersects(geometry);
     }
 
@@ -151,7 +151,7 @@ public class RectangleIntersect
 //                {
 //                    continue;
 //                }
-//                int isPointInRing = CGPointInRing.locationPointInRing(point, ((Polygon) element).getExteriorRing().getPointArray());
+//                int isPointInRing = PointInPolygon.locationPointInRing(point, ((Polygon) element).getExteriorRing().getPointArray());
 //                if (isPointInRing == 0)
 //                {
 //                    containsPoint = true;
@@ -171,11 +171,11 @@ public class RectangleIntersect
 //    {
 //        private boolean intersects = false;
 //        Envelope rectangle = null;
-//        RectangleLineSegmentIntersect segmentIntersect;
+//        RectangleIntersectSegment segmentIntersect;
 //        public RectangleIntersectsLinesVisitor(Envelope rectangle)
 //        {
 //            this.rectangle = rectangle;
-//            segmentIntersect = new RectangleLineSegmentIntersect(rectangle);
+//            segmentIntersect = new RectangleIntersectSegment(rectangle);
 //        }
 //        @Override
 //        protected void visit(Geometry element)

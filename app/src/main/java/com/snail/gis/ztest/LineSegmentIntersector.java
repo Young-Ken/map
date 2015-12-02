@@ -11,7 +11,7 @@ import android.widget.Toast;
 import com.snail.gis.R;
 import com.snail.gis.geometry.Coordinate;
 import com.snail.gis.geometry.LineSegment;
-import com.snail.gis.topology.LineSegmentIntersect;
+import com.snail.gis.topology.SegmentIntersectSegment;
 import com.snail.gis.ztest.view.Lines_in_Lines;
 
 /**
@@ -66,7 +66,7 @@ public class LineSegmentIntersector extends Activity
                 int isIn = -1;
                 if (drawView.line1 != null && drawView.line2 != null)
                 {
-                    LineSegmentIntersect lineIntersector = new LineSegmentIntersect();
+                    SegmentIntersectSegment lineIntersector = new SegmentIntersectSegment();
                     isIn =  lineIntersector.intersects(drawView.line1, drawView.line2);
                     Toast.makeText(context, isIn + " lineString ", Toast.LENGTH_LONG).show();
                 }

@@ -2,7 +2,7 @@ package com.snail.gis.geometry.primary;
 
 import com.snail.gis.geometry.Coordinate;
 import com.snail.gis.geometry.Polygon;
-import com.snail.gis.topology.RectangleIntersect;
+import com.snail.gis.topology.RectangleIntersectGeometry;
 
 import java.util.List;
 
@@ -48,12 +48,12 @@ public abstract class Geometry implements SpatialReferenceSystem,SpatialAnalysis
 
         if (isRectangle())
         {
-           return RectangleIntersect.intersects((Polygon) this, geometry);
+           return RectangleIntersectGeometry.intersects((Polygon) this, geometry);
         }
 
         if (geometry.isRectangle())
         {
-            return RectangleIntersect.intersects((Polygon) geometry, this);
+            return RectangleIntersectGeometry.intersects((Polygon) geometry, this);
         }
 
 
