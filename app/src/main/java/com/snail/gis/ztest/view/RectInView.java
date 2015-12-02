@@ -71,7 +71,7 @@ public class RectInView extends DrawView
             public void onClick(View view)
             {
                 drawState = 3;
-                polygon = new Polygon();
+                polygon1 = new Polygon();
             }
         });
 
@@ -146,6 +146,17 @@ public class RectInView extends DrawView
             }
         }
 
+        if(polygon1 != null)
+        {
+            for (int i = 0; i < polygon1.getExteriorRing().getPointArray().size()-1; i++)
+            {
+                Coordinate startPoint = new Coordinate(polygon1.getExteriorRing().getPointArray().get(i));
+                Coordinate endPoint = new Coordinate(polygon1.getExteriorRing().getPointArray().get(i+1));
+                canvas.drawLine((float)startPoint.x, (float)startPoint.y, (float)endPoint.x, (float)endPoint.y, paint);
+                DrawTools.drawEnvelope(canvas, polygon1);
+            }
+        }
+
         if (envelope != null)
         {
             canvas.drawRect((float)envelope.getMinX(), (float)envelope.getMinY(), (float)envelope.getMaxX(), (float)envelope.getMaxY(), paint);
@@ -168,7 +179,7 @@ public class RectInView extends DrawView
                 break;
 
             case 3:
-                polygon.getExteriorRing().getPointArray().add(tempPoint);
+                polygon1.getExteriorRing().getPointArray().add(tempPoint);
                 break;
             case 4:
                 envelope.expandToInclude(motionEvent.getX(), motionEvent.getY());

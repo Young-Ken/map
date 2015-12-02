@@ -47,12 +47,23 @@ public class RectInterse extends Activity
                 if (drawView.point != null)
                 {
                     b = drawView.polygon.intersects(drawView.point);
-                    Toast.makeText(context, b + "point ", Toast.LENGTH_LONG).show();
+                    Toast.makeText(context, b + "  point ", Toast.LENGTH_LONG).show();
                 }
                 if (drawView.lineString != null)
                 {
                     b = drawView.polygon.intersects(drawView.lineString);
-                    Toast.makeText(context, b + "point ", Toast.LENGTH_LONG).show();
+                    Toast.makeText(context, b + "  lineString ", Toast.LENGTH_LONG).show();
+                }
+                if (drawView.envelope != null)
+                {
+                    b = drawView.envelope.intersects(drawView.polygon.getEnvelope());
+                    Toast.makeText(context, b + "  envelope ", Toast.LENGTH_LONG).show();
+                }
+
+                if (drawView.polygon1 != null)
+                {
+                    b = drawView.polygon.intersects(drawView.polygon1);
+                    Toast.makeText(context, b + "  polygon ", Toast.LENGTH_LONG).show();
                 }
             }
         });
@@ -67,7 +78,22 @@ public class RectInterse extends Activity
                 drawView.lineString = null;
                 drawView.envelope = null;
                 drawView.drawState = 0;
+                drawView.polygon1 = null;
                 drawView.invalidate();
+            }
+        });
+
+        Button drawEnd = (Button) findViewById(R.id.draw_end);
+        drawEnd.setOnClickListener(new View.OnClickListener()
+        {
+            @Override
+            public void onClick(View view)
+            {
+                if (drawView.polygon1 != null)
+                {
+                    drawView.polygon1.getExteriorRing().getLines().add(drawView.polygon1.getExteriorRing().getPoint(0));
+                    drawView.invalidate();
+                }
             }
         });
     }

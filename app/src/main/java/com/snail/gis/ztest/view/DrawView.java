@@ -34,6 +34,7 @@ public class DrawView extends View implements View.OnTouchListener
     public Coordinate point = null;
     public LineString lineString = null;
     public Polygon polygon = null;
+    public Polygon polygon1 = null;
     public View view = null;
     public Envelope envelope = null;
     public Paint paint = new Paint();

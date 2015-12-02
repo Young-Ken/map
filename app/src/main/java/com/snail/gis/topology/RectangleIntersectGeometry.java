@@ -3,7 +3,7 @@ package com.snail.gis.topology;
 import com.snail.gis.geometry.Polygon;
 import com.snail.gis.geometry.primary.Envelope;
 import com.snail.gis.geometry.primary.Geometry;
-import com.snail.gis.topology.visitor.GeometryContainsPointsVisitor;
+import com.snail.gis.topology.visitor.RectangleIntersectsPolygonVisitor;
 import com.snail.gis.topology.visitor.RectangleIntersectsLinesVisitor;
 import com.snail.gis.topology.visitor.RectangleIntersectsVisitor;
 
@@ -44,7 +44,7 @@ public class RectangleIntersectGeometry
         }
 
 
-        GeometryContainsPointsVisitor ecpVisitor = new GeometryContainsPointsVisitor(rectangle);
+        RectangleIntersectsPolygonVisitor ecpVisitor = new RectangleIntersectsPolygonVisitor(rectangle);
         ecpVisitor.applyTo(geometry);
         if (ecpVisitor.containsPoint())
         {
