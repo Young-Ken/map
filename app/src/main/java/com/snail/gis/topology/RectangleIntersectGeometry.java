@@ -44,9 +44,9 @@ public class RectangleIntersectGeometry
         }
 
 
-        RectangleIntersectsPolygonVisitor ecpVisitor = new RectangleIntersectsPolygonVisitor(rectangle);
+        RectangleIntersectsPolygonVisitor ecpVisitor = new RectangleIntersectsPolygonVisitor(rectEnv);
         ecpVisitor.applyTo(geometry);
-        if (ecpVisitor.containsPoint())
+        if (ecpVisitor.intersects())
         {
             return true;
         }

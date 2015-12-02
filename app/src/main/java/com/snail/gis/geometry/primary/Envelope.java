@@ -2,6 +2,9 @@ package com.snail.gis.geometry.primary;
 
 import com.snail.gis.geometry.Coordinate;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * @author Young Ken
  * @version 0.1
@@ -287,6 +290,21 @@ public class Envelope
                 maxY = y;
             }
         }
+    }
+
+    /**
+     * 把矩形转换成线
+     * @return
+     */
+    public List<Coordinate> getLines()
+    {
+        List<Coordinate> list = new ArrayList<>();
+        list.add(new Coordinate(getMinX(), getMinY()));
+        list.add(new Coordinate(getMaxX(), getMinY()));
+        list.add(new Coordinate(getMaxX(), getMaxY()));
+        list.add(new Coordinate(getMinX(), getMaxY()));
+        list.add(new Coordinate(getMinX(), getMinY()));
+        return list;
     }
 
     public static boolean intersects(Coordinate p1, Coordinate p2, Coordinate q1, Coordinate q2)

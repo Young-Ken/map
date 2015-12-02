@@ -4,7 +4,7 @@ import com.snail.gis.geometry.Coordinate;
 import com.snail.gis.geometry.Polygon;
 import com.snail.gis.geometry.primary.Envelope;
 import com.snail.gis.geometry.primary.Geometry;
-import com.snail.gis.topology.RectangleIntersectSegment;
+import com.snail.gis.topology.PointInPolygon;
 
 import java.util.List;
 
@@ -16,21 +16,16 @@ import java.util.List;
 public class RectangleIntersectsPolygonVisitor extends ShortCircuitedGeometryVisitor
 {
     private boolean intersects = false;
-    private List<Coordinate> pointArray;
-
     private Envelope outerRectangle;
 
-    private boolean containsPoint = false;
-
-    public RectangleIntersectsPolygonVisitor(Polygon polygon)
+    public RectangleIntersectsPolygonVisitor(Envelope outerRectangle)
     {
-        this.pointArray = polygon.getExteriorRing().getPointArray();
-        outerRectangle = polygon.getEnvelope();
+        this.outerRectangle = outerRectangle;
     }
 
-    public boolean containsPoint()
+    public boolean intersects()
     {
-        return containsPoint;
+        return intersects;
     }
 
 
@@ -48,53 +43,29 @@ public class RectangleIntersectsPolygonVisitor extends ShortCircuitedGeometryVis
             return;
         }
 
-        List<Coordinate> geometryList = geometry.getLines();
 
-        int size = geometryList.size();
-        for (int i = 0; i < size; i++)
+
+        List<Coordinate> list = outerRectangle.getLines();
+        Coordinate point;
+        for (int i = 0; i < 4; i++)
         {
-            if (outerRectangle.intersects(geometryList.get(i)))
+            point = list.get(i);
+            if(!envelope.intersects(point))
+            {
+                continue;
+            }
+            int isPointInRing = PointInPolygon.locationPointInRing(point, ((Polygon) geometry).getExteriorRing().getPointArray());
+            if (isPointInRing == 0)
             {
                 intersects = true;
                 return;
             }
         }
-
-        RectangleIntersectSegment intersectSegment = new RectangleIntersectSegment(outerRectangle);
-
-        Coordinate point1 = null;
-        Coordinate point2 = null;
-        for (int i = 0 ; i < size-1; i++)
-        {
-            point1 = geometryList.get(i);
-            point2 = geometryList.get(i+1);
-            if (intersectSegment.intersects(point1, point2))
-            {
-                intersects = true;
-                return;
-            }
-        }
-
-//        Coordinate point;
-//        for (int i = 0; i < 4; i++)
-//        {
-//            point = pointArray.get(i);
-//            if(!envelope.intersects(point))
-//            {
-//                continue;
-//            }
-//            int isPointInRing = PointInPolygon.locationPointInRing(point, ((Polygon) geometry).getExteriorRing().getPointArray());
-//            if (isPointInRing == 0)
-//            {
-//                containsPoint = true;
-//                return;
-//            }
-//        }
     }
 
     @Override
     protected boolean isDone()
     {
-        return containsPoint;
+        return intersects;
     }
 }
