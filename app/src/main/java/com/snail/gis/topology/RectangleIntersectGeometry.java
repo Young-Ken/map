@@ -31,7 +31,7 @@ public class RectangleIntersectGeometry
 
     public boolean intersects(Geometry geometry)
     {
-        if(!rectEnv.intersects(geometry.getEnvelope()))
+        if (!rectEnv.intersects(geometry.getEnvelope()))
         {
             return false;
         }
