@@ -29,12 +29,6 @@
                 android:text="line"
                 />
             <Button
-                android:id="@+id/draw_envelope"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="envelope"
-                />
-            <Button
                 android:id="@+id/draw_polygon"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -60,8 +54,6 @@
                 android:layout_height="wrap_content"
                 android:text="clear"
                 />
-
-
         </LinearLayout>
 
         <LinearLayout

@@ -11,7 +11,7 @@ import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import com.snail.gis.R;
-import com.snail.gis.ztest.view.DrawView;
+import com.snail.gis.ztest.view.DrawGeomIntLine;
 
 /**
  * @author Young Ken
@@ -21,7 +21,7 @@ import com.snail.gis.ztest.view.DrawView;
 public class GeomInter extends Activity
 {
     Context context = null;
-    DrawView drawView = null;
+    DrawGeomIntLine drawView = null;
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
@@ -33,7 +33,7 @@ public class GeomInter extends Activity
         final LinearLayout layout=(LinearLayout) findViewById(R.id.root);
 
 
-        drawView =new DrawView(this, findViewById(android.R.id.content).getRootView());
+        drawView =new DrawGeomIntLine(this, findViewById(android.R.id.content).getRootView());
         drawView.setMinimumHeight(500);
         drawView.setMinimumWidth(300);
         //通知view组件重绘

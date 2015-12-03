@@ -7,6 +7,9 @@ import com.snail.gis.enumeration.Dimension;
 import com.snail.gis.lgorithm.cg.CGAlgorithms;
 import com.snail.gis.lgorithm.MathUtil;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * @author Young Ken
  * @version 0.1
@@ -122,6 +125,15 @@ public class LineSegment extends Curve
     }
 
     @Override
+    public List<Coordinate> getLines()
+    {
+        List<Coordinate> list = new ArrayList<>();
+        list.add(startPoint);
+        list.add(endPoint);
+        return list;
+    }
+
+    @Override
     public double getLength()
     {
         return MathUtil.distanceTwoPoint(startPoint, endPoint);
@@ -137,6 +149,27 @@ public class LineSegment extends Curve
     {
         return Math.atan2(startPoint.y - endPoint.y, startPoint.x - endPoint.x);
     }
+
+    public Coordinate getStartPoint()
+    {
+        return startPoint;
+    }
+
+    public Coordinate getEndPoint()
+    {
+        return endPoint;
+    }
+
+    public void setStartPoint(Coordinate startPoint)
+    {
+        this.startPoint = startPoint;
+    }
+
+    public void setEndPoint(Coordinate endPoint)
+    {
+        this.endPoint = endPoint;
+    }
+
     public String toString()
     {
         return "LINESTRING( " +

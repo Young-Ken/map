@@ -161,6 +161,16 @@ public class LineString extends Curve
         return 0;
     }
 
+    /**
+     * 返回线段集合
+     * @return
+     */
+    @Override
+    public List<Coordinate> getLines()
+    {
+        return pointArray;
+    }
+
     @Override
     public boolean equals(Geometry geometry)
     {

@@ -2,6 +2,9 @@ package com.snail.gis.geometry.primary;
 
 import com.snail.gis.geometry.Coordinate;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * @author Young Ken
  * @version 0.1
@@ -287,6 +290,59 @@ public class Envelope
                 maxY = y;
             }
         }
+    }
+
+    /**
+     * 把矩形转换成线
+     * @return
+     */
+    public List<Coordinate> getLines()
+    {
+        List<Coordinate> list = new ArrayList<>();
+        list.add(new Coordinate(getMinX(), getMinY()));
+        list.add(new Coordinate(getMaxX(), getMinY()));
+        list.add(new Coordinate(getMaxX(), getMaxY()));
+        list.add(new Coordinate(getMinX(), getMaxY()));
+        list.add(new Coordinate(getMinX(), getMinY()));
+        return list;
+    }
+
+    public static boolean intersects(Coordinate p1, Coordinate p2, Coordinate q1, Coordinate q2)
+    {
+        double minq = Math.min(q1.x, q2.x);
+        double maxq = Math.max(q1.x, q2.x);
+        double minp = Math.min(p1.x, p2.x);
+        double maxp = Math.max(p1.x, p2.x);
+
+        if (minp > maxq)
+            return false;
+        if (maxp < minq)
+            return false;
+
+        minq = Math.min(q1.y, q2.y);
+        maxq = Math.max(q1.y, q2.y);
+        minp = Math.min(p1.y, p2.y);
+        maxp = Math.max(p1.y, p2.y);
+
+        if (minp > maxq)
+        {
+            return false;
+        }
+
+        if (maxp < minq)
+        {
+            return false;
+        }
+        return true;
+    }
+
+    public static boolean intersects(Coordinate p1, Coordinate p2, Coordinate q)
+    {
+        if (((q.x >= (p1.x < p2.x ? p1.x : p2.x)) && (q.x <= (p1.x > p2.x ? p1.x : p2.x))) &&
+                ((q.y >= (p1.y < p2.y ? p1.y : p2.y)) && (q.y <= (p1.y > p2.y ? p1.y : p2.y)))) {
+            return true;
+        }
+        return false;
     }
 
     public double getMaxX()

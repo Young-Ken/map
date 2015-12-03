@@ -2,7 +2,7 @@ package com.snail.gis.geometry.primary;
 
 import com.snail.gis.geometry.Coordinate;
 import com.snail.gis.geometry.Polygon;
-import com.snail.gis.topology.RectangleIntersects;
+import com.snail.gis.topology.RectangleIntersectGeometry;
 
 import java.util.List;
 
@@ -18,6 +18,8 @@ public abstract class Geometry implements SpatialReferenceSystem,SpatialAnalysis
     public abstract boolean isEmpty();
     public abstract int getDimension();
     public abstract int getBoundaryDimension();
+    public abstract List<Coordinate> getLines();
+
 
     /**
      * 判断两个图形是不是相离 ! intersects
@@ -46,12 +48,12 @@ public abstract class Geometry implements SpatialReferenceSystem,SpatialAnalysis
 
         if (isRectangle())
         {
-           return RectangleIntersects.intersects((Polygon)this, geometry);
+           return RectangleIntersectGeometry.intersects((Polygon) this, geometry);
         }
 
         if (geometry.isRectangle())
         {
-            return RectangleIntersects.intersects((Polygon) geometry, this);
+            return RectangleIntersectGeometry.intersects((Polygon) geometry, this);
         }
 
 
@@ -69,6 +71,7 @@ public abstract class Geometry implements SpatialReferenceSystem,SpatialAnalysis
         double maxY = Double.MIN_VALUE;
         double minX = Double.MAX_VALUE;
         double minY = Double.MAX_VALUE;
+
         for (Coordinate coordinate : list)
         {
             maxX = Math.max(coordinate.x, maxX);
