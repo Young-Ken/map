@@ -71,7 +71,7 @@ public class Envelope
 
     private boolean isNull()
     {
-        return maxX < minY;
+        return maxX < minX;
     }
     /**
      * 得到矩形的宽
