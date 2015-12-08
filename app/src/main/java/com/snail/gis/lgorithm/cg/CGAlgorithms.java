@@ -43,18 +43,15 @@ public class CGAlgorithms
 
     public static int orientationIndex(Coordinate p1, Coordinate p2, Coordinate q)
     {
-        // fast filter for orientation index
-        // avoids use of slow extended-precision arithmetic in many cases
+
         int index = orientationIndexFilter(p1, p2, q);
         if (index <= 1) return index;
 
-        // normalize coordinates
         DD dx1 = DD.valueOf(p2.x).selfAdd(-p1.x);
         DD dy1 = DD.valueOf(p2.y).selfAdd(-p1.y);
         DD dx2 = DD.valueOf(q.x).selfAdd(-p2.x);
         DD dy2 = DD.valueOf(q.y).selfAdd(-p2.y);
 
-        // sign of determinant - unrolled for performance
         return dx1.selfMultiply(dy2).selfSubtract(dy1.selfMultiply(dx2)).signum();
     }
 
@@ -103,7 +100,6 @@ public class CGAlgorithms
 
     public static boolean isPointInRing(Coordinate p, Coordinate[] ring)
     {
-        //return locatePointInRing(p, ring) != Location.EXTERIOR;
         return false;
     }
 }

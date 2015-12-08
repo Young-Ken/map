@@ -102,7 +102,7 @@ public strictfp final class DD
   implements Serializable, Comparable, Cloneable
 {
   /**
-   * The value nearest to the constant Pi.
+   *  Pi.
    */
   public static final DD PI = new DD(
       3.141592653589793116e+00,

@@ -10,21 +10,13 @@ import com.snail.gis.geometry.Coordinate;
 public class RobustDeterminant
 {
     public static int signOfDet2x2(double x1, double y1, double x2, double y2) {
-        // returns -1 if the determinant is negative,
-        // returns  1 if the determinant is positive,
-        // returns  0 if the determinant is null.
         int sign;
         double swap;
         double k;
         long count = 0;
 
-        //callCount++; // debugging only
-
         sign = 1;
 
-    /*
-     *  testing null entries
-     */
         if ((x1 == 0.0) || (y2 == 0.0)) {
             if ((y1 == 0.0) || (x2 == 0.0)) {
                 return 0;
@@ -65,12 +57,6 @@ public class RobustDeterminant
             }
         }
 
-    /*
-     *  making y coordinates positive and permuting the entries
-     */
-    /*
-     *  so that y2 is the biggest one
-     */
         if (0.0 < y1) {
             if (0.0 < y2) {
                 if (y1 <= y2) {
@@ -138,12 +124,6 @@ public class RobustDeterminant
             }
         }
 
-    /*
-     *  making x coordinates positive
-     */
-    /*
-     *  if |x2| < |x1| one can conclude
-     */
         if (0.0 < x1) {
             if (0.0 < x2) {
                 if (x1 <= x2) {
@@ -181,9 +161,6 @@ public class RobustDeterminant
             x2 = x2 - k * x1;
             y2 = y2 - k * y1;
 
-      /*
-       *  testing if R (new U2) is in U1 rectangle
-       */
             if (y2 < 0.0) {
                 return -sign;
             }
@@ -191,9 +168,6 @@ public class RobustDeterminant
                 return sign;
             }
 
-      /*
-       *  finding R'
-       */
             if (x1 > x2 + x2) {
                 if (y1 < y2 + y2) {
                     return sign;
@@ -221,18 +195,10 @@ public class RobustDeterminant
                 return sign;
             }
 
-      /*
-       *  exchange 1 and 2 role.
-       */
-            // MD - UNSAFE HACK for testing only!
-//      k = (int) (x1 / x2);
             k = Math.floor(x1 / x2);
             x1 = x1 - k * x2;
             y1 = y1 - k * y2;
 
-      /*
-       *  testing if R (new U1) is in U2 rectangle
-       */
             if (y1 < 0.0) {
                 return sign;
             }
@@ -240,9 +206,6 @@ public class RobustDeterminant
                 return -sign;
             }
 
-      /*
-       *  finding R'
-       */
             if (x2 > x1 + x1) {
                 if (y2 < y1 + y1) {
                     return -sign;
@@ -274,27 +237,18 @@ public class RobustDeterminant
     }
 
     /**
-     * Returns the index of the direction of the point <code>q</code> relative to
-     * a vector specified by <code>p1-p2</code>.
      *
-     * @param p1 the origin point of the vector
-     * @param p2 the final point of the vector
-     * @param q the point to compute the direction to
+     * @param p1
+     * @param p2
+     * @param q
      *
-     * @return 1 if q is counter-clockwise (left) from p1-p2
-     * @return -1 if q is clockwise (right) from p1-p2
-     * @return 0 if q is collinear with p1-p2
+     * @return 1(left)  p1-p2
+     * @return -1(right)  p1-p2
+     * @return 0 collinear with p1-p2
      */
     public static int orientationIndex(Coordinate p1, Coordinate p2, Coordinate q)
     {
         /**
-         * MD - 9 Aug 2010 It seems that the basic algorithm is slightly orientation
-         * dependent, when computing the orientation of a point very close to a
-         * line. This is possibly due to the arithmetic in the translation to the
-         * origin.
-         *
-         * For instance, the following situation produces identical results in spite
-         * of the inverse orientation of the line segment:
          *
          * Coordinate p0 = new Coordinate(219.3649559090992, 140.84159161824724);
          * Coordinate p1 = new Coordinate(168.9018919682399, -5.713787599646864);

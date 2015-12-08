@@ -16,11 +16,9 @@ public class ContainsUtil
         if (poly.isEmpty()) return false;
         LinearRing shell = (LinearRing) poly.getExteriorRing();
         if (! isPointInRing(p, shell)) return false;
-        // now test if the point lies in or on the holes
         for (int i = 0; i < poly.getNumInteriorRing(); i++)
         {
-          //  LinearRing hole = (LinearRing) poly.getInteriorRingN(i);
-         //   if (isPointInRing(p, hole)) return false;
+
         }
         return true;
     }
@@ -28,7 +26,6 @@ public class ContainsUtil
     {
         if (! ring.getEnvelope().intersects(p))
             return false;
-       // return CGAlgorithms.isPointInRing(p, ring.getCoordinates());
         return false;
     }
 }
