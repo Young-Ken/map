@@ -28,12 +28,12 @@ public class Dimension
     public final static int FALSE = -1;
 
     /**
-     *   不是空的 geometries (= {P, L, A}).
+     *   dim（x）属于{0,1,2}
      */
     public final static int TRUE = -2;
 
     /**
-     * 代表 (= {FALSE, TRUE}).
+     *  dim(x)属于{-1,0,1,2} 没有关系
      */
     public final static int DONTCARE = -3;
 

@@ -3,7 +3,7 @@ package com.snail.gis.topology.visitor;
 import com.snail.gis.geometry.Coordinate;
 import com.snail.gis.geometry.primary.Envelope;
 import com.snail.gis.geometry.primary.Geometry;
-import com.snail.gis.topology.RectangleIntersectSegment;
+import com.snail.gis.topology.relate.RectangleIntersectSegment;
 
 import java.util.List;
 

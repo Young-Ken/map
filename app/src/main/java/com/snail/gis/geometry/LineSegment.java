@@ -4,8 +4,8 @@ import com.snail.gis.geometry.primary.Curve;
 import com.snail.gis.geometry.primary.Envelope;
 import com.snail.gis.geometry.primary.Geometry;
 import com.snail.gis.enumeration.Dimension;
-import com.snail.gis.lgorithm.cg.CGAlgorithms;
-import com.snail.gis.lgorithm.MathUtil;
+import com.snail.gis.algorithm.cg.CGAlgorithms;
+import com.snail.gis.algorithm.MathUtil;
 
 import java.util.ArrayList;
 import java.util.List;

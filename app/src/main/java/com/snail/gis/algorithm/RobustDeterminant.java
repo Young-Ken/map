@@ -1,4 +1,4 @@
-package com.snail.gis.lgorithm;
+package com.snail.gis.algorithm;
 
 import com.snail.gis.geometry.Coordinate;
 

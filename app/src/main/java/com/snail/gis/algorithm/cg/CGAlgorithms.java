@@ -1,7 +1,7 @@
-package com.snail.gis.lgorithm.cg;
+package com.snail.gis.algorithm.cg;
 
 import com.snail.gis.geometry.Coordinate;
-import com.snail.gis.lgorithm.DD;
+import com.snail.gis.algorithm.DD;
 
 /**
  * @author Young Ken

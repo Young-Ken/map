@@ -14,7 +14,7 @@ import com.snail.gis.R;
 import com.snail.gis.geometry.Coordinate;
 import com.snail.gis.geometry.LineString;
 import com.snail.gis.geometry.Polygon;
-import com.snail.gis.topology.PointInPolygon;
+import com.snail.gis.topology.relate.PointInPolygon;
 import com.snail.gis.ztest.view.DrawView;
 
 import java.util.List;

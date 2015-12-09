@@ -3,7 +3,7 @@ package com.snail.gis.geometry;
 import com.snail.gis.geometry.primary.Curve;
 import com.snail.gis.geometry.primary.Envelope;
 import com.snail.gis.geometry.primary.Geometry;
-import com.snail.gis.lgorithm.MathUtil;
+import com.snail.gis.algorithm.MathUtil;
 
 import java.util.ArrayList;
 import java.util.Arrays;

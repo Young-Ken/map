@@ -2,7 +2,7 @@ package com.snail.gis.geometry.primary;
 
 import com.snail.gis.geometry.Coordinate;
 import com.snail.gis.geometry.Polygon;
-import com.snail.gis.topology.RectangleIntersectGeometry;
+import com.snail.gis.topology.relate.RectangleIntersectGeometry;
 
 import java.util.List;
 

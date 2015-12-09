@@ -1,4 +1,4 @@
-package com.snail.gis.topology;
+package com.snail.gis.topology.relate;
 
 import com.snail.gis.geometry.Polygon;
 import com.snail.gis.geometry.primary.Envelope;

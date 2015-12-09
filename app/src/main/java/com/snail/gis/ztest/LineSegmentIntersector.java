@@ -11,7 +11,7 @@ import android.widget.Toast;
 import com.snail.gis.R;
 import com.snail.gis.geometry.Coordinate;
 import com.snail.gis.geometry.LineSegment;
-import com.snail.gis.topology.SegmentIntersectSegment;
+import com.snail.gis.topology.relate.SegmentIntersectSegment;
 import com.snail.gis.ztest.view.Lines_in_Lines;
 
 /**

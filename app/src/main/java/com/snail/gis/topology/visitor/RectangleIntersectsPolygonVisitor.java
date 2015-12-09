@@ -4,7 +4,7 @@ import com.snail.gis.geometry.Coordinate;
 import com.snail.gis.geometry.Polygon;
 import com.snail.gis.geometry.primary.Envelope;
 import com.snail.gis.geometry.primary.Geometry;
-import com.snail.gis.topology.PointInPolygon;
+import com.snail.gis.topology.relate.PointInPolygon;
 
 import java.util.List;
 

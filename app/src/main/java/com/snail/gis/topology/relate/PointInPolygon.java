@@ -1,8 +1,8 @@
-package com.snail.gis.topology;
+package com.snail.gis.topology.relate;
 
 import com.snail.gis.geometry.Coordinate;
 import com.snail.gis.enumeration.Location;
-import com.snail.gis.lgorithm.RobustDeterminant;
+import com.snail.gis.algorithm.RobustDeterminant;
 
 import java.util.List;
 

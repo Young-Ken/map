@@ -30,7 +30,7 @@
  *     (250)385-6040
  *     www.vividsolutions.com
  */
-package com.snail.gis.lgorithm;
+package com.snail.gis.algorithm;
 
 import java.io.*;
 
