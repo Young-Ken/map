@@ -83,7 +83,7 @@ public class Envelope
         {
             return 0;
         }
-        return maxY - minY;
+        return maxX - minX;
     }
 
     /**
@@ -96,7 +96,7 @@ public class Envelope
         {
             return 0;
         }
-        return maxX - minX;
+        return maxY - minY;
     }
 
     /**
@@ -118,13 +118,13 @@ public class Envelope
      * 得到矩形的中心
      * @return 中心点
      */
-    public Coordinate centre()
+    public Coordinate getCentre()
     {
         if (isNull())
         {
             return null;
         }
-        return new Coordinate((maxX - minX) / 2.0, (maxY - minY) / 2.0);
+        return new Coordinate((maxX - minX) / 2.0 + minX, (maxY - minY) / 2.0 + minY);
     }
 
 

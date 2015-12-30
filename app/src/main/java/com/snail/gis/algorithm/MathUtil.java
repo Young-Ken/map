@@ -34,4 +34,32 @@ public class MathUtil
     {
         return Math.sqrt(distanceTwoPointNoSquare(c1, c2));
     }
+
+    /**
+     * 两个数之间的
+     * @param value 要比较的数
+     * @param a 数字a
+     * @param b 数字b
+     * @return 如果在两个数之间返回true
+     */
+    public static boolean between(double value, double a, double b)
+    {
+        if (b > a)
+        {
+            double temp;
+            temp = a;
+            a = b;
+            b = temp;
+        }
+
+        if (value <= a)
+        {
+           if(value >= b)
+           {
+               return true;
+           }
+        }
+
+        return false;
+    }
 }

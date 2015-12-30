@@ -24,10 +24,11 @@ public class ToolMapCache
 
     /**
      * 拼接缓存切片地址
-     * @param path 路径
+     *
+     * @param path  路径
      * @param level 级别
-     * @param col 行
-     * @param row 列
+     * @param col   行
+     * @param row   列
      * @return 切片路径
      */
     private static String getMapCachePath(final String path, final int level, final int col, final int row)
@@ -41,17 +42,18 @@ public class ToolMapCache
         resultPath.append(ConstantFile.MAP_CACHE);
         resultPath.append(File.separator);
         resultPath.append(path);
-        resultPath.append(String.format(File.separator+"%d"+File.separator+"%d_%d.ZY", level, col, row));
+        resultPath.append(String.format(File.separator + "%d" + File.separator + "%d_%d.ZY", level, col, row));
         return resultPath.toString();
     }
 
 
     /**
      * 判断切片是否存在
-     * @param path 路径
+     *
+     * @param path  路径
      * @param level 级别
-     * @param col 行
-     * @param row 列
+     * @param col   行
+     * @param row   列
      * @return true 存在 false 不存在
      */
     public static boolean isExistByte(final String path, final int level, final int col, final int row)
@@ -63,11 +65,12 @@ public class ToolMapCache
 
     /**
      * 把Byte写入到sdcard中
+     *
      * @param bytes byte数组
-     * @param path 路径
+     * @param path  路径
      * @param level 级别
-     * @param col 行
-     * @param row 列
+     * @param col   行
+     * @param row   列
      * @return true 写入成功 false 写入不成功
      */
     public synchronized static boolean saveByte(final byte[] bytes, final String path, final int level, final int col, int row)
@@ -87,7 +90,8 @@ public class ToolMapCache
                 if (writeToBytes(bytes, file))
                 {
                     return true;
-                } else {
+                } else
+                {
                     return false;
                 }
             } else
@@ -101,7 +105,7 @@ public class ToolMapCache
                 return true;
             } else
             {
-                if (writeToBytes(bytes,file))
+                if (writeToBytes(bytes, file))
                 {
                     return true;
                 } else
@@ -111,33 +115,34 @@ public class ToolMapCache
             }
         }
     }
+
     /**
      * 从sdcard中读取切片
-     * @param path 路径
+     *
+     * @param path  路径
      * @param level 级别
-     * @param col 行
-     * @param row 列
+     * @param col   行
+     * @param row   列
      * @return true 写入成功 false 写入不成功
      */
-    public synchronized static byte[] getByte(final String path, final int level, final int col, final int row)
+    public synchronized static byte[] getByte(final String path, final int level, final int col, final int row) throws IOException
     {
         InputStream is = null;
         ByteArrayOutputStream bos = null;
-        try
-        {
-            is = new FileInputStream(getMapCachePath(path, level, col, row));
-            bos = new ByteArrayOutputStream();
-            byte[] b = new byte[1024];
 
-            int bytesRead = -1;
-            while ((bytesRead = is.read(b)) != -1)
-            {
-                bos.write(b, 0, bytesRead);
-            }
-        } catch (IOException e)
+        if(!isExistByte(path,level,col,row))
+            return null;
+
+        is = new FileInputStream(getMapCachePath(path, level, col, row));
+        bos = new ByteArrayOutputStream();
+        byte[] b = new byte[1024];
+
+        int bytesRead = -1;
+        while ((bytesRead = is.read(b)) != -1)
         {
-            e.printStackTrace();
+            bos.write(b, 0, bytesRead);
         }
+
         byte[] bytes = bos.toByteArray();
         return bytes;
     }

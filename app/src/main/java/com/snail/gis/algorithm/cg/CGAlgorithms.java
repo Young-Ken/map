@@ -2,6 +2,7 @@ package com.snail.gis.algorithm.cg;
 
 import com.snail.gis.geometry.Coordinate;
 import com.snail.gis.algorithm.DD;
+import com.snail.gis.geometry.primary.Envelope;
 
 /**
  * @author Young Ken
@@ -40,6 +41,33 @@ public class CGAlgorithms
         double s = ((A.y - p.y) * (B.x - A.x) - (A.x - p.x) * (B.y - A.y)) / len2;
         return Math.abs(s) * Math.sqrt(len2);
     }
+
+    /**
+     * 根据初始化外包络线和地图控件大小对地图进行剪切
+     */
+    public static Envelope cutEnvelopeProportion(double height, double width, Envelope other)
+    {
+        double otherHeight = other.getHeight();
+        double otherWidth = other.getWidth();
+
+        double proEnv = width/height;
+        double proOther = otherWidth/otherHeight;
+        Coordinate centre = other.getCentre();
+        double temp = 0.0;
+        if (proEnv > proOther)
+        {
+            temp = width * otherHeight/(height * 2);
+            return new Envelope(centre.getX() - temp, centre.getX() + temp, other.getMinY(), other.getMaxY());
+        } else if(proEnv < proOther)
+        {
+            temp = height * otherWidth / (width *2);
+            return new Envelope(other.getMinX(), other.getMaxX(), other.getMinY() - temp, other.getMaxY() + temp);
+        }
+
+        return new Envelope(other.getMinX(), other.getMaxX(), other.getMinY(), other.getMaxY());
+
+    }
+
 
     public static int orientationIndex(Coordinate p1, Coordinate p2, Coordinate q)
     {
