@@ -2,6 +2,8 @@ package com.snail.gis.map.util;
 
 import com.snail.gis.geometry.Coordinate;
 import com.snail.gis.map.BaseMap;
+import com.snail.gis.map.MapManger;
+import com.snail.gis.tile.TileInfo;
 
 /**
  * @author Young-Ken
@@ -11,9 +13,11 @@ import com.snail.gis.map.BaseMap;
 public class Projection
 {
     private BaseMap map = null;
-    public Projection(BaseMap map)
+    private TileInfo tileInfo = null;
+    public Projection()
     {
-        this.map = map;
+        map = MapManger.getInstance().getMap();
+        tileInfo = map.getTileInfo();
     }
 
     /**
@@ -22,10 +26,11 @@ public class Projection
      * @param screeny y
      * @return 点
      */
-    public Coordinate toMapPoint(float screenx, float screeny)
+    public Coordinate toMapPoint(float screenX, float screenY)
     {
-
-        return new Coordinate();
+        double x = ((map.getEnvelope().getMinX())/map.getResolution() + screenX)*map.getResolution();
+        double y = ((map.getEnvelope().getMinY())/map.getResolution() + screenY)*map.getResolution();
+        return new Coordinate(x,y);
     }
 
     /**
@@ -33,8 +38,10 @@ public class Projection
      * @param point 坐标点
      * @return 点
      */
-    public Coordinate toScreenPoint(Coordinate point)
+    public Coordinate toScreenPoint(double pointX, double pointY)
     {
-        return new Coordinate();
+        double x = (pointX - (map.getMapCenter().getX() - map.getWidth()/2 * map.getResolution()))/map.getResolution();
+        double y = (pointY - (map.getMapCenter().getY() - map.getHeight()/2 * map.getResolution()))/map.getResolution();
+        return new Coordinate(x, y);
     }
 }

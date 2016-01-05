@@ -14,7 +14,7 @@ public class CoordinateSystemFactory extends ACoordinateSystemFactory
     @Override
     public CoordinateSystem createCoordinateSystem(final ICoordinateSystemEnum coordinateSystemEnum)
     {
-        if (coordinateSystemEnum instanceof GoogleCoordinateSystem)
+        if (coordinateSystemEnum.toString().equals(CoordinateSystemEnum.GOOGLE_CS.toString()))
         {
             return new GoogleCoordinateSystem();
         }

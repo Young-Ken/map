@@ -184,6 +184,11 @@ public class Envelope
         maxY = -1;
     }
 
+    public boolean isEmpty()
+    {
+        return isNull();
+    }
+
     /**
      *  如果矩形在矩形外部一定不相交
      * @param other Envelope

@@ -1,6 +1,4 @@
 package com.snail.gis.map;
-
-import android.view.MotionEvent;
 import android.view.View;
 
 import com.snail.gis.algorithm.MathUtil;
@@ -14,7 +12,7 @@ import com.snail.gis.tile.TileInfo;
  * @version 0.1
  * @since 2015/12/11
  */
-public class MapOperation implements View.OnTouchListener
+public class MapOperation
 {
 
     public MapOperation()
@@ -23,12 +21,12 @@ public class MapOperation implements View.OnTouchListener
     }
 
     /**
-     * 当前地图的外包络线
+     * 当前地图的外包络线,这个方法只能取不能设置
      */
     private Envelope currentEnvelope = new Envelope();
 
     /**
-     * 全图外包络线
+     * 全图外包络线，这个方法用于初始化当前的最大包络线
      */
     private Envelope fullEnvelope = new Envelope();
 
@@ -54,12 +52,21 @@ public class MapOperation implements View.OnTouchListener
      */
     private double currentScale = 0;
 
+    private Coordinate currentCenter = new Coordinate();
+
+
     /**
      * 初始化当前的级别和分辨率还有比例尺
+     * 这里应该抛出异常，以后处理
      */
-    public void init()
+    public void calculationMapInfo()
     {
         double resolution;
+        if (getFullEnvelope().isEmpty())
+        {
+            return;
+        }
+
         if (getFullEnvelope().getWidth() > getFullEnvelope().getHeight())
         {
             resolution = getFullEnvelope().getWidth() / getDeviceWidth();
@@ -75,16 +82,25 @@ public class MapOperation implements View.OnTouchListener
             if (MathUtil.between(resolution, resolutions[i], resolutions[i + 1]))
             {
                 setCurrentLevel(i);
-                setCurrentResolution(resolutions[i]);
-                setCurrentScale(tileInfo.getScales()[i]);
+                currentResolution = resolutions[i];
+                currentScale = tileInfo.getScales()[i];
+                currentEnvelope = calculationEnvelope();
             }
         }
     }
 
-    public void setCurrentResolution(double currentResolution)
+    /**
+     * 计算当前包络线范围
+     * @return 包络线
+     */
+    private Envelope calculationEnvelope()
     {
-        this.currentResolution = currentResolution;
+        double resX = getDeviceWidth()/2 * getCurrentResolution();
+        double resY = getDeviceHeight()/2 * getCurrentResolution();
+        return new Envelope(getCurrentCenter().getX() - resX, getCurrentCenter().getX() + resX,
+                getCurrentCenter().getY() - resY, getCurrentCenter().getY() + resY);
     }
+
 
     public double getCurrentResolution()
     {
@@ -96,20 +112,16 @@ public class MapOperation implements View.OnTouchListener
         return currentScale;
     }
 
-    public void setCurrentScale(double currentScale)
-    {
-        this.currentScale = currentScale;
-    }
 
+    /**
+     * 取得当前和屏幕范围计算得到的范围
+     * @return Envelope
+     */
     public Envelope getCurrentEnvelope()
     {
         return currentEnvelope;
     }
 
-    public void setCurrentEnvelope(Envelope currentEnvelope)
-    {
-        this.currentEnvelope = currentEnvelope;
-    }
 
     public int getCurrentLevel()
     {
@@ -141,9 +153,14 @@ public class MapOperation implements View.OnTouchListener
         return deviceWidth;
     }
 
+    /**
+     * 每次从新设置map全图就进行一次计算
+     * @param fullEnvelope
+     */
     public void setFullEnvelope(Envelope fullEnvelope)
     {
         this.fullEnvelope = fullEnvelope;
+        calculationMapInfo();
     }
 
     public Envelope getFullEnvelope()
@@ -151,25 +168,38 @@ public class MapOperation implements View.OnTouchListener
         return fullEnvelope;
     }
 
-    private Coordinate actionDown = new Coordinate(0,0);
-    private Coordinate actionUp = new Coordinate(0,0);
-    @Override
-    public boolean onTouch(View v, MotionEvent event)
+    /**
+     * 取得当前地图的中心点
+     * @return
+     */
+    public Coordinate getCurrentCenter()
     {
-        if (event.getAction() == MotionEvent.ACTION_DOWN)
+        if(!currentCenter.isEmpty())
         {
-            actionDown.x = event.getX();
-            actionDown.y = event.getY();
-        } else if(event.getAction() == MotionEvent.ACTION_UP)
-        {
-            actionUp.x = event.getX();
-            actionUp.y = event.getY();
-        } else if(event.getAction() == MotionEvent.ACTION_MOVE)
-        {
-
+            return currentCenter;
         }
 
+        if (!getCurrentEnvelope().isEmpty())
+        {
+            return getCurrentEnvelope().getCentre();
+        }
 
-        return false;
+        if(!getFullEnvelope().isEmpty())
+        {
+            return getFullEnvelope().getCentre();
+        }
+
+        return null;
     }
+
+    /**
+     * 先简单做
+     * @param currentCenter
+     */
+    public void setCurrentCenter(Coordinate currentCenter)
+    {
+        this.currentCenter = currentCenter;
+        currentEnvelope = calculationEnvelope();
+    }
+
 }

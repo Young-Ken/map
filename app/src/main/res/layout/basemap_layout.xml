@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              xmlns:attribute ="http://schemas.android.com/apk/res/com.snail.gis"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              xmlns:attribute ="http://schemas.android.com/apk/res-auto"
               android:orientation="vertical"
               android:layout_width="match_parent"
               android:layout_height="match_parent">
@@ -15,6 +15,7 @@
     12945986.606604, 4838237.908444
  116.45507812501, 39.795227050781
 12963719.997167, 4808863.746261-->
+
    <com.snail.gis.map.MapView
         android:id="@+id/baseMap"
         android:layout_width="match_parent"
@@ -26,4 +27,4 @@
         attribute:max_y = "4808863.74626"
         />
 
-</LinearLayout>
+</RelativeLayout>

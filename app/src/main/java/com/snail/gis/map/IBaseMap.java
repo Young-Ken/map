@@ -17,7 +17,10 @@ public interface IBaseMap
 
     Envelope getFullMap();
     Coordinate getMapCenter();
+    Envelope getEnvelope();
 
+    void setMapCenter(Coordinate center);
     double getResolution();
     double getScale();
+    int getLevel();
 }

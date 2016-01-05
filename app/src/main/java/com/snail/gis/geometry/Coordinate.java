@@ -56,7 +56,7 @@ public class Coordinate extends Position
     @Override
     public boolean isEmpty()
     {
-        return false;
+        return (Double.isNaN(x) || Double.isNaN(y));
     }
 
     /**

@@ -17,6 +17,14 @@ public class TileInfo
     protected int tileHeight = 256;
     protected int tileWidth = 256;
 
+    /**
+     * 如果坐标系是投影就是地图周长一半，其他的自己计算
+     * @return double
+     */
+    public double getConverParameter()
+    {
+        return originPoint.getY();
+    }
     public void setOriginPoint(Coordinate originPoint)
     {
         this.originPoint = originPoint;
@@ -26,6 +34,7 @@ public class TileInfo
     {
         return originPoint;
     }
+
 
     public int getDPI()
     {
