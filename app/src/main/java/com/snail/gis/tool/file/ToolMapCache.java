@@ -31,7 +31,7 @@ public class ToolMapCache
      * @param row   列
      * @return 切片路径
      */
-    private static String getMapCachePath(final String path, final int level, final int col, final int row)
+    public static String getMapCachePath(final String path, final int level, final int col, final int row)
     {
         StringBuffer resultPath = new StringBuffer();
         File sdPath = ToolStorage.getSDCordFile();
@@ -130,7 +130,7 @@ public class ToolMapCache
         InputStream is = null;
         ByteArrayOutputStream bos = null;
 
-        if(!isExistByte(path,level,col,row))
+        if (!isExistByte(path, level, col, row))
             return null;
 
         is = new FileInputStream(getMapCachePath(path, level, col, row));
@@ -146,12 +146,13 @@ public class ToolMapCache
         byte[] bytes = bos.toByteArray();
         return bytes;
     }
-    public static boolean writeToBytes(byte bytes[],File file)
+
+    public static boolean writeToBytes(byte bytes[], File file)
     {
-        return writeToBytes(bytes,file.getPath());
+        return writeToBytes(bytes, file.getPath());
     }
 
-    public static boolean writeToBytes(byte bytes[],String fileName)
+    public static boolean writeToBytes(byte bytes[], String fileName)
     {
         FileOutputStream fos = null;
         try
@@ -166,7 +167,7 @@ public class ToolMapCache
         {
             try
             {
-                if(null != fos)
+                if (null != fos)
                     fos.close();
                 return true;
 

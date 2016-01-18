@@ -1,26 +1,41 @@
 package com.snail.gis.tile.util;
 
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.Canvas;
+import android.graphics.Paint;
 import android.util.Log;
 
-import com.snail.gis.geometry.Coordinate;
 import com.snail.gis.map.BaseMap;
 import com.snail.gis.map.MapManger;
 import com.snail.gis.tile.TileInfo;
 import com.snail.gis.tool.file.ToolMapCache;
 
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.Hashtable;
+import java.util.Map;
 
 /**
  * @author Young-Ken
  * @version 0.1
- * @since 2015/12/29
+ * @since 2016/1/4
  */
 public class TileTool
 {
-
     private BaseMap map = null;
     private TileInfo tileInfo = null;
     private String tilePath = null;
+    private Paint paint = new Paint();
+
+    private Map<String, byte[]> tileHashMap = new Hashtable<>();
+
+
+    public double loadX = 0.0;
+    public double loadY = 0.0;
+
+    public double moveX = 0.0;
+    public double moveY = 0.0;
 
     public TileTool(String tilePath)
     {
@@ -29,44 +44,41 @@ public class TileTool
         this.tilePath = tilePath;
     }
 
-
-    public int getTileNum(double mapSize, int tileSize)
-    {
-        return (int) ((mapSize / 2 - tileSize / 2) / tileSize + 1) * 2 + 1;
-    }
-
     public byte[][][] getTile()
     {
-        int[] center = getCenterTile();
-        return getByteTile(map.getLevel(), center[0], center[1]);
+        int[] tileNum = getStartTile();
+        return getByteTile(map.getLevel(), tileNum[0], tileNum[1], tileNum[2], tileNum[3]);
     }
 
-    public int[] getCenterTile()
+    public int[] getStartTile()
     {
-        Coordinate center = map.getMapCenter();
-        int col = 0;
-        int row = 0;
+        int minTileNumX = getTileNum(map.getEnvelope().getMinX() + (-tileInfo.getOriginPoint().getX()));
+        int minTileNumY = getTileNum(tileInfo.getOriginPoint().getY() - map.getEnvelope().getMaxY());
 
-        col = (int) ((center.getX() + tileInfo.getOriginPoint().getY()) / map.getResolution() / tileInfo.getTileWidth());
-        row = (int) ((tileInfo.getOriginPoint().getY() - center.getY()) / map.getResolution() / tileInfo.getTileHeight());
+        loadX = getMoveDistance(map.getEnvelope().getMinX() + (-tileInfo.getOriginPoint().getX()));
+        loadY = getMoveDistance(tileInfo.getOriginPoint().getY() - map.getEnvelope().getMaxY());
 
-        Log.e("RUN", col + " xxx  "+ row+"  yyy  ");
-        return new int[]{col, row};
+        int maxTileNumX = getTileNum(map.getEnvelope().getMaxX() + (-tileInfo.getOriginPoint().getX()));
+        int maxTileNumY = getTileNum(tileInfo.getOriginPoint().getY() - map.getEnvelope().getMinY());
+
+        int result[] = {minTileNumX, minTileNumY, maxTileNumX, maxTileNumY};
+        return result;
+
     }
 
-    public byte[][][] getByteTile(int level, int col, int row)
+    public byte[][][] getByteTile(int level, int minTileNumX, int minTileNumY, int maxTileNumX, int maxTileNumY)
     {
         byte[] result[][] = null;
-        int xNum = getTileNum(map.getMapWidth(), tileInfo.getTileWidth());
-        int yNum = getTileNum(map.getMapHeight(), tileInfo.getTileHeight());
-        col = col - 1 - xNum / 2;
-        row = row - 1 - yNum / 2;
-        result = new byte[xNum][yNum][];
-        for (int i = 0; i < xNum; i++)
+        int tileNumX = maxTileNumX - minTileNumX;
+        int tileNumY = maxTileNumY - minTileNumY;
+        Log.e("BaseMap", tileNumX +" tileNumX "+tileNumY +" tileNumY ");
+        result = new byte[tileNumX + 1][tileNumY + 1][];
+
+        for (int i = 0; i <= tileNumX; i++)
         {
-            for (int j = 0; j < yNum; j++)
+            for (int j = 0; j <= tileNumY; j++)
             {
-                result[i][j] = getByte(level, col + i, row + j);
+                result[i][j] = getByte(level, minTileNumX + i, minTileNumY + j);
             }
         }
         return result;
@@ -76,10 +88,20 @@ public class TileTool
     {
         try
         {
+            String tileKey = appendTileString(level, col, row);
+            for (String key : tileHashMap.keySet())
+            {
+                if(tileKey.equals(key))
+                {
+                    return tileHashMap.get(tileKey);
+                }
+            }
+
             byte[] bytes = ToolMapCache.getByte(tilePath, level, col, row);
             if(bytes != null)
             {
                 Log.e("BaseMap", level + "   " + col + "  " + row + "  " + bytes.length);
+                tileHashMap.put(tileKey, bytes);
             }else
             {
                 Log.e("BaseMap", level + "   " + col + "  " + row + " null " );
@@ -93,4 +115,45 @@ public class TileTool
         return null;
     }
 
+
+    public void drawTile(Canvas canvas)
+    {
+        byte[][][] tileBytes = getTile();
+        if (tileBytes == null)
+            return;
+        int xNum = tileBytes.length;
+        int yNum = tileBytes[0].length;
+
+        for (int i = 0; i < xNum; i++)
+        {
+            for (int j = 0; j < yNum; j++)
+            {
+                byte[] bytes = tileBytes[i][j];
+                if (bytes == null)
+                    continue;
+                Bitmap bitmap = BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
+                canvas.drawBitmap(bitmap, (float)(i * 256 - loadX + 5 * i + moveX), (float)(j * 256 - loadY + 5 * j + moveY), paint);
+            }
+        }
+        Log.e("RUN",moveX +"  moveX   "+moveY +"  moveY");
+        moveY = 0;
+        moveX = 0;
+    }
+
+    private double getMoveDistance(double num)
+    {
+        return (int) (num / map.getResolution() % tileInfo.getTileWidth());
+    }
+
+    private int getTileNum(double num)
+    {
+        return (int) (num / map.getResolution() / tileInfo.getTileWidth());
+    }
+
+    public String appendTileString(int level, int col, int row)
+    {
+        StringBuffer buffer = new StringBuffer();
+        buffer.append(level).append("_").append(col).append("_").append(row);
+        return buffer.toString();
+    }
 }

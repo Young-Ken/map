@@ -13,7 +13,6 @@ public class ToolNum
         {
             return Double.NaN;
         }
-
         return Double.parseDouble(string);
     }
 }

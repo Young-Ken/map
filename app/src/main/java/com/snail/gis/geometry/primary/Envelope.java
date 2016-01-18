@@ -176,7 +176,7 @@ public class Envelope
     /**
      * 这个Envelope根本就不存在，这个这个用作初始化Envelope
      */
-    private void setToNull()
+    public void setToNull()
     {
         minX = 0;
         maxX = -1;
@@ -348,6 +348,16 @@ public class Envelope
             return true;
         }
         return false;
+    }
+
+    public double getArea()
+    {
+        if (!isEmpty())
+        {
+            return getHeight()*getWidth();
+        }
+        return 0;
+
     }
 
     public double getMaxX()

@@ -8,7 +8,8 @@ package com.snail.gis.tile.factory;
 public enum CoordinateSystemEnum implements ICoordinateSystemEnum
 {
 
-    GOOGLE_CS;
+    GOOGLE_CS,
+    LYG_HH_TILE;
 
     @Override
     public String getName()

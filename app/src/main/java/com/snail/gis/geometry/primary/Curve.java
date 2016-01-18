@@ -7,7 +7,6 @@ package com.snail.gis.geometry.primary;
  */
 public abstract class Curve extends Geometry
 {
-
     /**
      * 得当当前线的点数
      * @return int

@@ -3,6 +3,7 @@ package com.snail.gis.tile.factory;
 import com.snail.gis.geometry.Coordinate;
 import com.snail.gis.tile.CoordinateSystem;
 import com.snail.gis.tile.GoogleCoordinateSystem;
+import com.snail.gis.tile.LYGCoordinateSystem;
 
 /**
  * @author Young-Ken
@@ -17,6 +18,9 @@ public class CoordinateSystemFactory extends ACoordinateSystemFactory
         if (coordinateSystemEnum.toString().equals(CoordinateSystemEnum.GOOGLE_CS.toString()))
         {
             return new GoogleCoordinateSystem();
+        } else if(coordinateSystemEnum.toString().equals(CoordinateSystemEnum.LYG_HH_TILE.toString()))
+        {
+            return new LYGCoordinateSystem();
         }
         return null;
     }

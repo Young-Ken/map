@@ -35,6 +35,22 @@ public class MathUtil
         return Math.sqrt(distanceTwoPointNoSquare(c1, c2));
     }
 
+    public static double distanceTwoPointNoSquare(double x1, double y1, double x2, double y2)
+    {
+        double dx = x1 - x2;
+        double dy = y1 - y2;
+        return dx * dx + dy * dy;
+    }
+
+    public static double distanceTwoPoint(double x1, double y1, double x2, double y2)
+    {
+        return Math.sqrt(distanceTwoPointNoSquare(x1, y1, x2, y2));
+    }
+    public static Coordinate middleTwoPoint(Coordinate c1, Coordinate c2)
+    {
+        return new Coordinate((c1.x + c2.x)/2, (c1.y + c2.y)/2);
+    }
+
     /**
      * 两个数之间的
      * @param value 要比较的数

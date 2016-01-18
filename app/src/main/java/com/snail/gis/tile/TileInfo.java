@@ -12,7 +12,18 @@ public class TileInfo
 {
     protected int DPI = 96;
     protected Coordinate originPoint = null;
+
+    /**
+     * 　ground resolution = (cos(latitude * pi/180) * 2 * pi * 6378137 meters) / (256 * 2level pixels)
+     *   初始化的时候latitude为0，则cos(latitude * pi/180)为1，level为0 2^0 = 1
+     *   最后就是地图周长/256
+     */
     protected double[] resolutions;
+    /**
+     * 256 * 2level / screen dpi / 0.0254 / (cos(latitude * pi/180) * 2 * pi * 6378137)
+     * 比例尺= 1 : (cos(latitude * pi/180) * 2 * pi * 6378137 * screen dpi) / (256 * 2level * 0.0254)
+     * map scale = 1 : ground resolution * screen dpi / 0.0254 meters/inch
+     */
     protected double[] scales;
     protected int tileHeight = 256;
     protected int tileWidth = 256;
@@ -25,6 +36,7 @@ public class TileInfo
     {
         return originPoint.getY();
     }
+
     public void setOriginPoint(Coordinate originPoint)
     {
         this.originPoint = originPoint;

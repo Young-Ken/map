@@ -1,12 +1,8 @@
 package com.snail.gis.ztest;
 
 import android.app.Activity;
-import android.app.Notification;
 import android.os.Bundle;
-import android.view.MotionEvent;
-import android.view.View;
 import android.view.ViewTreeObserver;
-import android.widget.Button;
 
 import com.snail.gis.R;
 import com.snail.gis.geometry.primary.Envelope;
@@ -28,7 +24,6 @@ public class MapActivity extends Activity
         setContentView(R.layout.basemap_layout);
         map = (BaseMap) findViewById(R.id.baseMap);
 
-
         ViewTreeObserver vto = map.getViewTreeObserver();
 
         // attribute:min_x = "12945986.606604"
@@ -41,9 +36,10 @@ public class MapActivity extends Activity
             public void onGlobalLayout()
             {
                 map.getViewTreeObserver().removeGlobalOnLayoutListener(this);
-                map.getMapOperation().setDeviceHeight(map.getMeasuredHeight());
-                map.getMapOperation().setDeviceWidth(map.getMeasuredWidth());
-                map.initMap(CoordinateSystemEnum.GOOGLE_CS, new Envelope(12945986.606604, 12963719.997167, 4838237.908444, 4808863.74626));
+                map.getMapInfo().setDeviceHeight(map.getMeasuredHeight());
+                map.getMapInfo().setDeviceWidth(map.getMeasuredWidth());
+                map.initMap(CoordinateSystemEnum.LYG_HH_TILE,new Envelope(118.89889200244264,119.994384167236,34.37661887668826, 35.21442877328082));
+                //map.initMap(CoordinateSystemEnum.GOOGLE_CS, new Envelope(12945986.606604, 12963719.997167, 4838237.908444, 4808863.74626));
             }
         });
     }

@@ -1,0 +1,51 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                xmlns:tools="http://schemas.android.com/tools"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:paddingLeft="@dimen/activity_horizontal_margin"
+                android:paddingRight="@dimen/activity_horizontal_margin"
+                android:paddingTop="@dimen/activity_vertical_margin"
+                android:paddingBottom="@dimen/activity_vertical_margin"
+                android:id="@+id/mainlines">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        >
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+
+            <Button
+                android:id="@+id/draw_end"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="draw"
+                />
+            <Button
+                android:id="@+id/run"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="run"
+                />
+
+            <Button
+                android:id="@+id/clear"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="clear"
+                />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/rootlines"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            >
+        </LinearLayout>
+    </LinearLayout>
+
+</RelativeLayout>
+<!-- From: file:/D:/WorkSpaceAndroid/AndroidStudio/git/android-offline-gis/app/src/main/res/layout/lines_in_lines.xml -->

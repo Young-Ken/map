@@ -23,4 +23,7 @@ public interface IBaseMap
     double getResolution();
     double getScale();
     int getLevel();
+
+    void refresh();
+
 }
