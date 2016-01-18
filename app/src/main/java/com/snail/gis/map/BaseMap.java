@@ -56,7 +56,7 @@ public abstract class BaseMap extends View implements IBaseMap
         /**
          * 需要map做参数的初始化在这个之后
          */
-        tileTool = new TileTool("LYG_HK_TILE");
+        tileTool = new TileTool("null");
         projection = Projection.getInstance(this);
         getTile();
 
@@ -104,26 +104,26 @@ public abstract class BaseMap extends View implements IBaseMap
      * 根据xml设置的属性初始化地图的边框大小,这个方法只有在构造函数中才能使用，影响结构，不想用
      * @return 初始化大小
      */
-//    public Envelope setOriginalEnvelope()
-//    {
-//
-//        TypedArray typedArray = this.getContext().getTheme().obtainStyledAttributes(attrs, R.styleable.mapAttribute, 0, 0);
-//        // TypedArray typedArray = context.obtainStyledAttributes(attrs, R.styleable.mapAttribute);
-//        if (typedArray != null)
-//        {
-//            double minX = ToolNum.parseDouble(typedArray.getString(R.styleable.mapAttribute_min_x));
-//            double minY = ToolNum.parseDouble(typedArray.getString(R.styleable.mapAttribute_min_y));
-//            double maxX = ToolNum.parseDouble(typedArray.getString(R.styleable.mapAttribute_max_x));
-//            double maxY = ToolNum.parseDouble(typedArray.getString(R.styleable.mapAttribute_max_y));
-//
-//            if (!(Double.isNaN(minX) || Double.isNaN(minY) || Double.isNaN(maxX) || Double.isNaN(maxY)))
-//            {
-//                return new Envelope(minX, maxX, minY, maxY);
-//            }
-//            typedArray.recycle();
-//        }
-//        return null;
-//    }
+    //    public Envelope setOriginalEnvelope()
+    //    {
+    //
+    //        TypedArray typedArray = this.getContext().getTheme().obtainStyledAttributes(attrs, R.styleable.mapAttribute, 0, 0);
+    //        // TypedArray typedArray = context.obtainStyledAttributes(attrs, R.styleable.mapAttribute);
+    //        if (typedArray != null)
+    //        {
+    //            double minX = ToolNum.parseDouble(typedArray.getString(R.styleable.mapAttribute_min_x));
+    //            double minY = ToolNum.parseDouble(typedArray.getString(R.styleable.mapAttribute_min_y));
+    //            double maxX = ToolNum.parseDouble(typedArray.getString(R.styleable.mapAttribute_max_x));
+    //            double maxY = ToolNum.parseDouble(typedArray.getString(R.styleable.mapAttribute_max_y));
+    //
+    //            if (!(Double.isNaN(minX) || Double.isNaN(minY) || Double.isNaN(maxX) || Double.isNaN(maxY)))
+    //            {
+    //                return new Envelope(minX, maxX, minY, maxY);
+    //            }
+    //            typedArray.recycle();
+    //        }
+    //        return null;
+    //    }
 
     public TileTool getTileTool()
     {
