@@ -56,7 +56,7 @@ public abstract class BaseMap extends View implements IBaseMap
         /**
          * 需要map做参数的初始化在这个之后
          */
-        tileTool = new TileTool("null");
+        tileTool = new TileTool("LYG_HK_TILE");
         projection = Projection.getInstance(this);
         getTile();
 
