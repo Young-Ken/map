@@ -19,6 +19,11 @@ import java.net.URL;
  * @version 0.1
  * @since 2016/1/12
  */
+/**
+ * @author Young-Ken
+ * @version 0.1
+ * @since 2016/1/12
+ */
 public class TileDownloader
 {
     public static final int DEFAULT_CONNECT_TIMEOUT = 5 * 1000;
@@ -57,16 +62,16 @@ public class TileDownloader
         {
             try
             {
-                if(!(connection.getResponseCode()/200 == 2))
+                if((connection.getResponseCode() == 404))
                 {
-                    Log.e("SAVETILE",  level + "  level " + col + "  col  " + row + "  row");
+                    Log.e("404", "404" + level + "  level " + col + "  col  " + row + "  row");
                     return;
                 }
                 inputStream = connection.getInputStream();
                 byte[] bytes = getBytes(inputStream);
                 ToolMapCache.saveByte(bytes, tileType, level, col, row);
 
-                Log.e("SAVETILE", bytes.length+"  bytes.length  "+level+ "  level "+col+"  col  "+row+"  row");
+                Log.e("SAVETILE", level+ "  level "+col+"  col  "+row+"  row" + bytes.length+"  bytes.length  ");
             } catch (Exception e)
             {
                 e.printStackTrace();
@@ -76,7 +81,11 @@ public class TileDownloader
                 connection.disconnect();
                 try
                 {
-                    inputStream.close();
+                    if (inputStream != null)
+                    {
+                        inputStream.close();
+                    }
+
                 } catch (IOException e)
                 {
                     e.printStackTrace();
