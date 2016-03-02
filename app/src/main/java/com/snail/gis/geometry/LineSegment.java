@@ -1,21 +1,20 @@
 package com.snail.gis.geometry;
 
-import com.snail.gis.geometry.primary.Curve;
+import com.snail.gis.algorithm.MathWorld;
 import com.snail.gis.geometry.primary.Envelope;
-import com.snail.gis.geometry.primary.Geometry;
-import com.snail.gis.enumeration.Dimension;
-import com.snail.gis.algorithm.cg.CGAlgorithms;
-import com.snail.gis.algorithm.MathUtil;
 
+import com.snail.gis.enumeration.Dimension;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
 /**
+ * 线段
  * @author Young Ken
  * @version 0.1
  * @since 2015/11/12
  */
-public class LineSegment extends Curve
+public class LineSegment implements Comparable, Serializable
 {
 
     private Coordinate startPoint;
@@ -61,34 +60,85 @@ public class LineSegment extends Curve
         this(lineSegment.startPoint, lineSegment.endPoint);
     }
 
+    /**
+     * 得到起始点或者结束点
+     * @param index 索引
+     * @return 0 开始前点 其它结束点
+     */
+    public Coordinate getCoordinate(int index)
+    {
+        if (index == 0)
+        {
+            return startPoint;
+        }
+        return endPoint;
+    }
+
+    /**
+     * 设置LineSegment
+     * @param another
+     */
+    public void setCoordinates(LineSegment another)
+    {
+        setCoordinates(another.startPoint, another.endPoint);
+    }
+
+    /**
+     * 设置LineSegment
+     * @param startPoint 开始点
+     * @param endPoint 结束点
+     */
+    public void setCoordinates(Coordinate startPoint, Coordinate endPoint)
+    {
+        this.startPoint.x = startPoint.x;
+        this.startPoint.y = startPoint.y;
+        this.endPoint.x = endPoint.x;
+        this.endPoint.y = endPoint.y;
+    }
+
+
+    /**
+     * 线段长度
+     * @return double
+     */
+    public double getLength()
+    {
+        return startPoint.distance(endPoint);
+    }
+
+    /**
+     * 线段是否水平
+     * @return 水平true
+     */
+    public boolean isHorizontal()
+    {
+        return startPoint.y == endPoint.y;
+    }
+
+    /**
+     * 线段是否竖直
+     * @return 竖直 true
+     */
+    public boolean isVertical()
+    {
+        return startPoint.x == endPoint.x;
+    }
 
     /**
      * 线段返回的线段的外包络线
      * @return
      */
-    @Override
     public Envelope getEnvelope()
     {
        return new Envelope(startPoint, endPoint);
     }
 
-    @Override
     public boolean isEmpty()
     {
         return (startPoint == null || endPoint == null);
     }
 
-    @Override
-    public boolean equals(Geometry geometry)
-    {
-        if (geometry instanceof LineSegment)
-        {
-            LineSegment lineSegment = (LineSegment) geometry;
-            return startPoint.equals(lineSegment.startPoint) && endPoint.equals(lineSegment.endPoint);
-        } else {
-            return false;
-        }
-    }
+
 
     /**
      * 点到线的距离
@@ -97,16 +147,19 @@ public class LineSegment extends Curve
      */
     public double distance(Coordinate p)
     {
-        return CGAlgorithms.distancePointLine(p,startPoint, endPoint);
+       return MathWorld.distancePointSegment(p, startPoint, endPoint);
     }
 
-    public double distance(LineSegment lineSegment)
+    /**
+     * 线到线的距离
+     * @param another LineSegment
+     * @return 线到线的距离
+     */
+    public double distance(LineSegment another)
     {
-        return 0.0;
+        return MathWorld.distanceSegmentSegment(startPoint, endPoint, another.startPoint, another.endPoint);
     }
 
-
-    @Override
     public int getPointNum()
     {
         if(isEmpty())
@@ -118,13 +171,6 @@ public class LineSegment extends Curve
         }
     }
 
-    @Override
-    public int getBoundaryDimension()
-    {
-        return Dimension.FALSE;
-    }
-
-    @Override
     public List<Coordinate> getLines()
     {
         List<Coordinate> list = new ArrayList<>();
@@ -133,42 +179,11 @@ public class LineSegment extends Curve
         return list;
     }
 
-    @Override
-    public double getLength()
-    {
-        return MathUtil.distanceTwoPoint(startPoint, endPoint);
-    }
-
-    @Override
-    public boolean isClosed()
-    {
-        return false;
-    }
-
     public double angle()
     {
-        return Math.atan2(startPoint.y - endPoint.y, startPoint.x - endPoint.x);
+        return Math.atan2(endPoint.y - startPoint.y, endPoint.x - startPoint.x);
     }
 
-    public Coordinate getStartPoint()
-    {
-        return startPoint;
-    }
-
-    public Coordinate getEndPoint()
-    {
-        return endPoint;
-    }
-
-    public void setStartPoint(Coordinate startPoint)
-    {
-        this.startPoint = startPoint;
-    }
-
-    public void setEndPoint(Coordinate endPoint)
-    {
-        this.endPoint = endPoint;
-    }
 
     public String toString()
     {
@@ -176,5 +191,10 @@ public class LineSegment extends Curve
                 startPoint.x + " " + startPoint.y
                 + ", " +
                 endPoint.x + " " + endPoint.y + ")";
+    }
+    @Override
+    public int compareTo(Object another)
+    {
+        return 0;
     }
 }
