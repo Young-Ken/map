@@ -1,20 +1,30 @@
 package com.snail.gis.geometry;
 
-import com.snail.gis.geometry.primary.Envelope;
-import com.snail.gis.geometry.primary.Geometry;
-import com.snail.gis.geometry.primary.Position;
-import com.snail.gis.enumeration.Dimension;
-
-import java.util.ArrayList;
-import java.util.List;
+import java.io.Serializable;
 
 /**
- * @author Young Ken
+ * @author Young-Ken
  * @version 0.1
- * @since 2015/11/7
+ * @since 2016/2/23
  */
-public class Coordinate extends Position
+public class Coordinate implements Comparable, Cloneable, Serializable
 {
+
+    /**
+     * Coordinate 的 x
+     */
+    public double x;
+
+    /**
+     * Coordinate 的 y
+     */
+    public double y;
+
+    /**
+     * 用于 setOrdinate 和 getOrdinate的 ordinateIndex
+     */
+    public static final int X = 0;
+    public static final int Y = 1;
 
     /**
      * 构造函数
@@ -28,108 +38,118 @@ public class Coordinate extends Position
     }
 
     /**
-     * 构造函数
-     * @param coordinate coordinate
-     */
-    public Coordinate(Coordinate coordinate)
-    {
-        this.x = coordinate.x;
-        this.y = coordinate.y;
-    }
-
-    /**
-     * 构造函数
+     * 构造函数 x = y = Double.NaN;
      */
     public Coordinate()
     {
+        this(0, 0);
     }
 
     /**
-     * 因为是点外接矩形就是点本身
-     * @return 外接矩形
+     * 构造函数
+     * @param another 其它 Coordinate
      */
-    public Envelope getEnvelope()
+    public Coordinate(Coordinate another)
     {
-        return new Envelope(new Coordinate(this.x, this.y));
-    }
-
-    @Override
-    public boolean isEmpty()
-    {
-        return (Double.isNaN(x) || Double.isNaN(y));
+        this(another.x, another.y);
     }
 
     /**
-     * 比较两个点是否相等
-     * @param geometry geometry
-     * @return 如果不是Coordinate返回false，如果Coordinate的x,y不相等返回false。
+     * 设置 Coordinate
+     * @param another 其它 Coordinate
      */
-    @Override
-    public boolean equals(final Geometry geometry)
+    public void setCoordinate(Coordinate another)
     {
-        if (geometry instanceof Coordinate)
-        {
-            Coordinate coordinate = (Coordinate) geometry;
-            return ((coordinate.getX() == x) && (coordinate.getY() == y));
-        } else {
-            return false;
+        x = another.x;
+        y = another.y;
+    }
+    /**
+     * 取得 Coordinate 的x 或者是 y
+     * @param ordinateIndex 索引 X，Y
+     */
+
+    public double getOrdinate(int ordinateIndex)
+    {
+        switch (ordinateIndex) {
+            case X: return x;
+            case Y: return y;
+        }
+        throw new IllegalArgumentException("没有这 ordinateIndex: " + ordinateIndex);
+    }
+
+    /**
+     * 设置 Coordinate 的x 或者是 y
+     * @param ordinateIndex 索引 X，Y
+     * @param value 值
+     */
+    public void setOrdinate(int ordinateIndex, double value)
+    {
+        switch (ordinateIndex) {
+            case X:
+                x = value;
+                break;
+            case Y:
+                y = value;
+                break;
+            default:
+                throw new IllegalArgumentException("没有这 ordinateIndex: " + ordinateIndex);
         }
     }
 
+    @Override
+    public int compareTo(Object another)
+    {
+        Coordinate coordinate = (Coordinate) another;
+
+        if (x < coordinate.x) return -1;
+        if (x > coordinate.x) return 1;
+        if (y < coordinate.y) return -1;
+        if (y > coordinate.y) return 1;
+        return 0;
+    }
 
     /**
-     * 返回点到点的距离
-     * @param coordinate Coordinate
-     * @return double 返回点到点的距离
+     * 值相等比较
+     * @param another Object对象
+     * @return 是 Coordinate对象，值相等返回true
      */
-    public double distance(Coordinate coordinate)
+    @Override
+    public boolean equals(Object another)
     {
-        double dx = x - coordinate.x;
-        double dy = y - coordinate.y;
+        if (!(another instanceof Coordinate))
+        {
+            return false;
+        }
+        Coordinate coordinate = (Coordinate) another;
+
+        if (x != coordinate.x)
+        {
+            return false;
+        }
+
+        if (y != coordinate.y)
+        {
+            return false;
+        }
+
+        return true;
+    }
+
+    /**
+     * 点到点的距离
+     * @param another 其他 Coordinate
+     * @return 距离
+     */
+    public double distance(Coordinate another)
+    {
+        double dx = x - another.x;
+        double dy = y - another.y;
+
         return Math.sqrt(dx * dx + dy * dy);
     }
 
-    @Override
-    public int getDimension()
+    public String toString()
     {
-        return 0;
-    }
-
-    @Override
-    public int getBoundaryDimension()
-    {
-        return Dimension.FALSE;
-    }
-
-    public int compareTo(Object o)
-    {
-        Coordinate other = (Coordinate) o;
-
-        if (x < other.x) return -1;
-        if (x > other.x) return 1;
-        if (y < other.y) return -1;
-        if (y > other.y) return 1;
-        return 0;
-    }
-
-    /**
-     * 因为点没有线 返回空的list
-     * @return
-     */
-    @Override
-    public List<Coordinate> getLines()
-    {
-        return new ArrayList<>();
-    }
-
-
-    public double getX()
-    {
-        return x;
-    }
-
-    public double getY()
-    {
-        return y;
+        return "(" + x + ", " + y + ")";
     }
 }
