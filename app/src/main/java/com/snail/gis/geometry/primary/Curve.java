@@ -1,5 +1,10 @@
 package com.snail.gis.geometry.primary;
 
+import com.snail.gis.enumeration.Dimension;
+import com.snail.gis.geometry.Coordinate;
+import com.snail.gis.geometry.GeometryFactory;
+import com.snail.gis.geometry.util.CoordinateSequence;
+
 /**
  * @author Young Ken
  * @version 0.1
@@ -7,33 +12,85 @@ package com.snail.gis.geometry.primary;
  */
 public abstract class Curve extends Geometry
 {
-    /**
-     * 得当当前线的点数
-     * @return int
-     */
-    public abstract int getPointNum();
+    protected CoordinateSequence points;
 
-    /**
-     * 曲线的长度
-     * @return double
-     */
-    public abstract double getLength();
+    public Curve(GeometryFactory factory)
+    {
+        super(factory);
+    }
 
-    /**
-     * 曲线是不是闭合的
-     * @return 闭合返回true，不闭合返回false
-     */
-    public abstract boolean isClosed();
+    @Override
+    public Coordinate getCoordinate()
+    {
+        return isEmpty() ? null : points.getCoordinate(0);
+    }
 
-    /**
-     * 曲线是不环
-     * @return 是环返回true，不是环返回false
-     */
-   // public abstract boolean isRing();
+    @Override
+    public Coordinate[] getCoordinates()
+    {
+        return new Coordinate[0];
+    }
+
+    @Override
+    public boolean isEmpty()
+    {
+        return points.size() == 0;
+    }
 
     @Override
     public int getDimension()
     {
         return 1;
     }
+
+    @Override
+    public int getNumPoints()
+    {
+        return points.size();
+    }
+
+    @Override
+    public Geometry getBoundary()
+    {
+        return null;
+    }
+
+    /**
+     * 如果是关闭的返回 Dimension.FALSE
+     * @return
+     */
+    @Override
+    public int getBoundaryDimension()
+    {
+        if(isClosed())
+        {
+            return Dimension.FALSE;
+        }
+        return 0;
+    }
+
+    @Override
+    protected Envelope computeEnvelopeInternal()
+    {
+        if (isEmpty())
+        {
+            return new Envelope();
+        }
+        return points.expandEnvelope(new Envelope());
+    }
+
+    public boolean isClosed()
+    {
+        if (isEmpty())
+        {
+            return false;
+        }
+        return getCoordinateN(0).equals(getCoordinateN(getNumPoints() - 1));
+    }
+
+    public Coordinate getCoordinateN(int index)
+    {
+        return points.getCoordinate(index);
+    }
+
 }

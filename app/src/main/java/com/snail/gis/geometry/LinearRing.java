@@ -1,39 +1,55 @@
 package com.snail.gis.geometry;
 
-import java.util.List;
+import com.snail.gis.enumeration.Dimension;
+import com.snail.gis.geometry.util.CoordinateSequence;
 
 /**
+ * 线环类
  * @author Young Ken
  * @version 0.1
  * @since 2015/11/12
  */
 public class LinearRing extends LineString
 {
-    public LinearRing()
+    public LinearRing(Coordinate[] points, int SRID)
     {
-        super();
+        this(points, new GeometryFactory(SRID));
+        validateConstruction();
     }
 
-    public LinearRing(List<Coordinate> list)
+    private LinearRing(Coordinate[] points, GeometryFactory factory)
     {
-        super(list);
+        this(factory.getCoordinateSequenceFactory().create(points), factory);
     }
 
-    public LinearRing(LineString lineString)
+    public LinearRing(CoordinateSequence points, GeometryFactory factory)
     {
-        super(lineString);
+        super(points, factory);
+        validateConstruction();
     }
 
-    public LinearRing(LinearRing linearRing)
+    private void validateConstruction()
     {
-        this(linearRing.pointArray);
-    }
+        if(!isEmpty() && !super.isClosed())
+        {
+            throw new IllegalArgumentException("线环个环没有关闭");
+        }
 
+        if(getCoordinateSequence().size() >= 1 && getCoordinateSequence().size() < 4)
+        {
+            throw new IllegalArgumentException("线环的点数 >=1 并且小于 4");
+        }
+    }
 
     @Override
-    public boolean isClosed()
+    public int getBoundaryDimension()
     {
-        return super.isClosed();
+        return Dimension.FALSE;
     }
 
+    @Override
+    public String getGeometryType()
+    {
+        return "LinearRing";
+    }
 }
