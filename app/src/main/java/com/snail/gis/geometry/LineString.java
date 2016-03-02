@@ -1,8 +1,6 @@
 package com.snail.gis.geometry;
 
 import com.snail.gis.geometry.primary.Curve;
-import com.snail.gis.geometry.util.CoordinateSequence;
-
 
 
 /**

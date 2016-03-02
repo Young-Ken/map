@@ -3,7 +3,6 @@ package com.snail.gis.geometry;
 import com.snail.gis.geometry.primary.Envelope;
 import com.snail.gis.geometry.primary.Geometry;
 import com.snail.gis.enumeration.Dimension;
-import com.snail.gis.geometry.util.CoordinateSequence;
 
 /**
  * @author Young Ken
@@ -15,18 +14,32 @@ public class Point extends Geometry
 
     private CoordinateSequence coordinates;
 
+    /**
+     * 构造方法
+     * @param coordinate Coordinate对象
+     * @param SRID SRID
+     */
     public Point(Coordinate coordinate, int SRID)
     {
         super(new GeometryFactory(SRID));
         init(getFactory().getCoordinateSequenceFactory().create(coordinate != null ? new Coordinate[]{coordinate} : new Coordinate[]{}));
     }
 
+    /**
+     * 构造方法
+     * @param coordinates 点集合对象
+     * @param factory GeometryFactory
+     */
     public Point(CoordinateSequence coordinates, GeometryFactory factory)
     {
         super(factory);
         init(coordinates);
     }
 
+    /**
+     * 初始化方法
+     * @param coordinates CoordinateSequence
+     */
     private void init(CoordinateSequence coordinates)
     {
         if (coordinates == null)
@@ -66,6 +79,10 @@ public class Point extends Geometry
         return isEmpty() ? new Coordinate[]{} : new Coordinate[]{getCoordinate()};
     }
 
+    /**
+     * 是否为空
+     * @return
+     */
     @Override
     public boolean isEmpty()
     {
@@ -116,6 +133,10 @@ public class Point extends Geometry
         return getCoordinate().compareTo(point.getCoordinate());
     }
 
+    /**
+     * 点对象默认返回的是简单类型
+     * @return true
+     */
     @Override
     public boolean isSimple()
     {
@@ -145,4 +166,16 @@ public class Point extends Geometry
         return coordinates;
     }
 
+    /**
+     * 添加克隆方法
+     * @return Point 克隆对象
+     * @throws CloneNotSupportedException
+     */
+    @Override
+    protected Object clone() throws CloneNotSupportedException
+    {
+        Point point = (Point)super.clone();
+        point.coordinates = (CoordinateSequence) coordinates.clone();
+        return point;
+    }
 }

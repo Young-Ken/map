@@ -1,7 +1,6 @@
 package com.snail.gis.geometry.primary;
 
 import com.snail.gis.geometry.Coordinate;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -62,6 +61,11 @@ public class Envelope
     public Envelope(Coordinate p1, Coordinate p2)
     {
         init(p1, p2);
+    }
+
+    public Envelope(Envelope another)
+    {
+        init(another);
     }
 
     public Envelope(Coordinate p)
@@ -135,7 +139,7 @@ public class Envelope
 
     public void init(Coordinate p1, Coordinate p2)
     {
-        init(p1.getX(), p2.getX(), p1.getY(), p2.getY());
+        init(p1.x, p2.x, p1.y, p2.y);
     }
 
     public void init(Envelope env)
@@ -170,7 +174,7 @@ public class Envelope
 
     public void init(Coordinate p)
     {
-        init(p.getX(), p.getX(), p.getY(), p.getY());
+        init(p.x, p.x, p.y, p.y);
     }
 
     /**
@@ -204,12 +208,12 @@ public class Envelope
     }
     /**
      *  如果点在矩形外部一定不相交
-     * @param point Coordinate
+     * @param point Point
      * @return
      */
     public boolean intersects(Coordinate point)
     {
-        if (isNull() || point.isEmpty())
+        if (isNull())
         {
             return false;
         }
@@ -274,6 +278,20 @@ public class Envelope
         return (x >= minX && x <= maxX && y >= minY && y <= maxY);
     }
 
+    /**
+     * 扩展外接矩形
+     * @param another
+     */
+    public void expandToInclude(Coordinate another)
+    {
+        expandToInclude(another.x, another.y);
+    }
+
+    /**
+     * 扩展外接矩形
+     * @param x
+     * @param y
+     */
     public void expandToInclude(double x, double y) {
         if (isNull()) {
             minX = x;

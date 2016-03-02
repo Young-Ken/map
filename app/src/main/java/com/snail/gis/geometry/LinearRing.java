@@ -1,7 +1,6 @@
 package com.snail.gis.geometry;
 
 import com.snail.gis.enumeration.Dimension;
-import com.snail.gis.geometry.util.CoordinateSequence;
 
 /**
  * 线环类

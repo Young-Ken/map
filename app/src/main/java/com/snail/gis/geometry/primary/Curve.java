@@ -3,7 +3,7 @@ package com.snail.gis.geometry.primary;
 import com.snail.gis.enumeration.Dimension;
 import com.snail.gis.geometry.Coordinate;
 import com.snail.gis.geometry.GeometryFactory;
-import com.snail.gis.geometry.util.CoordinateSequence;
+import com.snail.gis.geometry.CoordinateSequence;
 
 /**
  * @author Young Ken
@@ -28,7 +28,7 @@ public abstract class Curve extends Geometry
     @Override
     public Coordinate[] getCoordinates()
     {
-        return new Coordinate[0];
+        return points.toCoordinateArray();
     }
 
     @Override
