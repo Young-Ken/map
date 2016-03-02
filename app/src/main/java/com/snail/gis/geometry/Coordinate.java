@@ -122,16 +122,10 @@ public class Coordinate implements Comparable, Cloneable, Serializable
         }
         Coordinate coordinate = (Coordinate) another;
 
-        if (x != coordinate.x)
+        if (x != coordinate.x || y != coordinate.y)
         {
             return false;
         }
-
-        if (y != coordinate.y)
-        {
-            return false;
-        }
-
         return true;
     }
 
@@ -146,6 +140,18 @@ public class Coordinate implements Comparable, Cloneable, Serializable
         double dy = y - another.y;
 
         return Math.sqrt(dx * dx + dy * dy);
+    }
+
+    @Override
+    protected Object clone()
+    {
+        try {
+            Coordinate coordinate = (Coordinate) super.clone();
+            return coordinate;
+        } catch (CloneNotSupportedException e) {
+
+            return null;
+        }
     }
 
     public String toString()
