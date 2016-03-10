@@ -3,18 +3,18 @@ package com.snail.gis.tile.util;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
+import android.graphics.Matrix;
 import android.graphics.Paint;
 import android.util.Log;
 
-import com.snail.gis.map.BaseMap;
-import com.snail.gis.map.MapManger;
+import com.snail.gis.tile.cache.MemoryTileCache;
+import com.snail.gis.tool.ApplicationContext;
+import com.snail.gis.view.map.BaseMap;
+import com.snail.gis.view.map.MapManger;
 import com.snail.gis.tile.TileInfo;
 import com.snail.gis.tool.file.ToolMapCache;
 
 import java.io.IOException;
-import java.util.HashMap;
-import java.util.Hashtable;
-import java.util.Map;
 
 /**
  * @author Young-Ken
@@ -28,8 +28,7 @@ public class TileTool
     private String tilePath = null;
     private Paint paint = new Paint();
 
-    private Map<String, byte[]> tileHashMap = new Hashtable<>();
-
+    private MemoryTileCache memoryTileCache = null;
 
     public double loadX = 0.0;
     public double loadY = 0.0;
@@ -42,7 +41,9 @@ public class TileTool
         this.map = MapManger.getInstance().getMap();
         tileInfo = map.getTileInfo();
         this.tilePath = tilePath;
+        memoryTileCache = new MemoryTileCache(ApplicationContext.getMaxMemory());
     }
+
 
     public byte[][][] getTile()
     {
@@ -52,18 +53,17 @@ public class TileTool
 
     public int[] getStartTile()
     {
-        int minTileNumX = getTileNum(map.getEnvelope().getMinX() + (-tileInfo.getOriginPoint().getX()));
-        int minTileNumY = getTileNum(tileInfo.getOriginPoint().getY() - map.getEnvelope().getMaxY());
+        int minTileNumX = getTileNum(map.getEnvelope().getMinX());
+        int minTileNumY = getTileNum(map.getEnvelope().getMinY());
 
-        loadX = getMoveDistance(map.getEnvelope().getMinX() + (-tileInfo.getOriginPoint().getX()));
-        loadY = getMoveDistance(tileInfo.getOriginPoint().getY() - map.getEnvelope().getMaxY());
+        loadX = getMoveDistance(map.getEnvelope().getMinX());
+        loadY = getMoveDistance(map.getEnvelope().getMinY());
 
-        int maxTileNumX = getTileNum(map.getEnvelope().getMaxX() + (-tileInfo.getOriginPoint().getX()));
-        int maxTileNumY = getTileNum(tileInfo.getOriginPoint().getY() - map.getEnvelope().getMinY());
+        int maxTileNumX = getTileNum(map.getEnvelope().getMaxX());
+        int maxTileNumY = getTileNum(map.getEnvelope().getMaxY());
 
         int result[] = {minTileNumX, minTileNumY, maxTileNumX, maxTileNumY};
         return result;
-
     }
 
     public byte[][][] getByteTile(int level, int minTileNumX, int minTileNumY, int maxTileNumX, int maxTileNumY)
@@ -89,19 +89,17 @@ public class TileTool
         try
         {
             String tileKey = appendTileString(level, col, row);
-            for (String key : tileHashMap.keySet())
+            byte[] tempBytes = memoryTileCache.get(tileKey);
+            if(tempBytes != null)
             {
-                if(tileKey.equals(key))
-                {
-                    return tileHashMap.get(tileKey);
-                }
+                return tempBytes;
             }
 
             byte[] bytes = ToolMapCache.getByte(tilePath, level, col, row);
             if(bytes != null)
             {
                 Log.e("BaseMap", level + "   " + col + "  " + row + "  " + bytes.length);
-                tileHashMap.put(tileKey, bytes);
+                memoryTileCache.put(tileKey, bytes);
             }else
             {
                 Log.e("BaseMap", level + "   " + col + "  " + row + " null " );
@@ -131,8 +129,10 @@ public class TileTool
                 byte[] bytes = tileBytes[i][j];
                 if (bytes == null)
                     continue;
+                Matrix matrix = new Matrix();
+                matrix.postTranslate((int)(loadX + i * 256 + moveX), (int)(loadY + j * 256  + moveY));
                 Bitmap bitmap = BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
-                canvas.drawBitmap(bitmap, (float)(i * 256 - loadX + 5 * i + moveX), (float)(j * 256 - loadY + 5 * j + moveY), paint);
+                canvas.drawBitmap(bitmap, matrix, paint);
             }
         }
         Log.e("RUN",moveX +"  moveX   "+moveY +"  moveY");
