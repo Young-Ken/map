@@ -129,10 +129,13 @@ public class TileTool
                 byte[] bytes = tileBytes[i][j];
                 if (bytes == null)
                     continue;
-                Matrix matrix = new Matrix();
-                matrix.postTranslate((int)(loadX + i * 256 + moveX), (int)(loadY + j * 256  + moveY));
+//                Matrix matrix = new Matrix();
+//                matrix.postTranslate((int)(loadX + i * 256 + moveX), (int)(loadY + j * 256  + moveY));
+//                Bitmap bitmap = BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
+//                canvas.drawBitmap(bitmap, matrix, paint);
+                Log.e("RUN",moveX +"  moveX   "+moveY +"  moveY vvvvvvvvvvvv");
                 Bitmap bitmap = BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
-                canvas.drawBitmap(bitmap, matrix, paint);
+                canvas.drawBitmap(bitmap, (float)(i * 256 - loadX + 5 * i + moveX), (float)(j * 256 - loadY + 5 * j + moveY), paint);
             }
         }
         Log.e("RUN",moveX +"  moveX   "+moveY +"  moveY");

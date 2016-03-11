@@ -4,7 +4,7 @@ import android.app.Application;
 import android.test.ApplicationTestCase;
 import android.util.Log;
 
-import com.snail.gis.geometry.Coordinate;
+import com.snail.gis.geometry.Point;
 import com.snail.gis.geometry.primary.Envelope;
 
 /**
@@ -16,9 +16,9 @@ public class ApplicationTest extends ApplicationTestCase<Application>
     {
         super(Application.class);
 
-        Envelope envelope = new Envelope(new Coordinate(0,0), new Coordinate(100,100));
+        Envelope envelope = new Envelope(new Point(0,0), new Point(100,100));
 
-        Envelope envelope1 = new Envelope(new Coordinate(200, 200), new Coordinate(400,400));
+        Envelope envelope1 = new Envelope(new Point(200, 200), new Point(400,400));
 
         boolean b  = envelope.intersects(envelope1);
 

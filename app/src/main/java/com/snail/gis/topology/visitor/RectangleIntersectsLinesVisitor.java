@@ -27,11 +27,11 @@ public class RectangleIntersectsLinesVisitor extends ShortCircuitedGeometryVisit
     @Override
     protected void visit(Geometry element)
     {
-        List<Coordinate> list = element.getLines();
-        int size = list.size();
+        Coordinate[] list = element.getCoordinates();
+        int size = list.length;
         for (int i = 0; i < size - 1; i++)
         {
-            if (segmentIntersect.intersects(list.get(i),list.get(i+1)))
+            if (segmentIntersect.intersects(list[i],list[i+1]))
             {
                 intersects = true;
                 return;

@@ -1,6 +1,7 @@
 package com.snail.gis.algorithm;
 
 import com.snail.gis.geometry.Coordinate;
+import com.snail.gis.geometry.Point;
 
 /**
  * @author Young Ken
@@ -12,8 +13,8 @@ public class MathUtil
     /**
      *
      *  这里不进行开放 为了节省效率
-     * @param c1 Coordinate
-     * @param c2 Coordinate
+     * @param c1 Point
+     * @param c2 Point
      * @return 距离的平方
      */
     public static double distanceTwoPointNoSquare(Coordinate c1, Coordinate c2)
@@ -26,8 +27,8 @@ public class MathUtil
     /**
      *
      *  这里不进行开放 为了节省效率
-     * @param c1 Coordinate
-     * @param c2 Coordinate
+     * @param c1 Point
+     * @param c2 Point
      * @return 距离的平方
      */
     public static double distanceTwoPoint(Coordinate c1, Coordinate c2)

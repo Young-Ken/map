@@ -1,6 +1,7 @@
 package com.snail.gis.algorithm;
 
 import com.snail.gis.geometry.Coordinate;
+import com.snail.gis.geometry.Point;
 
 /**
  * @author Young Ken
@@ -250,10 +251,10 @@ public class RobustDeterminant
     {
         /**
          *
-         * Coordinate p0 = new Coordinate(219.3649559090992, 140.84159161824724);
-         * Coordinate p1 = new Coordinate(168.9018919682399, -5.713787599646864);
+         * Point p0 = new Point(219.3649559090992, 140.84159161824724);
+         * Point p1 = new Point(168.9018919682399, -5.713787599646864);
          *
-         * Coordinate p = new Coordinate(186.80814046338352, 46.28973405831556); int
+         * Point p = new Point(186.80814046338352, 46.28973405831556); int
          * orient = orientationIndex(p0, p1, p); int orientInv =
          * orientationIndex(p1, p0, p);
          *

@@ -20,7 +20,7 @@ public class RectangleIntersectGeometry
     public RectangleIntersectGeometry(Polygon rectangle)
     {
         this.rectangle = rectangle;
-        rectEnv = rectangle.getEnvelope();
+        rectEnv = rectangle.getEnvelopeInternal();
     }
 
     public static boolean intersects(Polygon rectangle, Geometry geometry)
@@ -31,7 +31,7 @@ public class RectangleIntersectGeometry
 
     public boolean intersects(Geometry geometry)
     {
-        if (!rectEnv.intersects(geometry.getEnvelope()))
+        if (!rectEnv.intersects(geometry.getEnvelopeInternal()))
         {
             return false;
         }

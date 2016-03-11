@@ -2,6 +2,7 @@ package com.snail.gis.tile;
 
 import com.snail.gis.geometry.Coordinate;
 
+
 /**
  * 存储TileInfo的类
  * @author Young-Ken
@@ -34,7 +35,7 @@ public class TileInfo
      */
     public double getConverParameter()
     {
-        return originPoint.getY();
+        return originPoint.y;
     }
 
     public void setOriginPoint(Coordinate originPoint)

@@ -1,7 +1,5 @@
 package com.snail.gis.tile;
 
-import com.snail.gis.geometry.Coordinate;
-
 /**
  * @author Young-Ken
  * @version 0.1

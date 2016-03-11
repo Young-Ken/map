@@ -1,8 +1,8 @@
 package com.snail.gis.topology.relate;
 
-import com.snail.gis.geometry.Coordinate;
 import com.snail.gis.enumeration.Location;
 import com.snail.gis.algorithm.RobustDeterminant;
+import com.snail.gis.geometry.Coordinate;
 
 import java.util.List;
 
@@ -17,20 +17,20 @@ public class PointInPolygon
     private Coordinate point = null;
     private boolean isPointOnSegment = false;
     private int crossingCount = 0;
-    private PointInPolygon(Coordinate coordinate)
+    private PointInPolygon(Coordinate point)
     {
-        this.point = coordinate;
+        this.point = point;
     }
 
-    public static int locationPointInRing(Coordinate coordinate, List<Coordinate> lists)
+    public static int locationPointInRing(Coordinate point, List<Coordinate> lists)
     {
         Coordinate[] ring = lists.toArray(new Coordinate[lists.size()]);
-        return locationPointInRing(coordinate, ring);
+        return locationPointInRing(point, ring);
     }
 
-    public static int locationPointInRing(Coordinate coordinate, Coordinate[] ring)
+    public static int locationPointInRing(Coordinate point, Coordinate[] ring)
     {
-        PointInPolygon pointInRing = new PointInPolygon(coordinate);
+        PointInPolygon pointInRing = new PointInPolygon(point);
         for (int i = 1; i < ring.length; i++)
         {
             Coordinate startPoint = ring[i];

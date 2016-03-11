@@ -13,6 +13,7 @@ public class CGAlgorithms
 {
 
     private static final double DP_SAFE_EPSILON = 1e-15;
+
     /**
      * 点到线的距离
      * @param p 点p
@@ -57,7 +58,7 @@ public class CGAlgorithms
         if (proEnv > proOther)
         {
             temp = width * otherHeight/(height * 2);
-            return new Envelope(centre.getX() - temp, centre.getX() + temp, other.getMinY(), other.getMaxY());
+            return new Envelope(centre.x - temp, centre.x + temp, other.getMinY(), other.getMaxY());
         } else if(proEnv < proOther)
         {
             temp = height * otherWidth / (width *2);

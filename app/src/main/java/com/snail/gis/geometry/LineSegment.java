@@ -197,4 +197,14 @@ public class LineSegment implements Comparable, Serializable
     {
         return 0;
     }
+
+    public Coordinate getStartPoint()
+    {
+        return startPoint;
+    }
+
+    public Coordinate getEndPoint()
+    {
+        return endPoint;
+    }
 }

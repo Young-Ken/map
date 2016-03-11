@@ -1,9 +1,7 @@
 package com.snail.gis.tile;
 
-import com.snail.gis.geometry.Coordinate;
 
-import java.util.ArrayList;
-import java.util.List;
+import com.snail.gis.geometry.Coordinate;
 
 /**
  * @author Young-Ken

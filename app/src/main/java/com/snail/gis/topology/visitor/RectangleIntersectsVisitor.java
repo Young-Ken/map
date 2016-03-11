@@ -20,7 +20,7 @@ public class RectangleIntersectsVisitor extends ShortCircuitedGeometryVisitor
     @Override
     protected void visit(Geometry geometry)
     {
-        Envelope geometryEnv = geometry.getEnvelope();
+        Envelope geometryEnv = geometry.getEnvelopeInternal();
 
         if (!rectangle.intersects(geometryEnv))
         {

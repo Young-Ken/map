@@ -1,6 +1,5 @@
 package com.snail.gis.tile.factory;
 
-import com.snail.gis.geometry.Coordinate;
 import com.snail.gis.tile.CoordinateSystem;
 import com.snail.gis.tile.GoogleCoordinateSystem;
 import com.snail.gis.tile.LYGCoordinateSystem;

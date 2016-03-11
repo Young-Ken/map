@@ -33,10 +33,10 @@ public class SegmentIntersectSegment
 
     /**
      * 判断两条线段相交
-     * @param c1 Coordinate
-     * @param c2 Coordinate
-     * @param p1 Coordinate
-     * @param p2 Coordinate
+     * @param c1 Point
+     * @param c2 Point
+     * @param p1 Point
+     * @param p2 Point
      * @return 相交返回 POINT_INTERSECTION 或者 COLLINEAR_INTERSECTION
      */
     public int intersects(Coordinate a, Coordinate b, Coordinate c, Coordinate d)
@@ -133,9 +133,9 @@ public class SegmentIntersectSegment
 
     /**
      * 向量 ac ab 的叉积
-     * @param a Coordinate
-     * @param b Coordinate
-     * @param c Coordinate
+     * @param a Point
+     * @param b Point
+     * @param c Point
      * @return 叉积
      */
     private double cross(Coordinate a, Coordinate b, Coordinate c)

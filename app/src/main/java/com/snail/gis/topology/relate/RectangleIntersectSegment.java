@@ -1,6 +1,7 @@
 package com.snail.gis.topology.relate;
 
 import com.snail.gis.geometry.Coordinate;
+import com.snail.gis.geometry.Point;
 import com.snail.gis.geometry.primary.Envelope;
 
 /**
@@ -27,8 +28,8 @@ public class RectangleIntersectSegment
 
     /**
      * 矩形和线相交
-     * @param p1 Coordinate
-     * @param p2 Coordinate
+     * @param p1 Point
+     * @param p2 Point
      * @return 相交返回 true 不相交返回 false
      */
     public boolean intersects(Coordinate p1, Coordinate p2)

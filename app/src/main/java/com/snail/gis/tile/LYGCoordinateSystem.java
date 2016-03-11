@@ -1,6 +1,7 @@
 package com.snail.gis.tile;
 
 import com.snail.gis.geometry.Coordinate;
+import com.snail.gis.geometry.Point;
 
 /**
  * @author Young-Ken
@@ -12,7 +13,7 @@ public class LYGCoordinateSystem extends BaseCoordinateSystem
     private int MAX_LEVEL = 20;
     public LYGCoordinateSystem()
     {
-        //super(new Coordinate(-180, 90),295497593.05875003,0.703125,MAX_LEVEL);
+        //super(new Point(-180, 90),295497593.05875003,0.703125,MAX_LEVEL);
     }
 
     double[] resolutions = {

@@ -37,7 +37,7 @@ public class RectangleIntersectsPolygonVisitor extends ShortCircuitedGeometryVis
             return;
         }
 
-        Envelope envelope = geometry.getEnvelope();
+        Envelope envelope = geometry.getEnvelopeInternal();
         if (!outerRectangle.intersects(envelope))
         {
             return;
@@ -54,7 +54,7 @@ public class RectangleIntersectsPolygonVisitor extends ShortCircuitedGeometryVis
             {
                 continue;
             }
-            int isPointInRing = PointInPolygon.locationPointInRing(point, ((Polygon) geometry).getExteriorRing().getPointArray());
+            int isPointInRing = PointInPolygon.locationPointInRing(point, ((Polygon) geometry).getExteriorRing().getCoordinates());
             if (isPointInRing == 0)
             {
                 intersects = true;

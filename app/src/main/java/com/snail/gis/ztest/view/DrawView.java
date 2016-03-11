@@ -6,7 +6,7 @@ import android.graphics.Paint;
 import android.view.MotionEvent;
 import android.view.View;
 
-import com.snail.gis.geometry.Coordinate;
+import com.snail.gis.geometry.Point;
 import com.snail.gis.geometry.LineString;
 import com.snail.gis.geometry.Polygon;
 import com.snail.gis.geometry.primary.Envelope;
@@ -31,7 +31,7 @@ public class DrawView extends View implements View.OnTouchListener
     }
 
     public int drawState = 0;
-    public Coordinate point = null;
+    public Point point = null;
     public LineString lineString = null;
     public Polygon polygon = null;
     public Polygon polygon1 = null;

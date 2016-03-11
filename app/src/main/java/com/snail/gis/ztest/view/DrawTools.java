@@ -20,7 +20,7 @@ public class DrawTools
         paint.setColor(Color.YELLOW);
         paint.setStrokeWidth(2);
         paint.setStyle(Paint.Style.STROKE);
-        Envelope envelope = geometry.getEnvelope();
+        Envelope envelope = geometry.getEnvelopeInternal();
         canvas.drawRect((float)envelope.getMinX(), (float)envelope.getMinY(), (float)envelope.getMaxX(), (float)envelope.getMaxY(),paint);
     }
 

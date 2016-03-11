@@ -1,6 +1,8 @@
 package com.snail.gis.tool;
 
+import android.app.ActivityManager;
 import android.app.Application;
+import android.content.Context;
 import android.graphics.drawable.Drawable;
 
 import com.snail.gis.R;
@@ -12,7 +14,7 @@ public class ApplicationContext extends Application
 {
     private static ApplicationContext instance;
 
-    public static ApplicationContext getContext()
+    public static ApplicationContext getApplication()
     {
         return instance;
     }
@@ -38,6 +40,56 @@ public class ApplicationContext extends Application
         return getContext().getResources().getDrawable(drawableID);
     }
 
+    /**
+     * 当前主线程的内存大小
+     * @return
+     */
+    public static int getThreadMemory()
+    {
+        ActivityManager activityManager = (ActivityManager) getContext().getSystemService(Context.ACTIVITY_SERVICE);
+        return activityManager.getMemoryClass();
+    }
+
+    /**
+     *  应用程序最大可用内存 M
+     *  @return MB
+     */
+    public static int getMaxMemory()
+    {
+        int kb = 1024*1024;
+        int result = (int)Runtime.getRuntime().maxMemory()/kb;
+
+        if(result <= 0)
+        {
+            result = 2;
+        }
+        return result;
+    }
+
+    /**
+     * 应用程序已获得内存
+     * @return MB
+     */
+    public static int getTotalMemory()
+    {
+        int kb = 1024/1024;
+        return  (int) Runtime.getRuntime().totalMemory()/ kb;
+    }
+
+    /**
+     * 应用程序已获得内存中未使用内存
+     * @return MB
+     */
+    public static int getFreeMemoty()
+    {
+        int kb = 1024/1024;
+        return (int) Runtime.getRuntime().freeMemory()/ kb;
+    }
+
+    public static Context getContext()
+    {
+      return getApplication().getApplicationContext();
+    }
     @Override
     public void onCreate()
     {

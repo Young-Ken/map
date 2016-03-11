@@ -109,6 +109,11 @@ public class Polygon extends Surface
         return coordinates;
     }
 
+    public LinearRing getExteriorRing()
+    {
+        return shell;
+    }
+
     @Override
     public boolean isEmpty()
     {

@@ -3,6 +3,7 @@ package com.snail.gis.geometry;
 import java.io.Serializable;
 
 /**
+ * 简单点，这个类初始化默认是 （0,0）
  * @author Young-Ken
  * @version 0.1
  * @since 2016/2/23
@@ -38,7 +39,7 @@ public class Coordinate implements Comparable, Cloneable, Serializable
     }
 
     /**
-     * 构造函数 x = y = Double.NaN;
+     * 构造函数 x = y = 0
      */
     public Coordinate()
     {
