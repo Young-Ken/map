@@ -3,6 +3,8 @@ import android.util.Log;
 
 import com.snail.gis.geometry.Coordinate;
 import com.snail.gis.geometry.primary.Envelope;
+import com.snail.gis.tile.CoordinateSystemManager;
+import com.snail.gis.tile.util.TileTool;
 import com.snail.gis.view.map.util.Projection;
 import com.snail.gis.tile.TileInfo;
 
@@ -22,10 +24,8 @@ public class MapController implements IMapController
     @Override
     public boolean mapScroll(double x, double y)
     {
-        double moveX = map.getTileTool().moveX;
-        double moveY = map.getTileTool().moveY;
-        map.getTileTool().moveX = moveX + x;
-        map.getTileTool().moveY = moveY + y;
+        map.getMapInfo().moveX = x;
+        map.getMapInfo().moveY = y;
         map.refresh();
         return false;
     }
@@ -44,7 +44,8 @@ public class MapController implements IMapController
     @Override
     public boolean zoomOut()
     {
-        if(map.getLevel() == map.getTileInfo().getResolutions().length)
+        if(map.getLevel() == CoordinateSystemManager.getInstance()
+                .getCoordinateSystem().getTileInfo().getResolutions().length - 1)
         {
             return false;
         }
@@ -55,6 +56,9 @@ public class MapController implements IMapController
     @Override
     public boolean zoomTo(Coordinate point, int level)
     {
+        //map.getMapInfo().setMoving(0, 0);
+        map.getMapInfo().moveX = 0;
+        map.getMapInfo().moveY = 0;
         map.setMapCenter(point);
         setMapInfo(level);
         map.refresh();
@@ -101,7 +105,7 @@ public class MapController implements IMapController
 
     public void setMapInfo(int level)
     {
-        TileInfo tileInfo = map.getTileInfo();
+        TileInfo tileInfo = CoordinateSystemManager.getInstance().getCoordinateSystem().getTileInfo();
         double[] resolutions = tileInfo.getResolutions();
         map.getMapInfo().setCurrentLevel(level);
         map.getMapInfo().setCurrentResolution(resolutions[level]);

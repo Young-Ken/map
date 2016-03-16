@@ -1,6 +1,7 @@
 package com.snail.gis.tile.factory;
 
 import com.snail.gis.tile.CoordinateSystem;
+import com.snail.gis.tile.CoordinateSystemManager;
 
 /**
  * @author Young-Ken
@@ -12,7 +13,7 @@ public abstract class ACoordinateSystemFactory
     abstract CoordinateSystem createCoordinateSystem(ICoordinateSystemEnum coordinateSystemEnum);
 
     /**
-     * 创建坐标系方法
+     * 创建坐标系方法,吧坐标系方法加入到坐标管理的类中
      * @param coordinateSystemEnum 坐标系枚举
      * @return 坐标系
      */
@@ -20,6 +21,7 @@ public abstract class ACoordinateSystemFactory
     {
         CoordinateSystem system = createCoordinateSystem(coordinateSystemEnum);
         system.initTileInfo();
+        CoordinateSystemManager.getInstance().setCoordinateSystem(system);
         return system;
     }
 }

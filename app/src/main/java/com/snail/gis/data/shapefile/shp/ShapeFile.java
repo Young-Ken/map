@@ -1,6 +1,7 @@
 package com.snail.gis.data.shapefile.shp;
 
 import com.snail.gis.data.shapefile.shp.geom.RecordGeometry;
+import com.snail.gis.geometry.Coordinate;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -14,6 +15,9 @@ public class ShapeFile
 {
     private ShapeFileHeader header;
     private List<RecordGeometry> list = null;
+
+    public List<Coordinate> coordinates = new ArrayList<>();
+
     public ShapeFile()
     {
         list = new ArrayList<>();

@@ -115,7 +115,8 @@ public class DownTile
         @Override
         public void run()
         {
-            super.run();
+           // super.run();
+
             if (ToolMapCache.isExistByte(tiledURL.getMapServiceType().getName(), level,col,row))
             {
                 return;

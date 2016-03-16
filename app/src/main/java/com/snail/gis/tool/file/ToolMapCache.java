@@ -1,6 +1,8 @@
 package com.snail.gis.tool.file;
 
 
+import android.util.Log;
+
 import com.snail.gis.enumeration.ConstantFile;
 
 import java.io.ByteArrayOutputStream;
@@ -76,6 +78,7 @@ public class ToolMapCache
     public synchronized static boolean saveByte(final byte[] bytes, final String path, final int level, final int col, int row)
     {
         File file = ToolFile.createFile(getMapCachePath(path, level, col, row));
+
         if (null == file)
         {
             return false;

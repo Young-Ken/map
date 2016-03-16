@@ -6,6 +6,8 @@ import com.snail.gis.tile.downtile.tileurl.GoogleTiledTypes;
 import com.snail.gis.tile.downtile.tileurl.GoogleURL;
 import com.snail.gis.tile.downtile.tileurl.LYGTileType;
 import com.snail.gis.tile.downtile.tileurl.LYGUrl;
+import com.snail.gis.tile.downtile.tileurl.OpenStreetTileType;
+import com.snail.gis.tile.downtile.tileurl.OpenStreetURL;
 import com.snail.gis.tile.downtile.tileurl.TDTTiledType;
 import com.snail.gis.tile.downtile.tileurl.TDTUrl;
 
@@ -56,6 +58,9 @@ public class TiledLayerFactory extends URLFactory
         } else if(layerEnum instanceof LYGTileType)
         {
             return new LYGUrl((LYGTileType) layerEnum);
+        } else if(layerEnum instanceof OpenStreetTileType)
+        {
+            return new OpenStreetURL((OpenStreetTileType) layerEnum);
         }
         return null;
     }

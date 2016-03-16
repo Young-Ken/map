@@ -29,6 +29,11 @@ public class ReadFilesNames extends ReadFileAsyncTask<File, Void, List<String[]>
     private boolean isContain = true;
 
     /**
+     * 文件名
+     */
+    private String[] fileName = null;
+
+    /**
      * 读文件目录小的所用文件
      * @param iReadFilesNames 回调接口
      */
@@ -48,6 +53,12 @@ public class ReadFilesNames extends ReadFileAsyncTask<File, Void, List<String[]>
         this(iReadFilesNames);
         this.extensionName = extensionName;
         this.isContain = isContain;
+    }
+
+    public ReadFilesNames(IReadFilesNames iReadFilesNames, String[] fileName ,String[] extensionName, boolean isContain)
+    {
+        this(iReadFilesNames, extensionName, isContain);
+        this.fileName = fileName;
     }
 
     /**
@@ -80,7 +91,7 @@ public class ReadFilesNames extends ReadFileAsyncTask<File, Void, List<String[]>
         {
             File[] tempList = file.listFiles();
 
-            //这样写是为了效率，代码有些重复
+            //这个方法效率低下，进行调整
             if (extensionName == null)
             {
                 for (File f : tempList)
@@ -93,8 +104,25 @@ public class ReadFilesNames extends ReadFileAsyncTask<File, Void, List<String[]>
                             String shapeFileName = file.getPath() + File.separator + f.getName();
                             String[] strings = new String[2];
                             strings[0] = arrayFileName[0];
+                            boolean isFile = false;
+                            if(fileName != null)
+                            {
+                                for (int i = 0; i < fileName.length; i++)
+                                {
+                                    if(fileName[i].equals(strings[0]))
+                                    {
+                                        isFile = true;
+                                    }
+                                }
+                            } else
+                            {
+                                isFile = true;
+                            }
                             strings[1] = shapeFileName;
-                            restult.add(strings);
+                            if (isFile)
+                            {
+                                restult.add(strings);
+                            }
                         }
                     }
                 }
@@ -114,8 +142,26 @@ public class ReadFilesNames extends ReadFileAsyncTask<File, Void, List<String[]>
                                     String shapeFileName = file.getPath() + File.separator + f.getName();
                                     String[] strings = new String[2];
                                     strings[0] = arrayFileName[0];
+                                    boolean isFile = false;
+                                    if(fileName != null)
+                                    {
+                                        for (int i = 0; i < fileName.length; i++)
+                                        {
+                                            if(fileName[i].equals(strings[0]))
+                                            {
+                                                isFile = true;
+                                            }
+                                        }
+                                    } else
+                                    {
+                                        isFile = true;
+                                    }
+
                                     strings[1] = shapeFileName;
-                                    restult.add(strings);
+                                    if (isFile)
+                                    {
+                                        restult.add(strings);
+                                    }
                                 }
                             }
                         }

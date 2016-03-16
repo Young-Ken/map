@@ -77,7 +77,14 @@ public class MapDefaultListener implements OnMapDefaultListener
     private BaseMap map = null;
     private Coordinate down = new Coordinate();
     private Coordinate up = new Coordinate();
-    private Coordinate moving = new Coordinate();
+    //private Coordinate moving = new Coordinate();
+    //private Coordinate moveLast = new Coordinate();
+    private double moveingX = 0;
+    private double moveingY = 0;
+
+//    private double moveLastX = 0;
+//    private double moveLastY = 0;
+
 
     private long downTime = -1;
 
@@ -125,15 +132,15 @@ public class MapDefaultListener implements OnMapDefaultListener
                 double moveDistanceX;
                 double moveDistanceY;
 
-                moving.x = event.getX();
-                moving.y = event.getY();
-                double md;
+                moveingX = event.getX();
+                moveingY = event.getY();
+                double md = 0;
 
-                moveDistanceX = moving.x - down.x;
-                moveDistanceY = moving.y - down.y;
+                moveDistanceX = moveingX - down.x;
+                moveDistanceY = moveingY - down.y;
 
 
-                md = Math.sqrt(moveDistanceX * moveDistanceX + moveDistanceY * moveDistanceY);
+                md = Math.abs(moveDistanceX) + Math.abs(moveDistanceY);
 
                 // 没有做down方法，直接进入moving中
                 //首次进入事件中
@@ -145,6 +152,9 @@ public class MapDefaultListener implements OnMapDefaultListener
                         md = 0;
                         down.x = event.getX();
                         down.y = event.getY();
+//                        moveLastX = event.getX();
+//                        moveLastY = event.getY();
+
                         downTime = event.getDownTime();
                         eventing = EVENT_DOWN;
                     }
@@ -157,6 +167,17 @@ public class MapDefaultListener implements OnMapDefaultListener
                     mode = MODE_MOVE;
                 }
 
+//                if (eventing == EVENT_MOVING)
+//                {
+//                    md = Math.abs(moveLastX - moveingX) + Math.abs(moveLastY - moveingY);
+//                    if(md < EVENT_EFFECTIVE_DIS)
+//                    {
+//                        moveLastX = moveingX;
+//                        moveLastY = moveingY;
+//                        return;
+//                    }
+//                }
+
                 Log.d(TAG, "ACTION_MOVE" + md + "   " + eventing);
 
                 tempVT.computeCurrentVelocity(1000, maxFlingVelocity);
@@ -164,6 +185,9 @@ public class MapDefaultListener implements OnMapDefaultListener
                 velocityY = tempVT.getYVelocity(event.getPointerId(0));
 
                 map.getMapController().mapScroll(moveDistanceX, moveDistanceY);
+
+//                moveLastX = moveingX;
+//                moveLastY = moveingY;
                 break;
             }
 
@@ -193,12 +217,9 @@ public class MapDefaultListener implements OnMapDefaultListener
                     } else
                     {
                         Log.d(TAG, "移动");
-//
+                        //
                     }
                     //把移动的位置变为0
-                    map.getTileTool().moveY = 0;
-                    map.getTileTool().moveX = 0;
-
                     map.getMapController().scrollTo(down.x, down.y, event.getX(), event.getY());
                 }
 
@@ -224,8 +245,8 @@ public class MapDefaultListener implements OnMapDefaultListener
         up.setOrdinate(Coordinate.X, 0);
         up.setOrdinate(Coordinate.Y, 0);
 
-        moving.setOrdinate(Coordinate.X, 0);
-        moving.setOrdinate(Coordinate.Y, 0);
+        moveingY = 0;
+        moveingX = 0;
 
         releaseVelocityTracker();
     }
@@ -258,27 +279,4 @@ public class MapDefaultListener implements OnMapDefaultListener
         }
     }
 
-    //    else if(pointNum >= 2 )
-//    {
-//        mode = MODE_ZOOM;
-//        Log.e(TAG,"ZOOM" + pointNum + "    pointNum");
-//
-//        Envelope tempEnv = new Envelope();
-//        for (int i = 0; i < 2; i++)
-//        {
-//            tempEnv.expandToInclude(event.getX(i), event.getY(i));
-//        }
-//        if(downEnv.isEmpty())
-//        {
-//            downEnv.init(tempEnv);
-//        }
-//
-//        if(!(Math.abs(tempEnv.getWidth() - downEnv.getWidth()) > 20 || Math.abs(tempEnv.getHeight() - downEnv.getHeight()) > 20))
-//        {
-//            return;
-//        }
-//        map.getMapController().zoom(tempEnv, downEnv, map.getMapCenter());
-//        downEnv.init(tempEnv);
-//        break;
-//    }
 }

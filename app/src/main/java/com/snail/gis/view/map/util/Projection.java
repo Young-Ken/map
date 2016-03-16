@@ -1,6 +1,10 @@
 package com.snail.gis.view.map.util;
 
+import android.util.Log;
+
 import com.snail.gis.geometry.Coordinate;
+import com.snail.gis.tile.CoordinateSystemManager;
+import com.snail.gis.tool.TAG;
 import com.snail.gis.view.map.BaseMap;
 import com.snail.gis.tile.TileInfo;
 
@@ -12,7 +16,15 @@ import com.snail.gis.tile.TileInfo;
 public class Projection
 {
     private BaseMap map = null;
-    private TileInfo tileInfo = null;
+
+    private static double piExcept360 = Math.PI / 360;
+    private static double piExcept180 = Math.PI / 180;
+
+    private static double earthRExcept180 = 20037508.342787 / 180;
+    private TileInfo tileInfo = CoordinateSystemManager.getInstance().getCoordinateSystem().getTileInfo();
+
+    private double originPointX = tileInfo.getOriginPoint().x;
+    private double originPointY = tileInfo.getOriginPoint().y;
 
     /**
      * 单例模式
@@ -22,7 +34,7 @@ public class Projection
     private Projection(BaseMap map)
     {
         this.map = map;
-        this.tileInfo = map.getTileInfo();
+        this.tileInfo = CoordinateSystemManager.getInstance().getCoordinateSystem().getTileInfo();
     }
 
     /**
@@ -60,6 +72,19 @@ public class Projection
         return new Coordinate(x, y);
     }
 
+    public Coordinate earthTransformaImage(double x, double y)
+    {
+        return new Coordinate(Math.abs(tileInfo.getOriginPoint().x -x), Math.abs(tileInfo.getOriginPoint().y - y));
+    }
+    public Coordinate earthTransformaImage(Coordinate coordinate)
+    {
+        double x = Math.abs(originPointX - coordinate.x);
+        double y = Math.abs(originPointY - coordinate.y);
+        coordinate.x = x;
+        coordinate.y = y;
+        return coordinate;
+    }
+
     /**
      * 把地理坐标转换成屏幕坐标
      *
@@ -69,10 +94,27 @@ public class Projection
      */
     public Coordinate toScreenPoint(double pointX, double pointY)
     {
-        double x =  (pointX - map.getEnvelope().getMinX()) / map.getResolution();
-       double y = (map.getEnvelope().getMaxY() - pointY) / map.getResolution();
-
+        double x = (pointX - map.getEnvelope().getMinX()) / map.getResolution();
+        double y = (pointY - map.getEnvelope().getMinY()) / map.getResolution();
         return new Coordinate(x, y);
+    }
+
+    public Coordinate toScreenPoint(Coordinate coordinate)
+    {
+        double x = (coordinate.x - map.getEnvelope().getMinX()) / map.getResolution();
+        double y = (coordinate.y - map.getEnvelope().getMinY()) / map.getResolution();
+        coordinate.x = x;
+        coordinate.y = y;
+        return coordinate;
+    }
+
+    public Coordinate toScreenPoint(Coordinate coordinate, double minX, double minY, double resolution)
+    {
+        double x = (coordinate.x - minX) / resolution;
+        double y = (coordinate.y - minY) / resolution;
+        coordinate.x = x;
+        coordinate.y = y;
+        return coordinate;
     }
 
 
@@ -324,10 +366,20 @@ public class Projection
 
     public Coordinate lonLatToMercator(double x,double y)
     {
-        double toX = x * 20037508.342787 / 180;
-        double toY = Math.log(Math.tan((90 + y) * Math.PI / 360)) / (Math.PI / 180);
-        toY = toY * 20037508.342787 / 180;
+        double toX = x * earthRExcept180;
+        double toY = Math.log(Math.tan((90 + y) * piExcept360)) / piExcept180;
+        toY = toY * earthRExcept180;
         return new Coordinate(toX, toY);
+    }
+
+    public Coordinate lonLatToMercator(Coordinate coordinate)
+    {
+        double toX = coordinate.x * earthRExcept180;
+        double toY = Math.log(Math.tan((90 + coordinate.y) * piExcept360)) / piExcept180;
+        toY = toY * earthRExcept180;
+        coordinate.x = toX;
+        coordinate.y = toY;
+        return coordinate;
     }
 
     public Coordinate mercatorToLonLat(double x, double y)

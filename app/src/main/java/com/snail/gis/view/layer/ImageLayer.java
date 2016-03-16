@@ -2,6 +2,8 @@ package com.snail.gis.view.layer;
 
 import android.graphics.Canvas;
 
+import com.snail.gis.geometry.Coordinate;
+
 /**
  * @author Young-Ken
  * @version 0.1
@@ -18,6 +20,18 @@ public class ImageLayer extends BaseLayer
 
     @Override
     void initLayer()
+    {
+
+    }
+
+    @Override
+    void draw(Canvas canvas, Coordinate coordinate)
+    {
+
+    }
+
+    @Override
+    void draw(Canvas canvas, double x, double y)
     {
 
     }

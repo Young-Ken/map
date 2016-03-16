@@ -2,6 +2,7 @@ package com.snail.gis.view.layer;
 
 import android.graphics.Canvas;
 
+import com.snail.gis.geometry.Coordinate;
 import com.snail.gis.view.layer.event.OnLayerStatusListener;
 import com.snail.gis.view.map.BaseMap;
 import com.snail.gis.view.map.MapManger;
@@ -28,6 +29,8 @@ public abstract class BaseLayer
 
     abstract void recycle();
     abstract void initLayer();
+    abstract void draw(Canvas canvas, Coordinate offSet);
+    abstract void draw(Canvas canvas, double x, double y);
     abstract void draw(Canvas canvas);
 
     public void setOnLayerStatusListener(OnLayerStatusListener listener)

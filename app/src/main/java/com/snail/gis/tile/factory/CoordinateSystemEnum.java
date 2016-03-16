@@ -9,7 +9,8 @@ public enum CoordinateSystemEnum implements ICoordinateSystemEnum
 {
 
     GOOGLE_CS,
-    LYG_HH_TILE;
+    LYG_HH_TILE,
+    OPEN_STREET_MAP;
 
     @Override
     public String getName()

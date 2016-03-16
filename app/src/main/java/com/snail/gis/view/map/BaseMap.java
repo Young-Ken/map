@@ -10,11 +10,18 @@ import android.view.GestureDetector;
 import android.view.MotionEvent;
 import android.view.ScaleGestureDetector;
 import android.view.View;
+import android.view.ViewGroup;
 
 import com.snail.gis.geometry.Coordinate;
 import com.snail.gis.geometry.primary.Envelope;
+import com.snail.gis.tile.CoordinateSystemManager;
+import com.snail.gis.tile.downtile.DownTile;
+import com.snail.gis.tile.downtile.httputil.TileDownloader;
+import com.snail.gis.tile.downtile.tileurl.OpenStreetTileType;
+import com.snail.gis.tile.downtile.tileurl.OpenStreetURL;
 import com.snail.gis.view.layer.BaseLayer;
 import com.snail.gis.view.layer.MapLayerManger;
+import com.snail.gis.view.layer.TileLayer;
 import com.snail.gis.view.map.event.MapOnTouchListener;
 import com.snail.gis.view.map.util.Projection;
 import com.snail.gis.data.shapefile.ReadShapeFile;
@@ -35,9 +42,9 @@ public abstract class BaseMap extends View implements IBaseMap
     private MapLayerManger mapLayerManger = MapLayerManger.getInstance();
     private MapManger mapManger = MapManger.getInstance();
     private MapInfo mapInfo = new MapInfo();
-    private TileTool tileTool = null;
+    //private TileTool tileTool = null;
     private Projection projection = null;
-    private CoordinateSystem coordinateSystem = null;
+    //private CoordinateSystem coordinateSystem = null;
     private MapController mapController = null;
     private ScaleGestureDetector scaleGestureDetector = null;
     /**
@@ -47,7 +54,7 @@ public abstract class BaseMap extends View implements IBaseMap
     /**
      * 暂时在这里
      */
-    private TileInfo tileInfo = null;
+    //private TileInfo tileInfo = null;
 
 
     public BaseMap(Context context, AttributeSet attrs)
@@ -70,10 +77,10 @@ public abstract class BaseMap extends View implements IBaseMap
         /**
          * 需要map做参数的初始化在这个之后
          */
-        tileTool = new TileTool("GOOGLE_VECTOR");
+        MapLayerManger.getInstance().addLayer(new TileLayer("TILE_OS"));
         projection = Projection.getInstance(this);
 
-        getTile();
+       // getTile();
         ReadShapeFile readShapeFile = new ReadShapeFile();
     }
 
@@ -82,8 +89,9 @@ public abstract class BaseMap extends View implements IBaseMap
      */
     private void initCoordinateSystem(CoordinateSystemEnum systemEnum)
     {
-        coordinateSystem = new CoordinateSystemFactory().create(systemEnum);
-        tileInfo = coordinateSystem.getTileInfo();
+
+         new CoordinateSystemFactory().create(systemEnum);
+        //tileInfo = coordinateSystem.getTileInfo();
     }
 
     /**
@@ -109,13 +117,13 @@ public abstract class BaseMap extends View implements IBaseMap
     protected void onDraw(Canvas canvas)
     {
         super.onDraw(canvas);
-        //mapLayerManger.draw(canvas);
-
-        tileTool.drawTile(canvas);
-
-        Coordinate coordin = getProjection().mercatorToLonLat(getMapCenter().x, getMapCenter().y);
-        Log.e("mapCentent",coordin.x+"    "+coordin.y);
         mapLayerManger.draw(canvas);
+
+        //tileTool.drawTile(canvas);
+
+       // Coordinate coordin = getProjection().mercatorToLonLat(getMapCenter().x, getMapCenter().y);
+       // Log.e("mapCentent",coordin.x+"    "+coordin.y);
+       // mapLayerManger.draw(canvas);
 
         Coordinate center = new Coordinate(getEnvelope().getMinX() , getEnvelope().getMinY());
         Coordinate screen = getProjection().toScreenPoint(center.x, center.y);
@@ -128,7 +136,11 @@ public abstract class BaseMap extends View implements IBaseMap
         canvas.drawLine(0, 0, getWidth(), getHeight(), paint);
         canvas.drawLine(0, getHeight(), getWidth(), 0, paint);
 
+        Coordinate coordinate = projection.toMapPoint((float) (screen.x + getWidth() / 2), (float) (screen.y + getHeight() / 2));
+        Log.e("cccccc",coordinate+"");
+
     }
+
 
 
     /**
@@ -167,11 +179,6 @@ public abstract class BaseMap extends View implements IBaseMap
     public void refresh()
     {
         invalidate();
-    }
-
-    public TileTool getTileTool()
-    {
-        return tileTool;
     }
 
     @Override
@@ -223,10 +230,10 @@ public abstract class BaseMap extends View implements IBaseMap
         return mapController;
     }
 
-    public TileInfo getTileInfo()
-    {
-        return tileInfo;
-    }
+//    public TileInfo getTileInfo()
+//    {
+//        return tileInfo;
+//    }
 
     @Override
     public Envelope getEnvelope()

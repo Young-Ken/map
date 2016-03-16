@@ -5,6 +5,8 @@ import android.util.Log;
 import com.snail.gis.algorithm.MathUtil;
 import com.snail.gis.geometry.Coordinate;
 import com.snail.gis.geometry.primary.Envelope;
+import com.snail.gis.tile.CoordinateSystem;
+import com.snail.gis.tile.CoordinateSystemManager;
 import com.snail.gis.tile.TileInfo;
 
 /**
@@ -31,6 +33,8 @@ public class MapInfo
      */
     private Envelope fullEnvelope = new Envelope();
 
+    public double moveX ;
+    public double moveY ;
     /**
      * 设备的高
      */
@@ -76,7 +80,7 @@ public class MapInfo
             resolution = getFullEnvelope().getHeight() /getDeviceHeight();
         }
 
-        TileInfo tileInfo = MapManger.getInstance().getMap().getTileInfo();
+        TileInfo tileInfo = CoordinateSystemManager.getInstance().getCoordinateSystem().getTileInfo();
         double[] resolutions = tileInfo.getResolutions();
         for (int i = 0; i < resolutions.length - 1; i++)
         {
@@ -166,7 +170,7 @@ public class MapInfo
         {
             this.fullEnvelope = new Envelope();
         }
-        TileInfo tileInfo = MapManger.getInstance().getMap().getTileInfo();
+        TileInfo tileInfo = CoordinateSystemManager.getInstance().getCoordinateSystem().getTileInfo();
         this.fullEnvelope = new Envelope(
                 Math.abs(tileInfo.getOriginPoint().x) + fullEnvelope.getMaxX(),
                 Math.abs(tileInfo.getOriginPoint().x) + fullEnvelope.getMinX(),
@@ -230,5 +234,6 @@ public class MapInfo
     {
         this.currentEnvelope = currentEnvelope;
     }
+
 }
 

@@ -70,4 +70,9 @@ public class RecordPoint extends RecordGeometry
     }
 
 
+    @Override
+    public String toString()
+    {
+        return "(" + x + ", " + y + ")";
+    }
 }

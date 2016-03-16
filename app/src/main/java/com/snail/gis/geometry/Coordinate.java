@@ -144,7 +144,7 @@ public class Coordinate implements Comparable, Cloneable, Serializable
     }
 
     @Override
-    protected Object clone()
+    public Object clone()
     {
         try {
             Coordinate coordinate = (Coordinate) super.clone();

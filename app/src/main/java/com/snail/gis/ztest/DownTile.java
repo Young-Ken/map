@@ -3,12 +3,13 @@ package com.snail.gis.ztest;
 import android.app.Activity;
 import android.os.Bundle;
 
+
 import com.snail.gis.tile.downtile.factory.TiledLayerFactory;
 import com.snail.gis.tile.downtile.tileurl.BaseTiledURL;
-import com.snail.gis.tile.downtile.tileurl.GoogleTiledTypes;
 import com.snail.gis.tile.downtile.tileurl.LYGTileType;
 import com.snail.gis.geometry.primary.Envelope;
 import com.snail.gis.tile.TileInfo;
+import com.snail.gis.tile.downtile.tileurl.OpenStreetTileType;
 import com.snail.gis.tile.factory.CoordinateSystemEnum;
 import com.snail.gis.tile.factory.CoordinateSystemFactory;
 
@@ -30,12 +31,14 @@ public class DownTile extends Activity
     //01-20 11:41:14.312 32474-32474/com.youngken.zy_gis_demo_001 E/ZB: 13360855.024905564E7   3577801.5633670622
     public void demo()
     {
-        TileInfo tileInfo = new CoordinateSystemFactory().create(CoordinateSystemEnum.GOOGLE_CS).getTileInfo();
-        BaseTiledURL baseTiledURL = TiledLayerFactory.getInstance().createTiledURL(GoogleTiledTypes.GOOGLE_VECTOR);
-        com.snail.gis.tile.downtile.DownTile downTile =
-                new com.snail.gis.tile.downtile.DownTile(tileInfo,
-                        baseTiledURL,new Envelope(13351184.453363707, 13360855.024905564,
-                        3571106.811176191, 3577801.5633670622),8,20);
+        TileInfo tileInfo = new CoordinateSystemFactory().create(CoordinateSystemEnum.OPEN_STREET_MAP).getTileInfo();
+        BaseTiledURL baseTiledURL = TiledLayerFactory.getInstance().createTiledURL(OpenStreetTileType.TILE_OS);
+        com.snail.gis.tile.downtile.DownTile downTile = new com.snail.gis.tile.downtile.DownTile(tileInfo, baseTiledURL
+                ,new Envelope(13012333.947158, 13038513.322625, 4404406.101353, 4365153.170403),11,15);
+        //13012486.821215, 4396586.368211
+        //13032513.322625, 4385153.170403
+        //13012333.947158, 4404406.101353
+        //13036335.174038, 4359279.045776
         try
         {
             downTile.run();
@@ -43,6 +46,20 @@ public class DownTile extends Activity
         {
             e.printStackTrace();
         }
+
+//        TileInfo tileInfo = new CoordinateSystemFactory().create(CoordinateSystemEnum.GOOGLE_CS).getTileInfo();
+//        BaseTiledURL baseTiledURL = TiledLayerFactory.getInstance().createTiledURL(GoogleTiledTypes.GOOGLE_VECTOR);
+//        com.snail.gis.tile.downtile.DownTile downTile =
+//                new com.snail.gis.tile.downtile.DownTile(tileInfo,
+//                        baseTiledURL,new Envelope(13351184.453363707, 13360855.024905564,
+//                        3571106.811176191, 3577801.5633670622),8,20);
+//        try
+//        {
+//            downTile.run();
+//        } catch (Exception e)
+//        {
+//            e.printStackTrace();
+//        }
     }
 
     //30.524172222222223

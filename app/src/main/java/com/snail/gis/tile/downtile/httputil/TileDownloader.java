@@ -27,6 +27,7 @@ public class TileDownloader
     public static final int DEFAULT_CONNECT_TIMEOUT = 5 * 1000;
     public static final int DEFAULT_READ_TIMEOUT = 20 * 1000;
     public static final int DEFAULT_BUFFER_SIZE = 32 * 1024;
+    private String requestMethod = "GET";
     public HttpURLConnection createConnection(String path)
     {
         URL url = null;
@@ -37,7 +38,7 @@ public class TileDownloader
             if (url != null)
             {
                 conn = (HttpURLConnection)url.openConnection();
-                conn.setRequestMethod("POST");
+                conn.setRequestMethod(requestMethod);
                 conn.setConnectTimeout(DEFAULT_CONNECT_TIMEOUT);
                 conn.setReadTimeout(DEFAULT_READ_TIMEOUT);
             }
@@ -68,8 +69,7 @@ public class TileDownloader
                 inputStream = connection.getInputStream();
                 byte[] bytes = getBytes(inputStream);
                 ToolMapCache.saveByte(bytes, tileType, level, col, row);
-
-                Log.e("SAVETILE", level+ "  level "+col+"  col  "+row+"  row" + bytes.length+"  bytes.length  ");
+                Log.d("SAVETILE", "  " + level + "  level " + col + "  col  " + row + "  row   " + bytes.length);
             } catch (Exception e)
             {
                 e.printStackTrace();

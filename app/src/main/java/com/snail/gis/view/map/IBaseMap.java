@@ -1,4 +1,6 @@
 package com.snail.gis.view.map;
+import android.graphics.Canvas;
+
 import com.snail.gis.geometry.Coordinate;
 
 import com.snail.gis.geometry.primary.Envelope;
@@ -26,5 +28,4 @@ public interface IBaseMap
     int getLevel();
 
     void refresh();
-
 }

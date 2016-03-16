@@ -2,6 +2,10 @@ package com.snail.gis.view.layer;
 
 import android.graphics.Canvas;
 
+import com.snail.gis.geometry.Coordinate;
+import com.snail.gis.tile.util.TileTool;
+import com.snail.gis.view.map.MapManger;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -53,7 +57,7 @@ public class MapLayerManger implements ILayerSubject
         return arrayList.remove(layer);
     }
 
-    public void draw(Canvas canvas)
+    public synchronized void draw(Canvas canvas)
     {
         for(BaseLayer layer : arrayList)
         {

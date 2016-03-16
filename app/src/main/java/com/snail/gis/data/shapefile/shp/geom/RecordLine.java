@@ -81,4 +81,9 @@ public class RecordLine extends RecordGeometry
     {
 
     }
+
+    public Coordinate[] getPoints()
+    {
+        return points;
+    }
 }
