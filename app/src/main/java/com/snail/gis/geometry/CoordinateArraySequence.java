@@ -176,6 +176,28 @@ public class CoordinateArraySequence implements CoordinateSequence, Serializable
     }
 
     /**
+     * 设置x和y的值
+     * @param index 索引
+     * @param x x
+     * @param y y
+     */
+    public void setOrdinate(int index ,double x, double y)
+    {
+        coordinates[index].x = x;
+        coordinates[index].y = y;
+    }
+
+    /**
+     * 设置x和y的值
+     * @param index 索引
+     * @param coordinate coordinate
+     */
+    public void setOrdinate(int index, Coordinate coordinate)
+    {
+        setOrdinate(index, coordinate.x, coordinate.y);
+    }
+
+    /**
      * 扩展当前的外接矩形
      * @param another Envelope
      * @return

@@ -16,7 +16,8 @@ public class ShapeFile
     private ShapeFileHeader header;
     private List<RecordGeometry> list = null;
 
-    public List<Coordinate> coordinates = new ArrayList<>();
+    //public List<Coordinate> coordinates = new ArrayList<>();
+
 
     public ShapeFile()
     {

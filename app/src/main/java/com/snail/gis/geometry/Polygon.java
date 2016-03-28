@@ -1,6 +1,7 @@
 package com.snail.gis.geometry;
 
 
+import com.snail.gis.algorithm.MathUtil;
 import com.snail.gis.geometry.primary.Envelope;
 import com.snail.gis.geometry.primary.Geometry;
 import com.snail.gis.geometry.primary.Surface;
@@ -178,54 +179,55 @@ public class Polygon extends Surface
      * 判断环是不是矩形,详见博客
      * @return 如果是矩形返回true
      */
-//    public boolean isRectangle()
-//    {
-//        if(exteriorRing.getPointNum() != 5) return false;
-//        if(exteriorRing.isEmpty()) return false;
-//        if(getNumInteriorRing() != 0) return false;
-//
-//        Envelope envelope = getEnvelope();
-//
-//        double envelopeHeight = envelope.getHeight();
-//        double envelopeWidth = envelope.getWidth();
-//        for (int i = 0 ; i < 5; i ++)
-//        {
-//            Point point = exteriorRing.getPoint(i);
-//            double x = point.getX();
-//            double y = point.getY();
-//
-//            if (!(x == envelope.getMaxX() || x == envelope.getMinX()))
-//            {
-//                return false;
-//            }
-//
-//            if(!(y == envelope.getMaxY() || y == envelope.getMinY()))
-//            {
-//                return false;
-//            }
-//        }
-//
-//        if (envelopeHeight == 0 || envelopeWidth == 0)
-//        {
-//            return true;
-//        }
-//
-//        Point upCoor = exteriorRing.getPoint(0);
-//        Point nextCoor = exteriorRing.getPoint(1);
-//
-//        double doubleEnvelopeHeight = envelopeHeight * envelopeHeight;
-//        double doubleEnvelopWidth = envelopeWidth * envelopeWidth;
-//        for (int i = 1; i < 4; i ++)
-//        {
-//            double length = MathUtil.distanceTwoPointNoSquare(upCoor,nextCoor);
-//            if (length > doubleEnvelopeHeight && length > doubleEnvelopWidth)
-//            {
-//                return false;
-//            }
-//            upCoor = exteriorRing.getPoint(i);
-//            nextCoor = exteriorRing.getPoint(i+1);
-//        }
-//        return true;
-//    }
+    public boolean isRectangle()
+    {
+        if(shell.getNumPoints() != 5) return false;
+        if(shell.isEmpty()) return false;
+        if(holes.length != 0) return false;
+
+        Envelope envelope = getEnvelopeInternal();
+
+        double envelopeHeight = envelope.getHeight();
+        double envelopeWidth = envelope.getWidth();
+        for (int i = 0 ; i < 5; i ++)
+        {
+            Coordinate point = shell.getCoordinateN(i);
+            double x = point.x;
+            double y = point.y;
+
+            if (!(x == envelope.getMaxX() || x == envelope.getMinX()))
+            {
+                return false;
+            }
+
+            if(!(y == envelope.getMaxY() || y == envelope.getMinY()))
+            {
+                return false;
+            }
+        }
+
+        if (envelopeHeight == 0 || envelopeWidth == 0)
+        {
+            return true;
+        }
+
+        Coordinate upCoor = shell.getCoordinateN(0);
+        Coordinate nextCoor = shell.getCoordinateN(1);
+
+        double doubleEnvelopeHeight = envelopeHeight * envelopeHeight;
+        double doubleEnvelopWidth = envelopeWidth * envelopeWidth;
+        for (int i = 1; i < 4; i ++)
+        {
+            double length = MathUtil.distanceTwoPointNoSquare(upCoor, nextCoor);
+            if (length > doubleEnvelopeHeight && length > doubleEnvelopWidth)
+            {
+                return false;
+            }
+            upCoor = shell.getCoordinateN(i);
+            nextCoor = shell.getCoordinateN(i+1);
+        }
+        return true;
+    }
+
 
 }

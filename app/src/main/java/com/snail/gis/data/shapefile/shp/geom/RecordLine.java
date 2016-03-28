@@ -1,8 +1,9 @@
 package com.snail.gis.data.shapefile.shp.geom;
 
 
-import com.snail.gis.geometry.Coordinate;
 import com.snail.gis.data.shapefile.shp.exception.ShapeException;
+import com.snail.gis.geometry.CoordinateArraySequence;
+
 
 import java.io.IOException;
 import java.io.RandomAccessFile;
@@ -34,7 +35,9 @@ public class RecordLine extends RecordGeometry
 
     private int[] parts;
 
-    private Coordinate[] points;
+    private CoordinateArraySequence points;
+
+   // private Coordinate[] points;
 
     /**
      *
@@ -58,7 +61,7 @@ public class RecordLine extends RecordGeometry
         numParts = byteBuffer.getInt();
         parts = new int[numParts];
         numPoints = byteBuffer.getInt();
-        points = new Coordinate[numPoints];
+        points = new CoordinateArraySequence(numPoints);
 
         ByteBuffer lineBuffer = ByteBuffer.allocate(numPoints*16 + numParts*4);
         FileChannel channel = accessFile.getChannel();
@@ -72,7 +75,9 @@ public class RecordLine extends RecordGeometry
 
         for (int i = 0; i < numPoints; i++)
         {
-           points[i] = new Coordinate(lineBuffer.getDouble(), lineBuffer.getDouble());
+            points.setOrdinate(i,0,lineBuffer.getDouble());
+            points.setOrdinate(i,1,lineBuffer.getDouble());
+          // points[i] = new Coordinate(lineBuffer.getDouble(), lineBuffer.getDouble());
         }
     }
 
@@ -82,7 +87,7 @@ public class RecordLine extends RecordGeometry
 
     }
 
-    public Coordinate[] getPoints()
+    public CoordinateArraySequence getPoints()
     {
         return points;
     }

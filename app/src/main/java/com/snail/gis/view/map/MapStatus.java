@@ -5,8 +5,14 @@ package com.snail.gis.view.map;
  * @version 0.1
  * @since 2016/1/6
  */
-public enum MapStatus
+public class MapStatus
 {
-    DEFAULT,
-    EDIT;
+
+    public static enum Defualt
+    {
+
+        MOVING,
+    }
+
+    //public static enum
 }

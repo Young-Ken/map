@@ -1,8 +1,12 @@
 package com.snail.gis.ztest;
 
 import android.app.Activity;
+import android.graphics.Color;
 import android.os.Bundle;
+import android.view.View;
+import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
+import android.widget.Button;
 
 import com.snail.gis.R;
 import com.snail.gis.geometry.primary.Envelope;
@@ -27,6 +31,16 @@ public class MapActivity extends Activity
 
         map = (BaseMap) findViewById(R.id.baseMap);
 
+        Button searchButton = (Button) findViewById(R.id.search_envelope);
+
+        searchButton.setOnClickListener(new View.OnClickListener()
+        {
+            @Override
+            public void onClick(View v)
+            {
+
+            }
+        });
 
         ViewTreeObserver vto = map.getViewTreeObserver();
 
@@ -42,17 +56,14 @@ public class MapActivity extends Activity
                 map.getViewTreeObserver().removeGlobalOnLayoutListener(this);
                 map.getMapInfo().setDeviceHeight(map.getMeasuredHeight());
                 map.getMapInfo().setDeviceWidth(map.getMeasuredWidth());
-                map.initMap(CoordinateSystemEnum.GOOGLE_CS,
-                        new Envelope(13012486.821215, 13032513.322625, 4396586.368211, 4385153.170403));
-               // map.initMap(CoordinateSystemEnum.GOOGLE_CS, new
-               //         Envelope(13351184.453363707, 13360855.024905564, 3571106.811176191, 3577801.5633670622));
-
-
+                map.initMap(CoordinateSystemEnum.GOOGLE_CS, new Envelope(13012486.821215, 13032513.322625, 4396586.368211, 4385153.170403));
+                // map.initMap(CoordinateSystemEnum.GOOGLE_CS, new
+                //         Envelope(13351184.453363707, 13360855.024905564, 3571106.811176191, 3577801.5633670622));
 
 
                 //30.524172 119.93573
                 //30.57594 120.0226
-               // map.initMap(CoordinateSystemEnum.LYG_HH_TILE, new Envelope(119.93573, 120.0226, 30.524172, 30.57594));
+                // map.initMap(CoordinateSystemEnum.LYG_HH_TILE, new Envelope(119.93573, 120.0226, 30.524172, 30.57594));
             }
         });
     }

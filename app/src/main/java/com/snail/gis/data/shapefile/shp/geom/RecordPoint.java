@@ -2,6 +2,7 @@ package com.snail.gis.data.shapefile.shp.geom;
 
 
 import com.snail.gis.data.shapefile.shp.exception.ShapeException;
+import com.snail.gis.geometry.Coordinate;
 
 import java.io.IOException;
 import java.io.RandomAccessFile;
@@ -15,15 +16,8 @@ import java.nio.ByteBuffer;
 public class RecordPoint extends RecordGeometry
 {
 
-    /**
-     * x 坐标
-     */
-    private double x = 0;
 
-    /**
-     * y 坐标
-     */
-    private double y = 0;
+    private Coordinate coordinate = null;
 
     /**
      *  从写读取点
@@ -35,11 +29,10 @@ public class RecordPoint extends RecordGeometry
     {
         if (byteBuffer == null)
         {
-           throw ShapeException.throwException(ShapeException.TYPE.BYTE_IS_NULL);
+            throw ShapeException.throwException(ShapeException.TYPE.BYTE_IS_NULL);
         }
         readRecordHeaders(byteBuffer);
-        x = byteBuffer.getDouble();
-        y = byteBuffer.getDouble();
+        coordinate = new Coordinate(byteBuffer.getDouble(), byteBuffer.getDouble());
     }
 
     @Override
@@ -51,28 +44,15 @@ public class RecordPoint extends RecordGeometry
         }
     }
 
-    /**
-     * get
-     * @return x
-     */
-    public double getX()
-    {
-        return x;
-    }
 
-    /**
-     * get
-     * @return y
-     */
-    public double getY()
+    public Coordinate getCoordinate()
     {
-        return y;
+        return coordinate;
     }
-
 
     @Override
     public String toString()
     {
-        return "(" + x + ", " + y + ")";
+        return coordinate.toString();
     }
 }

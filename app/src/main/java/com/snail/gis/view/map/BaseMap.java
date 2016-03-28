@@ -37,16 +37,16 @@ import com.snail.gis.tile.util.TileTool;
  * @version 0.1
  * @since 2015/12/10
  */
-public abstract class BaseMap extends View implements IBaseMap
+public abstract class BaseMap extends ViewGroup implements IBaseMap
 {
     private MapLayerManger mapLayerManger = MapLayerManger.getInstance();
     private MapManger mapManger = MapManger.getInstance();
     private MapInfo mapInfo = new MapInfo();
-    //private TileTool tileTool = null;
     private Projection projection = null;
-    //private CoordinateSystem coordinateSystem = null;
     private MapController mapController = null;
     private ScaleGestureDetector scaleGestureDetector = null;
+    private View glassView = null;
+
     /**
      * 当前Map的默认事件
      */
@@ -54,8 +54,6 @@ public abstract class BaseMap extends View implements IBaseMap
     /**
      * 暂时在这里
      */
-    //private TileInfo tileInfo = null;
-
 
     public BaseMap(Context context, AttributeSet attrs)
     {
@@ -64,6 +62,27 @@ public abstract class BaseMap extends View implements IBaseMap
         mapManger.setMap(this);
         mapController = new MapController(this);
         this.setMapOnTouchListener(new MapOnTouchListener(this));
+    }
+
+
+    @Override
+    protected void onLayout(boolean changed, int l, int t, int r, int b)
+    {
+        int count = getChildCount();
+        if(count == 0)
+        {
+            return;
+        }else
+        {
+            for(int i = 0; i < count; i++)
+            {
+                View child = getChildAt(i);
+                if(child.getVisibility() != GONE)
+                {
+                    child.layout(l, t, r, b);
+                }
+            }
+        }
     }
 
     /**
@@ -82,6 +101,12 @@ public abstract class BaseMap extends View implements IBaseMap
 
        // getTile();
         ReadShapeFile readShapeFile = new ReadShapeFile();
+    }
+
+    private void initGlass()
+    {
+        glassView = new View(getContext());
+        addView(glassView, new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT));
     }
 
     /**
@@ -137,8 +162,6 @@ public abstract class BaseMap extends View implements IBaseMap
         canvas.drawLine(0, getHeight(), getWidth(), 0, paint);
 
         Coordinate coordinate = projection.toMapPoint((float) (screen.x + getWidth() / 2), (float) (screen.y + getHeight() / 2));
-        Log.e("cccccc",coordinate+"");
-
     }
 
 

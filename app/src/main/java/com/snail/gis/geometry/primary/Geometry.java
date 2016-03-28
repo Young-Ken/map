@@ -14,7 +14,7 @@ import java.util.List;
  * @version 0.1
  * @since 2015/11/7
  */
-public abstract class Geometry implements Cloneable, Comparable, Serializable
+public abstract class Geometry implements SpatialAnalysisSystem, Cloneable, Comparable, Serializable
 {
     /**
      * 图形工厂
@@ -168,38 +168,37 @@ public abstract class Geometry implements Cloneable, Comparable, Serializable
 //        return ! intersects(geometry);
 //    }
 //
-//    /**
-//     * 判断两个图形是不是相交, 先不考虑环
-//     * 详见博客
-//     * @param geometry geometry
-//     * @return
-//     */
-//    @Override
-//    public boolean intersects(Geometry geometry)
-//    {
-//        if (!getEnvelope().intersects(geometry.getEnvelope()))
-//        {
-//            return false;
-//        }
-//
-//        if (isRectangle())
-//        {
-//           return RectangleIntersectGeometry.intersects((Polygon) this, geometry);
-//        }
-//
-//        if (geometry.isRectangle())
-//        {
-//            return RectangleIntersectGeometry.intersects((Polygon) geometry, this);
-//        }
-//
-//
-//        return false;
-//    }
-//    public boolean isRectangle()
-//    {
-//        // Polygon overrides to check for actual rectangle
-//        return false;
-//    }
+    /**
+     * 判断两个图形是不是相交, 先不考虑环
+     * 详见博客
+     * @param geometry geometry
+     * @return
+     */
+    public boolean intersects(Geometry geometry)
+    {
+        if (!getEnvelope().intersects(geometry.getEnvelope()))
+        {
+            return false;
+        }
+
+        if (isRectangle())
+        {
+           return RectangleIntersectGeometry.intersects((Polygon) this, geometry);
+        }
+
+        if (geometry.isRectangle())
+        {
+            return RectangleIntersectGeometry.intersects((Polygon) geometry, this);
+        }
+
+
+        return false;
+    }
+    public boolean isRectangle()
+    {
+        // Polygon overrides to check for actual rectangle
+        return false;
+    }
 //
 //    protected Envelope getEnvelope(final List<Point> list )
 //    {

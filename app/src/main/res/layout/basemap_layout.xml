@@ -27,5 +27,11 @@
         attribute:max_y = "4808863.74626"
         attribute:cs_type = ""
         />
+    <Button
+        android:id="@+id/search_envelope"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/search_envelope_text"
+        />
 
 </RelativeLayout>
