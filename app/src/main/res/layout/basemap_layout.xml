@@ -16,7 +16,7 @@
  116.45507812501, 39.795227050781
 12963719.997167, 4808863.746261-->
 
-   <com.snail.gis.view.map.MapView
+   <com.caobugs.gis.view.map.MapView
         android:id="@+id/baseMap"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
