@@ -15,7 +15,12 @@ public class LineString extends Curve
     /**
      * 点集合
      */
-    protected CoordinateSequence points;
+    //protected CoordinateSequence points;
+
+    public LineString(Coordinate points[])
+    {
+        this(points, 0);
+    }
 
     public LineString(Coordinate points[], int SRID)
     {

@@ -1,12 +1,13 @@
 package com.caobugs.gis.view.map;
 
-import android.util.Log;
 
 import com.caobugs.gis.algorithm.MathUtil;
+import com.caobugs.gis.data.db.sql.FarmlandSQL;
 import com.caobugs.gis.geometry.Coordinate;
 import com.caobugs.gis.geometry.primary.Envelope;
 import com.caobugs.gis.tile.CoordinateSystemManager;
 import com.caobugs.gis.tile.TileInfo;
+
 
 /**
  * 用于存储map的当前比例等信息的类
@@ -57,7 +58,7 @@ public class MapInfo
     private double currentScale = 0;
 
     private Coordinate currentCenter = new Coordinate();
-
+    //private TileInfo tileInfo = null;
 
     /**
      * 初始化当前的级别和分辨率还有比例尺
@@ -134,9 +135,13 @@ public class MapInfo
         return currentLevel;
     }
 
+
     public void setCurrentLevel(int currentLevel)
     {
         this.currentLevel = currentLevel;
+        TileInfo tileInfo = CoordinateSystemManager.getInstance().getCoordinateSystem().getTileInfo();
+        this.currentResolution = tileInfo.getResolutions()[currentLevel];
+
     }
 
     public void setDeviceHeight(int deviceHeight)
@@ -192,7 +197,7 @@ public class MapInfo
 
         if(currentCenter.x != 0 && currentCenter.y != 0)
         {
-            return currentCenter;
+           return currentCenter;
         }
 
         if (!getCurrentEnvelope().isEmpty())
@@ -208,15 +213,41 @@ public class MapInfo
         return null;
     }
 
+    public void setCurrentCurrentImage(Coordinate currentCenter)
+    {
+        this.currentCenter = currentCenter;
+    }
+
     /**
      * 先简单做
      * @param currentCenter
      */
     public void setCurrentCenter(Coordinate currentCenter)
     {
-        this.currentCenter = currentCenter;
+        TileInfo tileInfo = CoordinateSystemManager.getInstance().getCoordinateSystem().getTileInfo();
+        Coordinate temp = new Coordinate(currentCenter.x + Math.abs(tileInfo.getOriginPoint().x),
+                Math.abs(tileInfo.getOriginPoint().y)  - currentCenter.y);
+        this.currentCenter = temp;
         currentEnvelope = calculationEnvelope();
-        Log.d("RUN",currentEnvelope+"");
+       // Log.d("RUN",currentEnvelope+"");
+    }
+
+    public void setCurrentLevel(Coordinate currentCenter, int level)
+    {
+        TileInfo tileInfo = CoordinateSystemManager.getInstance().getCoordinateSystem().getTileInfo();
+        Coordinate temp = new Coordinate(currentCenter.x + Math.abs(tileInfo.getOriginPoint().x),
+                Math.abs(tileInfo.getOriginPoint().y)  - currentCenter.y);
+        this.currentCenter = temp;
+        setCurrentLevel(level);
+        currentEnvelope = calculationEnvelope();
+
+        //setCurrentCenter(currentCenter);
+
+        //Envelope envelope = calculationEnvelope();
+        //setFullEnvelope(envelope);
+
+        //Envelope tempEn = new Envelope(envelope.getMinY(), envelope.getMaxY(), envelope.getMinX(), envelope.getMaxX());
+        //currentEnvelope = envelope;
     }
 
     public void setCurrentResolution(double currentResolution)

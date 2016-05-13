@@ -61,7 +61,6 @@ public class TileLayer extends BaseLayer
         loadX = getMoveDistance(getMap().getEnvelope().getMinX());
         loadY = getMoveDistance(getMap().getEnvelope().getMinY());
 
-        Log.e(TAG.TILE, loadX+"  loadX  "+loadY+"   loadY");
         int maxTileNumX = getTileNum(getMap().getEnvelope().getMaxX());
         int maxTileNumY = getTileNum(getMap().getEnvelope().getMaxY());
 
@@ -74,7 +73,7 @@ public class TileLayer extends BaseLayer
         byte[] result[][] = null;
         int tileNumX = maxTileNumX - minTileNumX;
         int tileNumY = maxTileNumY - minTileNumY;
-        Log.e("BaseMap", tileNumX + " tileNumX " + tileNumY + " tileNumY ");
+        //Log.e("BaseMap", tileNumX + " tileNumX " + tileNumY + " tileNumY ");
         result = new byte[tileNumX + 1][tileNumY + 1][];
 
         for (int i = 0; i <= tileNumX; i++)
@@ -100,9 +99,9 @@ public class TileLayer extends BaseLayer
             }
 
             byte[] bytes = ToolMapCache.getByte(tilePath, level, col, row);
-            if(bytes != null)
+
+            if(bytes != null && bytes.length != 0)
             {
-                Log.e("BaseMap", level + "   " + col + "  " + row + "  " + bytes.length);
                 memoryTileCache.put(tileKey, bytes);
             }else
             {
@@ -136,25 +135,19 @@ public class TileLayer extends BaseLayer
             {
                 byte[] bytes = memoryTileCache.get(appendTileString(level, i, j));
                 if (bytes == null)
+                {
+                    bytes =  getByte(level,i,j);
+                    if(bytes == null)
+                    {
+                        continue;
+                    }
+                }
 
-                    continue;
-                //                Matrix matrix = new Matrix();
-                //                matrix.postTranslate((int)(loadX + i * 256 + moveX), (int)(loadY + j * 256  + moveY));
-                //                Bitmap bitmap = BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
-                //                canvas.drawBitmap(bitmap, matrix, paint);
-                Log.e("RUN", i + "   " + j + "    " + bytes.length);
-                // Log.e("RUN",x +"  moveX   "+y +"  moveY vvvvvvvvvvvv");
                 Bitmap bitmap = BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
-                Log.e(TAG.TILE, ((i-minX) * 256 + loadX + 5 * (i-minX) + x) + "  x的偏移  " + "i = " + (i-minX) + " " + ((j-minY) * 256 + loadY + 5 * (j-minY) + y) + "  y的偏移  " + "j = " + (j-minY));
                 canvas.drawBitmap(bitmap, (float) ((i-minX) * 256 - loadX  + x), (float) ((j-minY) * 256 - loadY + y), paint);
-
-                canvas.drawPoint((float) (i * 256 + loadX  + x), (float) (j * 256 + loadY + y), paint);
-
+               // canvas.drawPoint((float) (i * 256 + loadX  + x), (float) (j * 256 + loadY + y), paint);
             }
-            canvas.drawPoint((float) (100), (float) (100), paint);
-
         }
-        Log.e(TAG.TILE, x + "  moveX   " + y + "  moveY");
     }
 
     private void drawTile(Canvas canvas)
@@ -172,22 +165,13 @@ public class TileLayer extends BaseLayer
             {
                 byte[] bytes = tileBytes[i][j];
                 if (bytes == null)
-
+                {
                     continue;
-                //                Matrix matrix = new Matrix();
-                //                matrix.postTranslate((int)(loadX + i * 256 + moveX), (int)(loadY + j * 256  + moveY));
-                //                Bitmap bitmap = BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
-                //                canvas.drawBitmap(bitmap, matrix, paint);
-                Log.e("RUN", i + "   " + j + "    " + bytes.length);
-                // Log.e("RUN",x +"  moveX   "+y +"  moveY vvvvvvvvvvvv");
+                }
                 Bitmap bitmap = BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
-                Log.e(TAG.TILE, (i * 256 + loadX ) + "  x的偏移  " + "i = " + i + " " + (j * 256 + loadY ) + "  y的偏移  " + "j = " + j);
                 canvas.drawBitmap(bitmap, (float) (i * 256 - loadX ), (float) (j * 256 - loadY ), paint);
-
-                canvas.drawPoint((float) (i * 256 -loadX ), (float) (j * 256 - loadY ), paint);
-
+                //canvas.drawPoint((float) (i * 256 -loadX ), (float) (j * 256 - loadY ), paint);
             }
-            canvas.drawPoint((float) (100), (float) (100), paint);
         }
     }
 
@@ -210,7 +194,7 @@ public class TileLayer extends BaseLayer
     }
 
     @Override
-    void recycle()
+    public void recycle()
     {
         memoryTileCache.destroy();
     }
@@ -238,6 +222,7 @@ public class TileLayer extends BaseLayer
     {
         double moveX = MapManger.getInstance().getMap().getMapInfo().moveX;
         double moveY = MapManger.getInstance().getMap().getMapInfo().moveY;
+        Log.e(TAG.TILE,moveX+"    "+moveY);
         if (moveX != 0&& moveY != 0)
         {
            drawTile(canvas, moveX, moveY);

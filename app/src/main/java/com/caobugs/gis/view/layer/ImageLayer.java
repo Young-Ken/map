@@ -13,7 +13,7 @@ public class ImageLayer extends BaseLayer
 {
 
     @Override
-    void recycle()
+    public void recycle()
     {
 
     }

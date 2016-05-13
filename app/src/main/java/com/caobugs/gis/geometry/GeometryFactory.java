@@ -24,6 +24,11 @@ public class GeometryFactory implements Serializable
         return SRID;
     }
 
+    public GeometryFactory()
+    {
+        this(0,getDefaultCoordinateSequenceFactory());
+    }
+
     public GeometryFactory(int SRID)
     {
         this(SRID, getDefaultCoordinateSequenceFactory());

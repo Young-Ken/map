@@ -1,5 +1,6 @@
 package com.caobugs.gis.view.map.event;
 
+
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.VelocityTracker;
@@ -16,6 +17,7 @@ import com.caobugs.gis.view.map.BaseMap;
 public class MapDefaultListener implements OnMapDefaultListener
 {
     private static final String TAG = MapDefaultListener.class.getName();
+
     /**
      * 暂时支持四种模式分别是
      * 点击
@@ -71,7 +73,6 @@ public class MapDefaultListener implements OnMapDefaultListener
     private float velocityY;
 
     private VelocityTracker velocityTracker;
-
     private BaseMap map = null;
     private Coordinate down = new Coordinate();
     private Coordinate up = new Coordinate();
@@ -182,10 +183,8 @@ public class MapDefaultListener implements OnMapDefaultListener
                 velocityX = tempVT.getXVelocity(event.getPointerId(0));
                 velocityY = tempVT.getYVelocity(event.getPointerId(0));
 
-                map.getMapController().mapScroll(moveDistanceX, moveDistanceY);
 
-//                moveLastX = moveingX;
-//                moveLastY = moveingY;
+                map.getMapController().mapScroll(moveDistanceX, moveDistanceY);
                 break;
             }
 
@@ -260,6 +259,7 @@ public class MapDefaultListener implements OnMapDefaultListener
         }
         velocityTracker.addMovement(event);
     }
+
 
     /**
      * 释放VelocityTracker

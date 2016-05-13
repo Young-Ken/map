@@ -3,7 +3,6 @@ package com.caobugs.gis.view.layer;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
-import android.util.Log;
 
 import com.caobugs.gis.data.shapefile.cache.ShapeCache;
 import com.caobugs.gis.data.shapefile.shp.geom.RecordLine;
@@ -26,6 +25,7 @@ import java.util.List;
 public class ShapeLayer extends BaseLayer
 {
 
+
     private ShapeFile shapeFile = null;
     private Paint paint = new Paint();
 
@@ -40,7 +40,7 @@ public class ShapeLayer extends BaseLayer
     }
 
     @Override
-    void recycle()
+    public void recycle()
     {
 
     }
@@ -90,7 +90,7 @@ public class ShapeLayer extends BaseLayer
     {
         double moveX = MapManger.getInstance().getMap().getMapInfo().moveX;
         double moveY = MapManger.getInstance().getMap().getMapInfo().moveY;
-        Log.e(TAG.SHAPELAYER, moveX +"   "+moveY);
+
         if (moveX != 0 && moveY != 0)
         {
             drawShapeFile(canvas, moveX, moveY);
@@ -125,7 +125,7 @@ public class ShapeLayer extends BaseLayer
 
                 Coordinate c = getMap().getProjection().lonLatToMercator(point.getCoordinate().x, point.getCoordinate().y);
 
-                c = getMap().getProjection().earthTransformaImage(c.x, c.y);
+                c = getMap().getProjection().earthTransFormImage(c.x, c.y);
 
                 Coordinate coordinate = getMap().getProjection().toScreenPoint(c.x, c.y);
 
@@ -169,19 +169,17 @@ public class ShapeLayer extends BaseLayer
             {
                 Coordinate temp = (Coordinate)coordinates.getCoordinate(j).clone();
                 temp = getMap().getProjection().lonLatToMercator(temp);
-                temp = getMap().getProjection().earthTransformaImage(temp);
+                temp = getMap().getProjection().earthTransFormImage(temp);
                 temp = getMap().getProjection().toScreenPoint(temp, minX, minY, resolution);
                 lines[j * 2] = (float) temp.x;
                 lines[j * 2 + 1] = (float) temp.y;
                 num++;
             }
             shapeCache.getLines().add(lines);
-            Log.e(TAG.SHAPELAYER, System.currentTimeMillis() - starTime + " ss ");
             drawLines(canvas, lines, 0, 0);
 
         }
 
-        Log.e(TAG.SHAPELAYER,num+"");
         num = 0;
     }
 
@@ -205,8 +203,8 @@ public class ShapeLayer extends BaseLayer
                 tempPoints[i] = (float)(tempPoints[i] + y);
             }
         }
+
         canvas.drawLines(tempPoints, paint);
-        Log.e(TAG.SHAPELAYER,System.currentTimeMillis()-starTime+"   ");
     }
     /**
      * 各种坐标转

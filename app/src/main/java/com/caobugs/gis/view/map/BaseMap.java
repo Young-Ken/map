@@ -17,10 +17,14 @@ import com.caobugs.gis.view.layer.BaseLayer;
 import com.caobugs.gis.view.layer.MapLayerManger;
 import com.caobugs.gis.view.layer.TileLayer;
 import com.caobugs.gis.view.map.event.MapOnTouchListener;
+import com.caobugs.gis.view.map.event.MapStatusChanged;
+import com.caobugs.gis.view.map.event.OnMapStatusChangeListener;
 import com.caobugs.gis.view.map.util.Projection;
 import com.caobugs.gis.data.shapefile.ReadShapeFile;
 import com.caobugs.gis.tile.factory.CoordinateSystemEnum;
 import com.caobugs.gis.tile.factory.CoordinateSystemFactory;
+
+import java.util.List;
 
 /**
  * 先考虑单线程加载,每个App只能加载一个地图
@@ -37,6 +41,7 @@ public abstract class BaseMap extends ViewGroup implements IBaseMap
     private MapController mapController = null;
     private ScaleGestureDetector scaleGestureDetector = null;
     private View glassView = null;
+    private OnMapStatusChangeListener mapStatusChanged = null;
 
     /**
      * 当前Map的默认事件
@@ -87,11 +92,10 @@ public abstract class BaseMap extends ViewGroup implements IBaseMap
         /**
          * 需要map做参数的初始化在这个之后
          */
-        MapLayerManger.getInstance().addLayer(new TileLayer("TILE_OS"));
+        MapLayerManger.getInstance().addLayer(new TileLayer("GOOGLE_IMAGE"));
         projection = Projection.getInstance(this);
-
        // getTile();
-        ReadShapeFile readShapeFile = new ReadShapeFile();
+       // ReadShapeFile readShapeFile = new ReadShapeFile();
     }
 
     private void initGlass()
@@ -141,6 +145,19 @@ public abstract class BaseMap extends ViewGroup implements IBaseMap
        // Log.e("mapCentent",coordin.x+"    "+coordin.y);
        // mapLayerManger.draw(canvas);
 
+
+
+        List<Coordinate> lists  = getEnvelope().getLines();
+
+
+
+
+
+
+
+
+
+
         Coordinate center = new Coordinate(getEnvelope().getMinX() , getEnvelope().getMinY());
         Coordinate screen = getProjection().toScreenPoint(center.x, center.y);
 
@@ -151,6 +168,16 @@ public abstract class BaseMap extends ViewGroup implements IBaseMap
 
         canvas.drawLine(0, 0, getWidth(), getHeight(), paint);
         canvas.drawLine(0, getHeight(), getWidth(), 0, paint);
+
+        Paint red = new Paint();
+        red.setStrokeWidth(100);
+        for(Coordinate coordinate : lists)
+        {
+            coordinate = Projection.getInstance(this).toScreenPoint(coordinate);
+            canvas.drawPoint((float)coordinate.x, (float)coordinate.y, red);
+        }
+
+
 
         Coordinate coordinate = projection.toMapPoint((float) (screen.x + getWidth() / 2), (float) (screen.y + getHeight() / 2));
     }
@@ -167,11 +194,24 @@ public abstract class BaseMap extends ViewGroup implements IBaseMap
         scaleGestureDetector = new ScaleGestureDetector(this.getContext(), mapDefaultTouch);
     }
 
+    /**
+     * 设置地图的状态改变事件
+     * @param mapStatusChangedListener
+     */
+    public void setMapStatusChangedListener(OnMapStatusChangeListener mapStatusChangedListener)
+    {
+        this.mapStatusChanged = mapStatusChangedListener;
+    }
+
+    public OnMapStatusChangeListener getMapStatusChangedListener()
+    {
+        return mapStatusChanged;
+    }
+
     @Override
     public boolean onTouchEvent(MotionEvent event)
     {
         int pointCount = event.getPointerCount();
-        Log.e("ssss",pointCount+"");
 
         if(pointCount == 1)
         {
@@ -259,6 +299,16 @@ public abstract class BaseMap extends ViewGroup implements IBaseMap
     public void setMapCenter(Coordinate center)
     {
         getMapInfo().setCurrentCenter(center);
+    }
+
+    public void setCurrentCenterImage(Coordinate center)
+    {
+        getMapInfo().setCurrentCurrentImage(center);
+    }
+
+    public void setMapCenterLevel(Coordinate center, int level)
+    {
+        getMapInfo().setCurrentLevel(center, level);
     }
 
     @Override

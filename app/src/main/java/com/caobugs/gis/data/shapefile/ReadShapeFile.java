@@ -39,7 +39,7 @@ public class ReadShapeFile implements IReadFilesNames,OnShapeStatusListener
         File rootShape = ToolStorage.getSDCordFile();
         //rootShape = ToolFile.appendFile(rootShape, ConstantFile.ROOT, ConstantFile.SHAPE_ROOT, ConstantFile.SHAPE_FILE);
 
-        rootShape = ToolFile.appendFile(rootShape, ConstantFile.ROOT, ConstantFile.SHAPE_ROOT,"all");
+        rootShape = ToolFile.appendFile(rootShape, ConstantFile.ROOT, ConstantFile.SHAPE_ROOT,"text");
 
         String[] strings = {"shp"};
         String[] fileName = {"Point","gaoxin"};
@@ -56,12 +56,11 @@ public class ReadShapeFile implements IReadFilesNames,OnShapeStatusListener
             ShapeThread thread = new ShapeThread(strings, this);
             threadPool.execute(thread);
         }
-    }
+     }
 
     @Override
     public void  onShapeStatusChanged(String shapeName)
     {
-
         synchronized (ReadShapeFile.class)
         {
             BaseMap map = MapManger.getInstance().getMap();

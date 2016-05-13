@@ -10,6 +10,12 @@ import com.caobugs.gis.enumeration.Dimension;
  */
 public class LinearRing extends LineString
 {
+
+    public LinearRing(Coordinate[] points)
+    {
+        this(points, 0);
+    }
+
     public LinearRing(Coordinate[] points, int SRID)
     {
         this(points, new GeometryFactory(SRID));

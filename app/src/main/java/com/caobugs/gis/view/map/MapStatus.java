@@ -8,12 +8,14 @@ package com.caobugs.gis.view.map;
 public class MapStatus
 {
 
+
     public static enum Defualt
     {
         DEFUALT,
         ZOOMOUT,
         ZOOMIN,
-        MOVING;
+        ZOOM,
+        MOVING
     }
 
     public static enum Edit

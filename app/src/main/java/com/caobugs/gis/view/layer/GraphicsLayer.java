@@ -12,7 +12,7 @@ import com.caobugs.gis.geometry.Coordinate;
 public class GraphicsLayer extends BaseLayer
 {
     @Override
-    void recycle()
+    public void recycle()
     {
 
     }

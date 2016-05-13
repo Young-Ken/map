@@ -99,4 +99,9 @@ public class TileInfo
         this.tileWidth = tileWidth;
     }
 
+    public int getMaxLevel()
+    {
+        return getResolutions().length;
+    }
+
 }

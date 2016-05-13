@@ -69,11 +69,11 @@ public class Projection
         return new Coordinate(x, y);
     }
 
-    public Coordinate earthTransformaImage(double x, double y)
+    public Coordinate earthTransFormImage(double x, double y)
     {
         return new Coordinate(Math.abs(tileInfo.getOriginPoint().x -x), Math.abs(tileInfo.getOriginPoint().y - y));
     }
-    public Coordinate earthTransformaImage(Coordinate coordinate)
+    public Coordinate earthTransFormImage(Coordinate coordinate)
     {
         double x = Math.abs(originPointX - coordinate.x);
         double y = Math.abs(originPointY - coordinate.y);
@@ -81,6 +81,49 @@ public class Projection
         coordinate.y = y;
         return coordinate;
     }
+
+
+    public Coordinate imageTransFromEarth(Coordinate coordinate)
+    {
+        double x = coordinate.x - Math.abs(originPointX) ;
+        double y = Math.abs(coordinate.y - originPointY);
+
+        coordinate.x = x;
+        coordinate.y = y;
+        return coordinate;
+    }
+
+    /**
+     * 图片坐标转成地图坐标
+     * @param x
+     * @param y
+     * @return
+     */
+    public Coordinate imageTransFromEarth(double x, double y)
+    {
+         x = x - Math.abs(originPointX) ;
+         y = Math.abs(y - originPointY);
+        return new Coordinate(x, y);
+    }
+
+    /**
+     * 把图片墨卡托坐标转换成经纬坐标
+     * @param x double
+     * @param y double
+     * @return Coordinate
+     */
+    public Coordinate imageMercatorTransToLonLat(double x, double y)
+    {
+        Coordinate coordinate;
+        coordinate = imageTransFromEarth(x, y);
+        coordinate = mercatorToLonLat(coordinate.x ,coordinate.y);
+        return coordinate;
+    }
+
+//    public Coordinate imageMercatorTransToScreen(double x, double y)
+//    {
+//
+//    }
 
     /**
      * 把地理坐标转换成屏幕坐标

@@ -38,6 +38,10 @@ public class ConstantFile
     public static final String SHAPE_IMAGE = "Image";
 
     /**
+     * db文件的目录
+     */
+    public static final String DB_FILE = "DB";
+    /**
      * 渲染shape xml 文件名
      */
     public static final String SHAPE_XML_NAME = "shapeXML.xml";

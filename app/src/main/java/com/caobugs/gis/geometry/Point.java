@@ -14,6 +14,11 @@ public class Point extends Geometry
 
     private CoordinateSequence coordinates;
 
+    public Point(Coordinate coordinate)
+    {
+        this(coordinate, 0);
+    }
+
     /**
      * 构造方法
      * @param coordinate Coordinate对象

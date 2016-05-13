@@ -2,10 +2,13 @@ package com.caobugs.gis.tool;
 
 import android.app.ActivityManager;
 import android.app.Application;
+import android.app.Service;
 import android.content.Context;
 import android.graphics.drawable.Drawable;
+import android.os.Vibrator;
 
 import com.caobugs.gis.R;
+import com.caobugs.gis.location.bd.server.LocationService;
 
 /**
  * Created by Young Ken on 2015/8/19.
@@ -13,6 +16,8 @@ import com.caobugs.gis.R;
 public class ApplicationContext extends Application
 {
     private static ApplicationContext instance;
+    private static LocationService locationService = null;
+    private static Vibrator vibrator = null;
 
     public static ApplicationContext getApplication()
     {
@@ -95,5 +100,25 @@ public class ApplicationContext extends Application
     {
         super.onCreate();
         instance = this;
+        intiBDLocation();
+    }
+
+    public void intiBDLocation()
+    {
+        locationService = new LocationService(getApplicationContext());
+        vibrator =(Vibrator)getApplicationContext().getSystemService(Service.VIBRATOR_SERVICE);
+        //SDKInitializer.initialize(getApplicationContext());
+    }
+
+    public static LocationService getLocationService()
+    {
+        return locationService;
+    }
+
+
+
+    public static String getAppPackageName()
+    {
+       return getContext().getPackageName();
     }
 }

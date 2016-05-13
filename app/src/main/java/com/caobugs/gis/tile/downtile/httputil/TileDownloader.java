@@ -2,6 +2,7 @@ package com.caobugs.gis.tile.downtile.httputil;
 
 import android.util.Log;
 
+import com.caobugs.gis.tool.TAG;
 import com.caobugs.gis.tool.file.ToolMapCache;
 
 import java.io.ByteArrayInputStream;
@@ -69,11 +70,11 @@ public class TileDownloader
                 inputStream = connection.getInputStream();
                 byte[] bytes = getBytes(inputStream);
                 ToolMapCache.saveByte(bytes, tileType, level, col, row);
-                Log.d("SAVETILE", "  " + level + "  level " + col + "  col  " + row + "  row   " + bytes.length);
+                Log.d(TAG.DOWNTILESERVER, "  " + level + "  level " + col + "  col  " + row + "  row   " + bytes.length);
             } catch (Exception e)
             {
                 e.printStackTrace();
-                Log.e("SAVETILE", e.toString() + "  " + level + "  level " + col + "  col  " + row + "  row");
+                Log.e(TAG.DOWNTILESERVER, e.toString() + "  " + level + "  level " + col + "  col  " + row + "  row");
             } finally
             {
                 connection.disconnect();
@@ -97,7 +98,6 @@ public class TileDownloader
 
     public byte[] getBytes(InputStream is) throws IOException
     {
-
         int len;
         int size = 1024;
         byte[] buf;

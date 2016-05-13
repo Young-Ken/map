@@ -11,4 +11,5 @@ public class TAG
     public static final String EVENT = "event";
     public static final String PROJECTION = "projection";
     public static final String SHAPELAYER = "shapeLayer";
+    public static final String DOWNTILESERVER = "downTileServer";
 }

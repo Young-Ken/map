@@ -1,9 +1,13 @@
 package com.caobugs.gis.view.map;
+import android.content.Intent;
+import android.os.Bundle;
 import android.util.Log;
 
 import com.caobugs.gis.geometry.Coordinate;
 import com.caobugs.gis.geometry.primary.Envelope;
 import com.caobugs.gis.tile.CoordinateSystemManager;
+import com.caobugs.gis.view.map.event.MapStatusChanged;
+import com.caobugs.gis.view.map.event.OnMapStatusChangeListener;
 import com.caobugs.gis.view.map.util.Projection;
 import com.caobugs.gis.tile.TileInfo;
 
@@ -19,10 +23,20 @@ public class MapController implements IMapController
     {
         this.map = map;
     }
-
+    private OnMapStatusChangeListener mapStatusChanged = null;
     @Override
     public boolean mapScroll(double x, double y)
     {
+
+        if(mapStatusChanged != null)
+        {
+            Intent intent = new Intent();
+            Bundle bundle = new Bundle();
+            bundle.putString(MapStatus.Defualt.MOVING.name(), x + "," + y);
+            intent.putExtras(bundle);
+            mapStatusChanged.onMapStatusChanged(MapStatus.Defualt.MOVING.name(),intent);
+        }
+
         map.getMapInfo().moveX = x;
         map.getMapInfo().moveY = y;
         map.refresh();
@@ -37,17 +51,38 @@ public class MapController implements IMapController
             return false;
         }
         zoomTo(map.getMapCenter(), map.getLevel() - 1);
+
+        if(mapStatusChanged != null)
+        {
+            Intent intent = new Intent();
+            Bundle bundle = new Bundle();
+            bundle.putInt(MapStatus.Defualt.ZOOM.name(), (map.getLevel() - 1));
+            intent.putExtras(bundle);
+            mapStatusChanged.onMapStatusChanged(MapStatus.Defualt.ZOOM.name(),intent);
+        }
         return false;
     }
 
     @Override
     public boolean zoomOut()
     {
+
+
         if(map.getLevel() == CoordinateSystemManager.getInstance()
                 .getCoordinateSystem().getTileInfo().getResolutions().length - 1)
         {
             return false;
         }
+        getMapStaticChange();
+        if(mapStatusChanged != null)
+        {
+            Intent intent = new Intent();
+            Bundle bundle = new Bundle();
+            bundle.putInt(MapStatus.Defualt.ZOOM.name(), (map.getLevel() + 1));
+            intent.putExtras(bundle);
+            mapStatusChanged.onMapStatusChanged(MapStatus.Defualt.ZOOM.name(),intent);
+        }
+
         zoomTo(map.getMapCenter(), map.getLevel() + 1);
         return false;
     }
@@ -56,9 +91,10 @@ public class MapController implements IMapController
     public boolean zoomTo(Coordinate point, int level)
     {
         //map.getMapInfo().setMoving(0, 0);
+
         map.getMapInfo().moveX = 0;
         map.getMapInfo().moveY = 0;
-        map.setMapCenter(point);
+        map.setCurrentCenterImage(point);
         setMapInfo(level);
         map.refresh();
         return false;
@@ -115,10 +151,9 @@ public class MapController implements IMapController
     public boolean scrollTo(double downX, double downY, double upX, double upY)
     {
         Projection projection = Projection.getInstance(map);
-        Coordinate downPoint = projection.toMapPoint((float)downX, (float)downY);
+        Coordinate downPoint = projection.toMapPoint((float) downX, (float)downY);
         Coordinate upPoint = projection.toMapPoint((float)upX, (float)upY);
 
-        Log.e("RUN",(upPoint.x - downPoint.x)+"  ddddddd  "+(upPoint.y - downPoint.y));
         Coordinate mapCenter = new Coordinate(map.getMapCenter().x - (upPoint.x - downPoint.x),
                 map.getMapCenter().y - (upPoint.y - downPoint.y));
         zoomTo(mapCenter, map.getLevel());
@@ -130,5 +165,10 @@ public class MapController implements IMapController
     {
         map.invalidate();
         return false;
+    }
+
+    public void getMapStaticChange()
+    {
+        mapStatusChanged = map.getMapStatusChangedListener();
     }
 }

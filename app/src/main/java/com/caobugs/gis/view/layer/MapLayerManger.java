@@ -43,6 +43,11 @@ public class MapLayerManger implements ILayerSubject
         return instance;
     }
 
+    public synchronized List<BaseLayer> getArrayList()
+    {
+        return arrayList;
+    }
+
     public synchronized boolean addLayer(BaseLayer layer)
     {
        return arrayList.add(layer);

@@ -15,6 +15,4 @@ public class MapView extends BaseMap
     {
         super(context, attrs);
     }
-
-
 }

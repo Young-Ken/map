@@ -1,5 +1,7 @@
 package com.caobugs.gis.tile.downtile;
 
+import android.os.Handler;
+import android.os.Message;
 import android.util.Log;
 
 import com.caobugs.gis.tile.downtile.httputil.TileDownloader;
@@ -26,6 +28,7 @@ public class DownTile
     private BaseTiledURL tiledURL = null;
 
     private TileDownloader tileDownloader = new TileDownloader();
+    private Handler handler = null;
 
     public DownTile(TileInfo tileInfo, BaseTiledURL tiledURL,Envelope downEnv, int minLevel, int maxLevel)
     {
@@ -34,6 +37,12 @@ public class DownTile
         this.mapEnv.init(downEnv);
         this.minLevel = minLevel;
         this.maxLevel = maxLevel;
+    }
+
+    public DownTile(TileInfo tileInfo, BaseTiledURL tiledURL,Envelope downEnv, int minLevel, int maxLevel, Handler handler)
+    {
+        this(tileInfo, tiledURL, downEnv, minLevel, maxLevel);
+        this.handler = handler;
     }
 
     public void run() throws Exception
@@ -46,29 +55,44 @@ public class DownTile
 
         for(int i = minLevel; i <= maxLevel; i++)
         {
+            m = 0;
+
+            Message msg = handler.obtainMessage();
+            msg.what = 0;
+            msg.arg1  = i;
+            msg.sendToTarget();
+
             int [] tileNum = getStartTile(i);
             int minTileNumX = tileNum[0];
             int minTileNumY = tileNum[1];
             int maxTileNumX = tileNum[2];
             int maxTileNumY = tileNum[3];
-
+            m = (maxTileNumX - minTileNumX) * (maxTileNumY - minTileNumY);
             for (int col = minTileNumX; col <= maxTileNumX; col ++)
             {
                 for (int row = minTileNumY; row <= maxTileNumY; row ++)
                 {
+                    Message msg1 = handler.obtainMessage();
+                    msg1.what = 1;
+                    msg1.arg1  = m--;
+                    //handler.sendMessage(msg1);
+                    msg1.sendToTarget();
                     threadPool.submit(new TileDownThread(i, col, row));
                 }
             }
         }
     }
 
+    private int x = 0;
+    int y = 0;
+    int m = 0;
     public int[] getStartTile(int level)
     {
         int minTileNumX = getTileNum(mapEnv.getMinX() + (-tileInfo.getOriginPoint().x), level );
         int minTileNumY = getTileNum(tileInfo.getOriginPoint().y - mapEnv.getMaxY(), level);
         int maxTileNumX = getTileNum(mapEnv.getMaxX() + (-tileInfo.getOriginPoint().x), level);
         int maxTileNumY = getTileNum(tileInfo.getOriginPoint().y - mapEnv.getMinY(), level);
-        Log.e("RUN",(maxTileNumX - minTileNumX) +"  tileNum " + (maxTileNumY - minTileNumY)+"  tileNum");
+        Log.e("RUN111",(maxTileNumX - minTileNumX) +"  tileNum " + (maxTileNumY - minTileNumY)+"  tileNum");
         int result[] = {minTileNumX, minTileNumY, maxTileNumX, maxTileNumY};
         return result;
 
@@ -115,8 +139,6 @@ public class DownTile
         @Override
         public void run()
         {
-           // super.run();
-
             if (ToolMapCache.isExistByte(tiledURL.getMapServiceType().getName(), level,col,row))
             {
                 return;

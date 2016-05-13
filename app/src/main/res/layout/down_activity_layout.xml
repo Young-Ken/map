@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:id="@+id/downActivity"
+              android:orientation="vertical"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent">
+
+    <!--
+    //39.946487, 116.288600
+    //39.933241, 116.304088
+    -->
+    <EditText
+        android:id="@+id/minXText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="40sp"
+        android:hint="@string/map_min_x_text_hint"
+        android:text="116.288600"
+        android:inputType="numberDecimal"
+        />
+
+    <EditText
+        android:id="@+id/minYText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="40sp"
+        android:hint="@string/map_min_y_text_hint"
+        android:text="39.933241"
+        android:inputType="numberDecimal"
+        />
+
+    <EditText
+        android:id="@+id/maxXText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="40sp"
+        android:hint="@string/map_max_x_text_hint"
+        android:text="116.304088"
+        android:inputType="numberDecimal"
+        />
+
+    <EditText
+        android:id="@+id/maxYText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="40sp"
+        android:hint="@string/map_max_y_text_hint"
+        android:text="39.946487"
+        android:inputType="numberDecimal"
+        />
+
+    <EditText
+        android:id="@+id/mapMinLevel"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="40sp"
+        android:hint="@string/map_min_level_text_hint"
+        android:inputType="numberSigned"
+        />
+
+
+    <EditText
+        android:id="@+id/mapMaxLevel"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="40sp"
+        android:hint="@string/map_max_level_text_hint"
+        android:inputType="numberSigned"
+        />
+
+    <Button
+        android:id="@+id/downButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/start_down"
+        />
+
+    <TextView
+        android:id="@+id/currentLevel"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="0"
+        />
+
+    <TextView
+        android:id="@+id/currentPercent"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="0"
+        />
+
+</LinearLayout>
