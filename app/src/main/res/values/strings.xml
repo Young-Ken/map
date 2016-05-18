@@ -30,4 +30,6 @@
     <string name="select_text">选中</string>
     <string name="edit_text">编辑</string>
     <string name="cancel_text">取消</string>
+    <string name="zoom_in">缩小</string>
+    <string name="zoom_out">放大</string>
 </resources>

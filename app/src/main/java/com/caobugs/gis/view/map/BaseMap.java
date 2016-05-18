@@ -329,6 +329,10 @@ public abstract class BaseMap extends ViewGroup implements IBaseMap
         return getMapInfo().getCurrentLevel();
     }
 
+    public void setLevel(int level)
+    {
+        getMapInfo().setCurrentLevel(level);
+    }
     public Projection getProjection()
     {
         return projection;

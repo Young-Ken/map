@@ -21,6 +21,8 @@ import com.caobugs.gis.geometry.LinearRing;
 import com.caobugs.gis.geometry.primary.Envelope;
 import com.caobugs.gis.location.GpsInfo;
 import com.caobugs.gis.location.bd.BaiduLocation;
+import com.caobugs.gis.tile.CoordinateSystemManager;
+import com.caobugs.gis.tile.TileInfo;
 import com.caobugs.gis.tool.ApplicationContext;
 import com.caobugs.gis.tool.GeomToString;
 import com.caobugs.gis.view.appview.DownTile;
@@ -91,6 +93,12 @@ public class MapActivity extends Activity implements View.OnClickListener, OnMap
 
         Button deleteButton = (Button) findViewById(R.id.delete_farmland);
         deleteButton.setOnClickListener(this);
+
+        Button zoomIn = (Button) findViewById(R.id.zoom_in);
+        zoomIn.setOnClickListener(this);
+
+        Button zoomOut = (Button) findViewById(R.id.zoom_out);
+        zoomOut.setOnClickListener(this);
         // attribute:min_x = "12945986.606604"
         //attribute:min_y = "4838237.908444"
         // attribute:max_x = "12963719.997167"
@@ -168,7 +176,7 @@ public class MapActivity extends Activity implements View.OnClickListener, OnMap
                 } else
                 {
                     location.start();
-                    locationButton.setText("停止定义");
+                    locationButton.setText("停止定位");
                 }
                 break;
             case R.id.select_farmland:
@@ -258,6 +266,17 @@ public class MapActivity extends Activity implements View.OnClickListener, OnMap
                     }
                 }
                 break;
+
+            case R.id.zoom_in:
+//                map.setCurrentCenterImage(map.getMapCenter());
+//                map.setLevel(map.getLevel() - 1);
+                map.getMapInfo().setCurrentCurrentImageLevel(map.getMapCenter(), map.getLevel() - 1);
+                map.refresh();
+                break;
+            case R.id.zoom_out:
+                map.getMapInfo().setCurrentCurrentImageLevel(map.getMapCenter(),map.getLevel() + 1);
+                map.refresh();
+                break;
         }
 
     }
@@ -313,7 +332,7 @@ public class MapActivity extends Activity implements View.OnClickListener, OnMap
         temp.x = Double.parseDouble(String.format("%.7f", temp.x));
         temp.y = Double.parseDouble(String.format("%.7f", temp.y));
         farmlandPoint.add(temp);
-        Toast.makeText(getApplicationContext(), "你已经绘制了" + farmlandPoint.size() + "个点", Toast.LENGTH_LONG).show();
+        Toast.makeText(getApplicationContext(), "你已经绘制了" + farmlandPoint.size() + "个点", Toast.LENGTH_SHORT).show();
     }
 
     @Override

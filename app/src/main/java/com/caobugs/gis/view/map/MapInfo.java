@@ -1,12 +1,15 @@
 package com.caobugs.gis.view.map;
 
 
+import android.widget.Toast;
+
 import com.caobugs.gis.algorithm.MathUtil;
 import com.caobugs.gis.data.db.sql.FarmlandSQL;
 import com.caobugs.gis.geometry.Coordinate;
 import com.caobugs.gis.geometry.primary.Envelope;
 import com.caobugs.gis.tile.CoordinateSystemManager;
 import com.caobugs.gis.tile.TileInfo;
+import com.caobugs.gis.tool.ApplicationContext;
 
 
 /**
@@ -141,7 +144,6 @@ public class MapInfo
         this.currentLevel = currentLevel;
         TileInfo tileInfo = CoordinateSystemManager.getInstance().getCoordinateSystem().getTileInfo();
         this.currentResolution = tileInfo.getResolutions()[currentLevel];
-
     }
 
     public void setDeviceHeight(int deviceHeight)
@@ -218,6 +220,28 @@ public class MapInfo
         this.currentCenter = currentCenter;
     }
 
+    public void setCurrentCurrentImageLevel(Coordinate currentCenter, int currentLevel)
+    {
+        TileInfo tileInfo = CoordinateSystemManager.getInstance().getCoordinateSystem().getTileInfo();
+        if(currentLevel > tileInfo.getResolutions().length)
+        {
+            Toast.makeText(ApplicationContext.getContext(),"最大级别",Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        if(currentLevel < 0)
+        {
+            Toast.makeText(ApplicationContext.getContext(),"最大小级别",Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        this.currentCenter  = currentCenter;
+        this.currentLevel = currentLevel;
+
+        this.currentResolution = tileInfo.getResolutions()[currentLevel];
+        currentEnvelope = calculationEnvelope();
+    }
+
     /**
      * 先简单做
      * @param currentCenter
@@ -235,6 +259,7 @@ public class MapInfo
     public void setCurrentLevel(Coordinate currentCenter, int level)
     {
         TileInfo tileInfo = CoordinateSystemManager.getInstance().getCoordinateSystem().getTileInfo();
+
         Coordinate temp = new Coordinate(currentCenter.x + Math.abs(tileInfo.getOriginPoint().x),
                 Math.abs(tileInfo.getOriginPoint().y)  - currentCenter.y);
         this.currentCenter = temp;
