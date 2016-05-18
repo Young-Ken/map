@@ -5,8 +5,7 @@ import java.util.concurrent.Callable;
 
 import android.util.Log;
 
-import com.caobugs.gis.data.db.Connection;
-import com.caobugs.gis.data.db.ResultStmt;
+import com.caobugs.gis.data.db.SpatialDBOperation;
 import com.caobugs.gis.geometry.primary.Envelope;
 import com.caobugs.gis.tool.GeomToString;
 
@@ -14,11 +13,11 @@ public class ExecuteSQLThread implements Callable<String>
 {
 
 	protected String sql = null;
-	private Connection connection = null;
+	private SpatialDBOperation spatialDBOperation = null;
 	public ExecuteSQLThread(String sql)
 	{
 		this.sql = sql;
-		connection = new Connection();
+		spatialDBOperation = new SpatialDBOperation();
 	}
 
 	public ExecuteSQLThread()
@@ -71,8 +70,8 @@ public class ExecuteSQLThread implements Callable<String>
 	public synchronized void executeQuery()
 	{
 		Log.i("Thread", "executeQuery()     " + Thread.currentThread().getName());
-		connection.open();
-		//ResultStmt cursor = connection.executeQuery(sql);
+		spatialDBOperation.open();
+		//ResultStmt cursor = spatialDBOperation.executeQuery(sql);
 
 	}
 

@@ -3,6 +3,7 @@ package com.caobugs.gis.ztest;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.KeyEvent;
 import android.view.View;
 import android.view.ViewTreeObserver;
 import android.widget.Button;
@@ -11,6 +12,8 @@ import android.widget.Toast;
 
 import com.caobugs.gis.R;
 import com.caobugs.gis.data.db.Database;
+import com.caobugs.gis.data.db.SpatialDB;
+import com.caobugs.gis.data.db.SpatialDBOperation;
 import com.caobugs.gis.data.db.sql.FarmlandSQL;
 import com.caobugs.gis.enumeration.ConstantResult;
 import com.caobugs.gis.geometry.Coordinate;
@@ -49,7 +52,7 @@ public class MapActivity extends Activity implements View.OnClickListener, OnMap
     private boolean isDrawFarmland = false;
     private List<Coordinate> farmlandPoint = null;
     private Button drawFarmlandPointButton = null;
-    private  Button locationButton = null;
+    private Button locationButton = null;
     private Button drawFarmlandButton = null;
     private FarmlandSQL farmlandSQL = null;
     private LinearLayout selectFarmlandTool = null;
@@ -60,7 +63,7 @@ public class MapActivity extends Activity implements View.OnClickListener, OnMap
     protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
-        new Database();
+
         setContentView(R.layout.basemap_layout);
 
         map = (BaseMap) findViewById(R.id.baseMap);
@@ -107,18 +110,6 @@ public class MapActivity extends Activity implements View.OnClickListener, OnMap
                 map.getMapInfo().setDeviceWidth(map.getMeasuredWidth());
                 map.initMap(CoordinateSystemEnum.GOOGLE_CS, new Envelope(1.2938604970292658E7, 1.2969764297641108E7, 4869419.604634653, 4856528.876808467));
                 farmlandSQL = new FarmlandSQL();
-
-                //                map.getViewTreeObserver().removeGlobalOnLayoutListener(this);
-                //                map.getMapInfo().setDeviceHeight(map.getMeasuredHeight());
-                //                map.getMapInfo().setDeviceWidth(map.getMeasuredWidth());
-                //                map.initMap(CoordinateSystemEnum.GOOGLE_CS, new Envelope(13012486.821215, 13032513.322625, 4396586.368211, 4385153.170403));
-                // map.initMap(CoordinateSystemEnum.GOOGLE_CS, new
-                //         Envelope(13351184.453363707, 13360855.024905564, 3571106.811176191, 3577801.5633670622));
-
-
-                //30.524172 119.93573
-                //30.57594 120.0226
-                // map.initMap(CoordinateSystemEnum.LYG_HH_TILE, new Envelope(119.93573, 120.0226, 30.524172, 30.57594));
             }
         });
 
@@ -139,12 +130,13 @@ public class MapActivity extends Activity implements View.OnClickListener, OnMap
                 farmland.setFarmGeom(new LinearRing(coordinates));
                 farmlandSQL.insert(farmland);
 
-                if(map.getLevel() > 16)
+                if (map.getLevel() > 16)
                 {
                     Envelope temp = map.getEnvelope();
                     farmlandSQL.selectFarmlandByEnvelop(GeomToString.geomToStringWEB(temp, map));
-                } else {
-                  Toast.makeText(ApplicationContext.getContext(),"请放到级别查看绘制完的田块",Toast.LENGTH_LONG).show();
+                } else
+                {
+                    Toast.makeText(ApplicationContext.getContext(), "请放到级别查看绘制完的田块", Toast.LENGTH_LONG).show();
                 }
 
                 break;
@@ -158,8 +150,8 @@ public class MapActivity extends Activity implements View.OnClickListener, OnMap
         switch (id)
         {
             case R.id.search_envelope:
-                Intent intent = new Intent(MapActivity.this, DownTile.class);
-                startActivity(intent);
+                Intent downIntent = new Intent(MapActivity.this, DownTile.class);
+                startActivity(downIntent);
                 break;
 
             case R.id.location_button:
@@ -168,7 +160,7 @@ public class MapActivity extends Activity implements View.OnClickListener, OnMap
                     location = new BaiduLocation(map);
                 }
 
-                if(location.isStart())
+                if (location.isStart())
                 {
                     location.stop();
                     locationButton.setText("开始定位");
@@ -185,10 +177,10 @@ public class MapActivity extends Activity implements View.OnClickListener, OnMap
                 temp = Projection.getInstance(map).mercatorToLonLat(temp.x, temp.y);
                 temp.x = Double.parseDouble(String.format("%.7f", temp.x));
                 temp.y = Double.parseDouble(String.format("%.7f", temp.y));
-                String point = "POINT("+temp.x+" "+temp.y+")";
+                String point = "POINT(" + temp.x + " " + temp.y + ")";
                 FarmlandLayer selectFarmLayer = farmlandSQL.selectFarmLandByPoint(point);
 
-                if(selectFarmLayer != null)
+                if (selectFarmLayer != null)
                 {
                     farmlandLayer = selectFarmLayer;
                     selectFarmlandTool.setVisibility(View.VISIBLE);
@@ -200,10 +192,10 @@ public class MapActivity extends Activity implements View.OnClickListener, OnMap
                 drawFarmlandPoint();
                 break;
             case R.id.draw_farmland:
-               drawFarmland();
+                drawFarmland();
                 break;
             case R.id.cancel_button:
-                if(farmlandLayer != null)
+                if (farmlandLayer != null)
                 {
                     farmlandLayer.setSelected(null);
                     mapDarwFarmland.setVisibility(View.VISIBLE);
@@ -214,28 +206,30 @@ public class MapActivity extends Activity implements View.OnClickListener, OnMap
             case R.id.delete_farmland:
                 if (farmlandLayer == null)
                 {
-                    Toast.makeText(ApplicationContext.getContext(),"出现问题，不能删除，请从试",Toast.LENGTH_LONG).show();
+                    Toast.makeText(ApplicationContext.getContext(), "出现问题，不能删除，请从试", Toast.LENGTH_LONG).show();
                     break;
-                } else {
-                    if(farmlandLayer.getSelected() != null)
+                } else
+                {
+                    if (farmlandLayer.getSelected() != null)
                     {
-                        boolean result=  farmlandSQL.delete(farmlandLayer.getSelected().getId());
-                        if(result)
+                        boolean result = farmlandSQL.delete(farmlandLayer.getSelected().getId());
+                        if (result)
                         {
-                            Toast.makeText(ApplicationContext.getContext(),"删除成功",Toast.LENGTH_LONG).show();
+                            Toast.makeText(ApplicationContext.getContext(), "删除成功", Toast.LENGTH_LONG).show();
 
                             ArrayList<Farmland> farmlands = farmlandLayer.getFarmlands();
 
-                            for(Farmland farmland : farmlands)
+                            for (Farmland farmland : farmlands)
                             {
-                                if(farmland.getId() == farmlandLayer.getSelected().getId())
+                                if (farmland.getId() == farmlandLayer.getSelected().getId())
                                 {
                                     farmlandLayer.getFarmlands().remove(farmland);
                                     break;
                                 }
                             }
-                        } else {
-                            Toast.makeText(ApplicationContext.getContext(),"删除失败",Toast.LENGTH_LONG).show();
+                        } else
+                        {
+                            Toast.makeText(ApplicationContext.getContext(), "删除失败", Toast.LENGTH_LONG).show();
                         }
 
                         farmlandLayer.setSelected(null);
@@ -245,16 +239,44 @@ public class MapActivity extends Activity implements View.OnClickListener, OnMap
                     }
                 }
 
-
+                break;
+            case R.id.edit_farmland:
+                if (farmlandLayer == null)
+                {
+                    Toast.makeText(ApplicationContext.getContext(), "出现问题，不能修改，请从试", Toast.LENGTH_LONG).show();
+                    return;
+                } else
+                {
+                    if (farmlandLayer.getSelected() != null)
+                    {
+                        Intent infoIntent = new Intent(MapActivity.this, FarmlandInfoActivity.class);
+                        startActivity(infoIntent);
+                    } else
+                    {
+                        Toast.makeText(ApplicationContext.getContext(), "出现问题，没有选中的田块，请从试", Toast.LENGTH_LONG).show();
+                        return;
+                    }
+                }
+                break;
         }
+
     }
+
+
+
 
     public void drawFarmland()
     {
         GpsInfo gpsInfo = GpsInfo.getInstance();
-        if(gpsInfo.isEmpty())
+        if (gpsInfo.isEmpty())
         {
-            Toast.makeText(this.getApplicationContext(),"请先进行定位，定位成功后才能操作本页面!",Toast.LENGTH_LONG).show();
+            Toast.makeText(this.getApplicationContext(), "请先进行定位，定位成功后才能操作本页面!", Toast.LENGTH_LONG).show();
+            return;
+        }
+
+        if (map.getLevel() <= 15)
+        {
+            Toast.makeText(this.getApplicationContext(), "请放到16级以上，才能进行绘制！", Toast.LENGTH_LONG).show();
             return;
         }
 
@@ -291,34 +313,63 @@ public class MapActivity extends Activity implements View.OnClickListener, OnMap
         temp.x = Double.parseDouble(String.format("%.7f", temp.x));
         temp.y = Double.parseDouble(String.format("%.7f", temp.y));
         farmlandPoint.add(temp);
-        Toast.makeText(getApplicationContext(), "你已经绘制了"+farmlandPoint.size()+"个点", Toast.LENGTH_LONG).show();
+        Toast.makeText(getApplicationContext(), "你已经绘制了" + farmlandPoint.size() + "个点", Toast.LENGTH_LONG).show();
     }
 
     @Override
     public void onMapStatusChanged(String type, Intent intent)
     {
         MapLayerManger mapLayerManger = MapLayerManger.getInstance();
-        List<BaseLayer> layers =  mapLayerManger.getArrayList();
+        List<BaseLayer> layers = mapLayerManger.getArrayList();
 
-        if(type.equals(MapStatus.Defualt.ZOOM.name()))
+        if (type.equals(MapStatus.Defualt.ZOOM.name()))
         {
             Bundle bundle = intent.getExtras();
             int level = bundle.getInt(MapStatus.Defualt.ZOOM.name());
-            if(level > 16)
+            if (level > 16)
             {
                 Envelope temp = map.getEnvelope();
                 farmlandSQL.selectFarmlandByEnvelop(GeomToString.geomToStringWEB(temp, map));
             }
-            if(level <= 15)
+            if (level <= 15)
             {
                 for (BaseLayer layer : layers)
                 {
-                    if(layer instanceof FarmlandLayer)
+                    if (layer instanceof FarmlandLayer)
                     {
                         layer.recycle();
                     }
                 }
             }
         }
+    }
+
+
+    //上次按下返回键的系统时间
+    private long lastBackTime = 0;
+    //当前按下返回键的系统时间
+    private long currentBackTime = 0;
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event)
+    {
+        //捕获返回键按下的事件
+        if (keyCode == KeyEvent.KEYCODE_BACK)
+        {
+            //获取当前系统时间的毫秒数
+            currentBackTime = System.currentTimeMillis();
+            //比较上次按下返回键和当前按下返回键的时间差，如果大于2秒，则提示再按一次退出
+            if (currentBackTime - lastBackTime > 2 * 1000)
+            {
+                Toast.makeText(this, "再按一次返回键退出", Toast.LENGTH_SHORT).show();
+                lastBackTime = currentBackTime;
+            } else
+            { //如果两次按下的时间差小于2秒，则退出程序
+                finish();
+                android.os.Process.killProcess(android.os.Process.myPid());
+                System.exit(0);
+            }
+            return true;
+        }
+        return super.onKeyDown(keyCode, event);
     }
 }

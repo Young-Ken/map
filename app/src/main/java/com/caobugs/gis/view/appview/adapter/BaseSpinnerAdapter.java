@@ -1,10 +1,10 @@
 package com.caobugs.gis.view.appview.adapter;
 
+import android.content.Context;
 import android.database.DataSetObserver;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
-import android.widget.SpinnerAdapter;
 
 import java.util.ArrayList;
 
@@ -13,21 +13,20 @@ import java.util.ArrayList;
  * @version 0.1
  * @since 2016/4/1
  */
-public class BaseSpinnerAdapter extends BaseAdapter implements SpinnerAdapter
+public class BaseSpinnerAdapter extends BaseAdapter
 {
 
-    ArrayList<Object> arrayList = null;
+    protected ArrayList<?> arrayList = null;
+    protected Context context;
 
-    public BaseSpinnerAdapter(ArrayList<Object> list)
+
+
+    public BaseSpinnerAdapter(Context context, ArrayList<?> list)
     {
         this.arrayList = list;
+        this.context = context;
     }
 
-    @Override
-    public View getDropDownView(int position, View convertView, ViewGroup parent)
-    {
-        return null;
-    }
 
     @Override
     public void registerDataSetObserver(DataSetObserver observer)
@@ -68,7 +67,7 @@ public class BaseSpinnerAdapter extends BaseAdapter implements SpinnerAdapter
     @Override
     public View getView(int position, View convertView, ViewGroup parent)
     {
-        return null;
+       return null;
     }
 
     @Override
@@ -80,7 +79,7 @@ public class BaseSpinnerAdapter extends BaseAdapter implements SpinnerAdapter
     @Override
     public int getViewTypeCount()
     {
-        return 0;
+        return 1;
     }
 
     @Override
@@ -88,4 +87,5 @@ public class BaseSpinnerAdapter extends BaseAdapter implements SpinnerAdapter
     {
         return arrayList.isEmpty();
     }
+
 }

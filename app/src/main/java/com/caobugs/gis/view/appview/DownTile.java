@@ -253,8 +253,8 @@ public class DownTile extends Activity
         @Override
         public void run()
         {
-            TileInfo tileInfo = new CoordinateSystemFactory().create(CoordinateSystemEnum.OPEN_STREET_MAP).getTileInfo();
-            BaseTiledURL baseTiledURL = TiledLayerFactory.getInstance().createTiledURL(OpenStreetTileType.TILE_OS);
+            TileInfo tileInfo = new CoordinateSystemFactory().create(CoordinateSystemEnum.GOOGLE_CS).getTileInfo();
+            BaseTiledURL baseTiledURL = TiledLayerFactory.getInstance().createTiledURL(GoogleTiledTypes.GOOGLE_VECTOR);
             com.caobugs.gis.tile.downtile.DownTile downTile = new com.caobugs.gis.tile.downtile.DownTile(tileInfo, baseTiledURL
                     ,new Envelope(mapMinX, mapMaxX, mapMinY, mapMaxY),mapMinLevel,mapMaxLevel,mHandler);
             try

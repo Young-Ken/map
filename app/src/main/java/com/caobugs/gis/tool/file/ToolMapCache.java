@@ -1,6 +1,8 @@
 package com.caobugs.gis.tool.file;
 
 
+import android.util.Log;
+
 import com.caobugs.gis.enumeration.ConstantFile;
 
 import java.io.ByteArrayOutputStream;
@@ -11,6 +13,7 @@ import java.io.IOException;
 import java.io.InputStream;
 
 /**
+ * 这个缓存sd卡级别的缓存
  * @author Young Ken
  * @version 0.1
  * @since 2015/9/30
@@ -59,8 +62,7 @@ public class ToolMapCache
     public static boolean isExistByte(final String path, final int level, final int col, final int row)
     {
         File file = ToolFile.createFile(getMapCachePath(path, level, col, row));
-
-        return !file.equals(null) && file.exists();
+        return file.exists() && !file.getPath().equals("");
     }
 
     /**
@@ -77,43 +79,21 @@ public class ToolMapCache
     {
         File file = ToolFile.createFile(getMapCachePath(path, level, col, row));
 
-        if (null == file)
+        if (file.getPath().equals(""))
         {
             return false;
         }
 
         File parentFile = ToolFile.createFile(file.getParent());
 
+
+
         if (!parentFile.exists())
         {
-            if (parentFile.mkdirs())
-            {
-                if (writeToBytes(bytes, file))
-                {
-                    return true;
-                } else
-                {
-                    return false;
-                }
-            } else
-            {
-                return false;
-            }
+            return parentFile.mkdirs() && writeToBytes(bytes, file);
         } else
         {
-            if (file.isDirectory())
-            {
-                return true;
-            } else
-            {
-                if (writeToBytes(bytes, file))
-                {
-                    return true;
-                } else
-                {
-                    return false;
-                }
-            }
+            return file.isDirectory() && writeToBytes(bytes, file);
         }
     }
 
@@ -144,8 +124,7 @@ public class ToolMapCache
             bos.write(b, 0, bytesRead);
         }
 
-        byte[] bytes = bos.toByteArray();
-        return bytes;
+        return bos.toByteArray();
     }
 
     public static boolean writeToBytes(byte bytes[], File file)
@@ -155,6 +134,7 @@ public class ToolMapCache
 
     public static boolean writeToBytes(byte bytes[], String fileName)
     {
+        boolean result = true;
         FileOutputStream fos = null;
         try
         {
@@ -163,20 +143,25 @@ public class ToolMapCache
             fos.flush();
         } catch (Exception e)
         {
+            result = false;
             e.printStackTrace();
         } finally
         {
             try
             {
                 if (null != fos)
+                {
                     fos.close();
-                return true;
-
+                } else
+                {
+                    result = false;
+                }
             } catch (IOException e)
             {
+                result = false;
                 e.printStackTrace();
-                return false;
             }
         }
+        return result;
     }
 }

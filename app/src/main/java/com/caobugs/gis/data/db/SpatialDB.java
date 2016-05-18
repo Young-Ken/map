@@ -3,63 +3,105 @@ package com.caobugs.gis.data.db;
 import java.io.File;
 
 import android.util.Log;
+import android.widget.Toast;
 
-import jsqlite.Constants;
+import com.caobugs.gis.tool.ApplicationContext;
+import com.caobugs.gis.tool.TAG;
+
+import jsqlite.*;
 
 public class SpatialDB
 {
 
-    private static final String TAG = "SpatialDatabase";
+    /**
+     * 单例模式
+     */
+    private volatile static SpatialDB instance = null;
 
-    private static class SingletonHolder
-    {
-        public static jsqlite.Database dataCollectDB = new jsqlite.Database();
-    }
+    private Boolean dataIsOpen = false;
 
     private SpatialDB()
     {
     }
 
+    /**
+     * 单例模式返回ShapeFileManager实例
+     * @return ShapeFileManager实例
+     */
+    public static SpatialDB getInstance()
+    {
+        if (null == instance)
+        {
+            synchronized (SpatialDB.class)
+            {
+                if (null == instance)
+                {
+                    instance = new SpatialDB();
+                }
+            }
+        }
+        return instance;
+    }
+
+    public static class SingletonHolder
+    {
+        public static jsqlite.Database dataCollectDB = new jsqlite.Database();
+    }
+
+
+
     public static jsqlite.Database newInstance(String dbFile, String decrypt)
-            throws Exception
+            throws jsqlite.Exception
     {
         Boolean isOpen = openDBConnection(SingletonHolder.dataCollectDB,
                 dbFile, decrypt);
         if (isOpen)
         {
-            Log.i(TAG, "open openDBConnection success!");
+            Log.i(TAG.DATABASE, "open openDBConnection success!");
             return SingletonHolder.dataCollectDB;
         } else
         {
-            Log.i(TAG, "open openDBConnection faile!");
-            throw new Exception("连接数据库失败！");
+            Toast.makeText(ApplicationContext.getContext(),"打开数据库失败，请联系开发人员",Toast.LENGTH_LONG).show();
+            throw new jsqlite.Exception("连接数据库失败！");
         }
-
     }
 
-    private static Boolean openDBConnection(jsqlite.Database database,
-                                            String dbFile, String decrypt) throws Exception
+    public static jsqlite.Database getDataCollectDB()
     {
+        return SingletonHolder.dataCollectDB;
+    }
+
+    /**
+     * 数据库正常打开
+     * @param database Database
+     * @param dbFile 数据库路径
+     * @param decrypt 密码
+     * @return boolean
+     */
+    private static Boolean openDBConnection(jsqlite.Database database, String dbFile, String decrypt)
+    {
+        boolean result = true;
         try
         {
             // 判断数据库文件是否存在
             File file = new File(dbFile);
             if (!file.exists())
             {
-                return false;
+                result = false;
             }
-            // 设置属性文件的存储目录
-            // SETTING_FILES_PATH = file.getParentFile().getAbsolutePath();
             // 尝试打开数据库
             database.open(file.toString(), Constants.SQLITE_OPEN_READWRITE);
-            if (decrypt != "")
+            if (!decrypt.equals(""))
             {
                 database.key(decrypt);
             }
-            return true;
-        } catch (Exception e)
+        } catch (jsqlite.Exception e)
         {
-            return false;
+            result = false;
+            Toast.makeText(ApplicationContext.getContext(),"打开数据库错误,请联系开发人员!",Toast.LENGTH_LONG).show();
+            e.printStackTrace();
         }
+
+        return result;
     }
 }

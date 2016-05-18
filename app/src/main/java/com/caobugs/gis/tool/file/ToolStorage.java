@@ -29,7 +29,7 @@ public class ToolStorage
      */
     public static File getSDCordFile()
     {
-       return isExistSDCard() == true ?  Environment.getExternalStorageDirectory() : null;
+       return isExistSDCard() ?  Environment.getExternalStorageDirectory() : null;
     }
 
     private static StatFs getStatFs()

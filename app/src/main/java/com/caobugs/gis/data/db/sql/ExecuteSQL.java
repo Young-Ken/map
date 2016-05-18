@@ -163,7 +163,7 @@ public class ExecuteSQL
 //
 //		//executeQuery22
 //	}
-//	public void run2(Connection jdbc , String sql)
+//	public void run2(SpatialDBOperation jdbc , String sql)
 //	{
 //
 //			Date date = new Date();

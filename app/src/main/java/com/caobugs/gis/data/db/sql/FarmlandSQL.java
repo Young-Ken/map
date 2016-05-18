@@ -1,11 +1,8 @@
 package com.caobugs.gis.data.db.sql;
 
-
-import android.util.Log;
-import android.widget.ArrayAdapter;
 import android.widget.Toast;
 
-import com.caobugs.gis.data.db.Connection;
+import com.caobugs.gis.data.db.SpatialDBOperation;
 import com.caobugs.gis.data.db.FarmlandResultStmt;
 import com.caobugs.gis.data.db.ResultStmt;
 import com.caobugs.gis.tool.ApplicationContext;
@@ -35,27 +32,26 @@ public class FarmlandSQL
 
 	public void selectFarmlandByEnvelop(String envelop)
 	{
-		Connection connection = new Connection();
-		connection.open();
+		SpatialDBOperation spatialDBOperation = new SpatialDBOperation();
+		spatialDBOperation.open();
 		String sql = "select id,tel,farmname,address,area,AsBinary(geom) as geom from farmland where within(geom,GeomFromText('"+envelop+"'))";
 		FarmlandResultStmt resultStmt = (FarmlandResultStmt) executeQuery(sql,
-				connection.getDataCollectDB(),
+				spatialDBOperation.getDataCollectDB(),
 				farmlandLayer.getFarmlands());
 		ArrayList<Farmland> farmlands = resultStmt.getFarmlands();
 		farmlandLayer.setFarmlands(farmlands);
-		connection.close();
+		spatialDBOperation.close();
 	}
 
 	public FarmlandLayer selectFarmLandByPoint(String point)
 	{
-		Connection connection = new Connection();
-		connection.open();
+		SpatialDBOperation spatialDBOperation = new SpatialDBOperation();
+		spatialDBOperation.open();
 		String sql = "select id,tel,farmname,address,area,AsBinary(geom) as geom from farmland where within(GeomFromText('" + point + "'),geom)";
-		Log.e("wwwwwwww", sql);
 		FarmlandResultStmt resultStmt = null;
 		try
 		{
-			resultStmt = (FarmlandResultStmt) executeQuery(sql, connection.getDataCollectDB());
+			resultStmt = (FarmlandResultStmt) executeQuery(sql, spatialDBOperation.getDataCollectDB());
 			ArrayList<Farmland> farmlands = resultStmt.getFarmlands();
 			if (farmlands.size() == 1)
 			{
@@ -72,21 +68,20 @@ public class FarmlandSQL
 			return null;
 		}finally
 		{
-			connection.close();
+			spatialDBOperation.close();
 		}
 
-		//return null;
 	}
 
 	public boolean delete(int id)
 	{
-		Connection connection = new Connection();
-		connection.open();
+		SpatialDBOperation spatialDBOperation = new SpatialDBOperation();
+		spatialDBOperation.open();
 		StringBuffer sql = new StringBuffer("delete from farmland where id = "+id+"");
 		boolean result = false;
 		try
 		{
-			ResultStmt stmt = executeQuery(sql.toString(), connection.getDataCollectDB());
+			ResultStmt stmt = executeQuery(sql.toString(), spatialDBOperation.getDataCollectDB());
 			result = true;
 		} catch (Exception e)
 		{
@@ -95,7 +90,7 @@ public class FarmlandSQL
 			e.printStackTrace();
 		} finally
 		{
-			connection.close();
+			spatialDBOperation.close();
 		}
 		return result;
 	}
@@ -108,19 +103,19 @@ public class FarmlandSQL
 			Toast.makeText(ApplicationContext.getContext(), "数据为空操作失败，从新绘制",Toast.LENGTH_LONG).show();
 			return;
 		}
-		Connection connection = new Connection();
-		connection.open();
+		SpatialDBOperation spatialDBOperation = new SpatialDBOperation();
+		spatialDBOperation.open();
 
 		StringBuffer sql = new StringBuffer("Insert into farmland(tel,farmname,address,geom) values (" +
 				""+farmland.getTel()+",'"+farmland.getFarmName()+"','"+farmland.getAddress()+"',GeomFromText('"+ GeomToString.polygonToString(farmland.getFarmGeom())+"'))");
 		try
 		{
-			ResultStmt resultStmt =  executeQuery(sql.toString(), connection.getDataCollectDB());
+			ResultStmt resultStmt =  executeQuery(sql.toString(), spatialDBOperation.getDataCollectDB());
 		} catch (Exception e)
 		{
 			e.printStackTrace();
 		}
-		connection.close();
+		spatialDBOperation.close();
 	}
 
 	public ResultStmt executeQuery(String sql, jsqlite.Database database, ArrayList<Farmland> arrayList)
