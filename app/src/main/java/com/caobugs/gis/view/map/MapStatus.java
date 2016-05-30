@@ -7,8 +7,6 @@ package com.caobugs.gis.view.map;
  */
 public class MapStatus
 {
-
-
     public static enum Defualt
     {
         DEFUALT,

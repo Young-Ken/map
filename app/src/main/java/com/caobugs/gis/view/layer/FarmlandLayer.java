@@ -3,20 +3,17 @@ package com.caobugs.gis.view.layer;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
-import android.text.Layout;
-import android.text.StaticLayout;
 import android.text.TextPaint;
 import android.util.Log;
 
 import com.caobugs.gis.geometry.Coordinate;
 import com.caobugs.gis.geometry.LinearRing;
 import com.caobugs.gis.geometry.primary.Envelope;
-import com.caobugs.gis.tool.TAG;
+import com.caobugs.gis.util.TAG;
 import com.caobugs.gis.view.map.MapManger;
 import com.caobugs.gis.vo.Farmland;
 
 import java.util.ArrayList;
-import java.util.HashSet;
 
 /**
  * @author Young-Ken

@@ -7,7 +7,7 @@ import android.util.Log;
 
 import com.caobugs.gis.data.db.SpatialDBOperation;
 import com.caobugs.gis.geometry.primary.Envelope;
-import com.caobugs.gis.tool.GeomToString;
+import com.caobugs.gis.util.GeomToString;
 
 public class ExecuteSQLThread implements Callable<String>
 {

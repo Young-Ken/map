@@ -4,10 +4,6 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 
-import com.caobugs.gis.enumeration.MapEvent;
-import com.caobugs.gis.view.map.BaseMap;
-import com.caobugs.gis.view.map.MapStatus;
-
 
 /**
  * @author Young-Ken

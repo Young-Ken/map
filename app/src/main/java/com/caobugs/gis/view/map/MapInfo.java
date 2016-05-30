@@ -1,15 +1,11 @@
 package com.caobugs.gis.view.map;
 
 
-import android.widget.Toast;
-
 import com.caobugs.gis.algorithm.MathUtil;
 import com.caobugs.gis.geometry.Coordinate;
 import com.caobugs.gis.geometry.primary.Envelope;
 import com.caobugs.gis.tile.CoordinateSystemManager;
 import com.caobugs.gis.tile.TileInfo;
-import com.caobugs.gis.tool.ApplicationContext;
-import com.caobugs.gis.view.map.event.OnMapStatusChangeListener;
 
 
 /**
@@ -222,27 +218,27 @@ public class MapInfo
         this.currentCenter = currentCenter;
     }
 
-    public void setCurrentCurrentImageLevel(Coordinate currentCenter, int currentLevel)
-    {
-        TileInfo tileInfo = CoordinateSystemManager.getInstance().getCoordinateSystem().getTileInfo();
-        if(currentLevel > tileInfo.getResolutions().length-1)
-        {
-            Toast.makeText(ApplicationContext.getContext(),"最大级别",Toast.LENGTH_SHORT).show();
-            return;
-        }
-
-        if(currentLevel <= 0)
-        {
-            Toast.makeText(ApplicationContext.getContext(),"最大小级别",Toast.LENGTH_SHORT).show();
-            return;
-        }
-
-        this.currentCenter  = currentCenter;
-        this.currentLevel = currentLevel;
-
-        this.currentResolution = tileInfo.getResolutions()[currentLevel];
-        currentEnvelope = calculationEnvelope();
-    }
+//    public void setCurrentCurrentImageLevel(Coordinate currentCenter, int currentLevel)
+//    {
+//        TileInfo tileInfo = CoordinateSystemManager.getInstance().getCoordinateSystem().getTileInfo();
+//        if(currentLevel > tileInfo.getResolutions().length-1)
+//        {
+//            Toast.makeText(ApplicationContext.getContext(),"最大级别",Toast.LENGTH_SHORT).show();
+//            return;
+//        }
+//
+//        if(currentLevel <= 0)
+//        {
+//            Toast.makeText(ApplicationContext.getContext(),"最大小级别",Toast.LENGTH_SHORT).show();
+//            return;
+//        }
+//
+//        this.currentCenter  = currentCenter;
+//        this.currentLevel = currentLevel;
+//
+//        this.currentResolution = tileInfo.getResolutions()[currentLevel];
+//        currentEnvelope = calculationEnvelope();
+//    }
 
     /**
      * 先简单做

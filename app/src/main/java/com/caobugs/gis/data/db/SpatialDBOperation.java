@@ -1,8 +1,8 @@
 package com.caobugs.gis.data.db;
 
 
-import com.caobugs.gis.enumeration.ConstantFile;
-import com.caobugs.gis.tool.file.ToolStorage;
+import com.caobugs.gis.util.constants.ConstantFile;
+import com.caobugs.gis.util.file.ToolStorage;
 
 
 public class SpatialDBOperation

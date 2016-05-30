@@ -1,6 +1,6 @@
 package com.caobugs.gis.geometry;
 
-import com.caobugs.gis.enumeration.Dimension;
+import com.caobugs.gis.util.constants.Dimension;
 
 /**
  * 线环类

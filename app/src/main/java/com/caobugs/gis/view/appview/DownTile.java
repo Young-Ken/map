@@ -3,43 +3,28 @@ package com.caobugs.gis.view.appview;
 import android.app.Activity;
 import android.content.ComponentName;
 import android.content.ServiceConnection;
-import android.graphics.Bitmap;
 import android.graphics.Color;
-import android.nfc.Tag;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.IBinder;
-import android.os.Looper;
 import android.os.Message;
 import android.util.Log;
 import android.view.View;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
-import android.widget.Spinner;
 import android.widget.TextView;
-import android.widget.Toast;
 
 
 import com.caobugs.gis.R;
-import com.caobugs.gis.geometry.Coordinate;
 import com.caobugs.gis.tile.CoordinateSystemManager;
 import com.caobugs.gis.tile.downtile.factory.TiledLayerFactory;
 import com.caobugs.gis.tile.downtile.tileurl.BaseTiledURL;
 import com.caobugs.gis.tile.downtile.tileurl.GoogleTiledTypes;
-import com.caobugs.gis.tile.downtile.tileurl.LYGTileType;
 import com.caobugs.gis.geometry.primary.Envelope;
 import com.caobugs.gis.tile.TileInfo;
-import com.caobugs.gis.tile.downtile.tileurl.OpenStreetTileType;
-import com.caobugs.gis.tile.factory.CoordinateSystemEnum;
-import com.caobugs.gis.tile.factory.CoordinateSystemFactory;
 import com.caobugs.gis.tile.service.DownTileBinder;
-import com.caobugs.gis.tool.TAG;
-
-import java.util.ArrayList;
-import java.util.List;
+import com.caobugs.gis.util.TAG;
 
 /**
  * @author Young-Ken

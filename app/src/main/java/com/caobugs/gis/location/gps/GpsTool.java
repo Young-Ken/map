@@ -4,8 +4,8 @@ import android.os.AsyncTask;
 import android.widget.Toast;
 
 import com.caobugs.gis.geometry.Coordinate;
-import com.caobugs.gis.tool.ApplicationContext;
-import com.caobugs.gis.tool.ToolGPS;
+import com.caobugs.gis.util.ApplicationContext;
+import com.caobugs.gis.util.ToolGPS;
 import com.caobugs.gis.view.map.BaseMap;
 import com.caobugs.gis.view.map.util.Projection;
 

@@ -2,18 +2,15 @@ package com.caobugs.gis.tile.downtile.httputil;
 
 import android.util.Log;
 
-import com.caobugs.gis.tool.TAG;
-import com.caobugs.gis.tool.file.ToolMapCache;
+import com.caobugs.gis.util.TAG;
+import com.caobugs.gis.util.file.ToolMapCache;
 
-import java.io.BufferedOutputStream;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
 import java.net.URL;
-import java.util.concurrent.atomic.AtomicInteger;
 
 /**
  * @author Young-Ken

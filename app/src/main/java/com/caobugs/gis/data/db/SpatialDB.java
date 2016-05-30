@@ -5,8 +5,8 @@ import java.io.File;
 import android.util.Log;
 import android.widget.Toast;
 
-import com.caobugs.gis.tool.ApplicationContext;
-import com.caobugs.gis.tool.TAG;
+import com.caobugs.gis.util.ApplicationContext;
+import com.caobugs.gis.util.TAG;
 
 import jsqlite.*;
 

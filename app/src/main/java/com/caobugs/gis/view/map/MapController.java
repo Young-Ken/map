@@ -1,12 +1,11 @@
 package com.caobugs.gis.view.map;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
+import android.widget.Toast;
 
 import com.caobugs.gis.geometry.Coordinate;
-import com.caobugs.gis.geometry.primary.Envelope;
 import com.caobugs.gis.tile.CoordinateSystemManager;
-import com.caobugs.gis.view.map.event.MapStatusChanged;
+import com.caobugs.gis.util.ApplicationContext;
 import com.caobugs.gis.view.map.event.OnMapStatusChangeListener;
 import com.caobugs.gis.view.map.util.Projection;
 import com.caobugs.gis.tile.TileInfo;
@@ -51,8 +50,9 @@ public class MapController implements IMapController
     @Override
     public boolean zoomIn()
     {
-        if(map.getLevel() == 0)
+        if(map.getLevel() <= 0)
         {
+            Toast.makeText(ApplicationContext.getContext(),"最大小级别",Toast.LENGTH_LONG).show();
             return false;
         }
         zoomTo(map.getMapCenter(), map.getLevel() - 1);
@@ -71,11 +71,10 @@ public class MapController implements IMapController
     @Override
     public boolean zoomOut()
     {
-
-
         if(map.getLevel() == CoordinateSystemManager.getInstance()
                 .getCoordinateSystem().getTileInfo().getResolutions().length - 1)
         {
+            Toast.makeText(ApplicationContext.getContext(),"最大级别",Toast.LENGTH_LONG).show();
             return false;
         }
 
@@ -95,7 +94,6 @@ public class MapController implements IMapController
     @Override
     public boolean zoomTo(Coordinate point, int level)
     {
-        //map.getMapInfo().setMoving(0, 0);
 
         map.getMapInfo().moveX = 0;
         map.getMapInfo().moveY = 0;
@@ -105,20 +103,20 @@ public class MapController implements IMapController
         return false;
     }
 
-    public boolean zoom(Envelope curEvn, Envelope lastEnv, Coordinate center)
-    {
-        Coordinate leftTop = new Coordinate(Projection.getInstance(map).toMapPoint((float)curEvn.getMinX(), (float)curEvn.getMinY()));
-        Coordinate rightBoom = new Coordinate(Projection.getInstance(map).toMapPoint((float)curEvn.getMaxX(), (float)curEvn.getMaxY()));
-        Envelope tempEnv = new Envelope(leftTop, rightBoom);
-
-        zoomLevel(curEvn, lastEnv);
-
-        Log.e("RUN", curEvn.getWidth() + "curEvn.getWidth()" + curEvn.getHeight() + "curEvn.getHeight()" + lastEnv.getWidth() + "lastEnv.getWidth()" + lastEnv.getHeight() + "lastEnv.getHeight()");
-
-        map.refresh();
-
-        return true;
-    }
+//    public boolean zoom(Envelope curEvn, Envelope lastEnv, Coordinate center)
+//    {
+//        Coordinate leftTop = new Coordinate(Projection.getInstance(map).toMapPoint((float)curEvn.getMinX(), (float)curEvn.getMinY()));
+//        Coordinate rightBoom = new Coordinate(Projection.getInstance(map).toMapPoint((float)curEvn.getMaxX(), (float)curEvn.getMaxY()));
+//        Envelope tempEnv = new Envelope(leftTop, rightBoom);
+//
+//        zoomLevel(curEvn, lastEnv);
+//
+//        Log.e("RUN", curEvn.getWidth() + "curEvn.getWidth()" + curEvn.getHeight() + "curEvn.getHeight()" + lastEnv.getWidth() + "lastEnv.getWidth()" + lastEnv.getHeight() + "lastEnv.getHeight()");
+//
+//        map.refresh();
+//
+//        return true;
+//    }
 
     public boolean zoomTemp(int d)
     {
@@ -129,19 +127,20 @@ public class MapController implements IMapController
         {
             zoomIn();
         }
+
         map.refresh();
         return true;
     }
 
-    private void zoomLevel(Envelope curEvn, Envelope lastEnv)
-    {
-        if (curEvn.getArea() > lastEnv.getArea())
-        {
-            zoomOut();
-        }else {
-            zoomIn();
-        }
-    }
+//    private void zoomLevel(Envelope curEvn, Envelope lastEnv)
+//    {
+//        if (curEvn.getArea() > lastEnv.getArea())
+//        {
+//            zoomOut();
+//        }else {
+//            zoomIn();
+//        }
+//    }
 
     public void setMapInfo(int level)
     {

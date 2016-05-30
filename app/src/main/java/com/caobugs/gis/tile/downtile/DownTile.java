@@ -8,8 +8,8 @@ import com.caobugs.gis.tile.downtile.httputil.TileDownloader;
 import com.caobugs.gis.tile.downtile.tileurl.BaseTiledURL;
 import com.caobugs.gis.geometry.primary.Envelope;
 import com.caobugs.gis.tile.TileInfo;
-import com.caobugs.gis.tool.TAG;
-import com.caobugs.gis.tool.file.ToolMapCache;
+import com.caobugs.gis.util.TAG;
+import com.caobugs.gis.util.file.ToolMapCache;
 
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;

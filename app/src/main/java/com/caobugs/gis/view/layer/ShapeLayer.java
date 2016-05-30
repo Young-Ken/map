@@ -11,7 +11,6 @@ import com.caobugs.gis.data.shapefile.shp.ShapeFile;
 import com.caobugs.gis.data.shapefile.shp.geom.RecordGeometry;
 import com.caobugs.gis.data.shapefile.shp.geom.RecordPoint;
 import com.caobugs.gis.geometry.CoordinateArraySequence;
-import com.caobugs.gis.tool.TAG;
 import com.caobugs.gis.view.map.MapManger;
 
 import java.util.ArrayList;

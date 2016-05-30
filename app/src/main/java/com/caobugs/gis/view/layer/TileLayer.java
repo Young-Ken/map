@@ -11,9 +11,9 @@ import com.caobugs.gis.geometry.Coordinate;
 import com.caobugs.gis.tile.CoordinateSystemManager;
 import com.caobugs.gis.tile.TileInfo;
 import com.caobugs.gis.tile.cache.MemoryTileCache;
-import com.caobugs.gis.tool.ApplicationContext;
-import com.caobugs.gis.tool.TAG;
-import com.caobugs.gis.tool.file.ToolMapCache;
+import com.caobugs.gis.util.ApplicationContext;
+import com.caobugs.gis.util.TAG;
+import com.caobugs.gis.util.file.ToolMapCache;
 import com.caobugs.gis.view.map.MapManger;
 
 import java.io.IOException;

@@ -6,7 +6,7 @@ import android.view.MotionEvent;
 import android.view.ScaleGestureDetector;
 import android.view.View;
 
-import com.caobugs.gis.tool.TAG;
+import com.caobugs.gis.util.TAG;
 import com.caobugs.gis.view.map.BaseMap;
 
 /**

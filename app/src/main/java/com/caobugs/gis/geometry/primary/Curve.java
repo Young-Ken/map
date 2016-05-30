@@ -1,6 +1,6 @@
 package com.caobugs.gis.geometry.primary;
 
-import com.caobugs.gis.enumeration.Dimension;
+import com.caobugs.gis.util.constants.Dimension;
 import com.caobugs.gis.geometry.Coordinate;
 import com.caobugs.gis.geometry.GeometryFactory;
 import com.caobugs.gis.geometry.CoordinateSequence;

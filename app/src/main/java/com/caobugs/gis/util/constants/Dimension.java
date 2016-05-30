@@ -1,4 +1,4 @@
-package com.caobugs.gis.enumeration;
+package com.caobugs.gis.util.constants;
 
 /**
  * @author Young Ken

@@ -3,7 +3,7 @@ package com.caobugs.gis.tile.service;
 import android.os.Binder;
 import android.util.Log;
 
-import com.caobugs.gis.tool.TAG;
+import com.caobugs.gis.util.TAG;
 
 /**
  * @author Young-Ken

@@ -1,6 +1,6 @@
 package com.caobugs.gis.topology.geom;
 
-import com.caobugs.gis.enumeration.Dimension;
+import com.caobugs.gis.util.constants.Dimension;
 
 /**
  *

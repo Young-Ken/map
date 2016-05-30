@@ -2,7 +2,7 @@ package com.caobugs.gis.geometry;
 
 import com.caobugs.gis.geometry.primary.Envelope;
 import com.caobugs.gis.geometry.primary.Geometry;
-import com.caobugs.gis.enumeration.Dimension;
+import com.caobugs.gis.util.constants.Dimension;
 
 /**
  * @author Young Ken

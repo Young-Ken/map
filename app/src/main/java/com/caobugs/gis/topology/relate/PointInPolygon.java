@@ -1,6 +1,6 @@
 package com.caobugs.gis.topology.relate;
 
-import com.caobugs.gis.enumeration.Location;
+import com.caobugs.gis.util.constants.Location;
 import com.caobugs.gis.algorithm.RobustDeterminant;
 import com.caobugs.gis.geometry.Coordinate;
 

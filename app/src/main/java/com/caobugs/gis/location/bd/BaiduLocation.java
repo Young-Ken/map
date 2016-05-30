@@ -6,7 +6,7 @@ import com.baidu.location.BDLocationListener;
 import com.caobugs.gis.geometry.Coordinate;
 import com.caobugs.gis.location.GpsInfo;
 import com.caobugs.gis.location.bd.server.LocationService;
-import com.caobugs.gis.tool.ApplicationContext;
+import com.caobugs.gis.util.ApplicationContext;
 import com.caobugs.gis.view.map.BaseMap;
 import com.caobugs.gis.view.map.util.Projection;
 

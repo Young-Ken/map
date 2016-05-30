@@ -1,7 +1,7 @@
 package com.caobugs.gis.util.file;
 
 
-import com.caobugs.gis.enumeration.ConstantFile;
+import com.caobugs.gis.util.constants.ConstantFile;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
