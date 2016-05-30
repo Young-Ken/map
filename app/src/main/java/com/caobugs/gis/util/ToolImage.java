@@ -1,4 +1,4 @@
-package com.caobugs.gis.tool;
+package com.caobugs.gis.util;
 
 import android.graphics.Bitmap;
 import android.graphics.Canvas;

@@ -1,4 +1,4 @@
-package com.caobugs.gis.tool;
+package com.caobugs.gis.util;
 
 import android.app.PendingIntent;
 import android.content.Context;

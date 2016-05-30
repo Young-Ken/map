@@ -1,4 +1,4 @@
-package com.caobugs.gis.tool.file;
+package com.caobugs.gis.util.file;
 
 import java.io.File;
 import java.io.IOException;

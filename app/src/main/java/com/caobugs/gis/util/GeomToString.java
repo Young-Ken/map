@@ -1,8 +1,7 @@
-package com.caobugs.gis.tool;
+package com.caobugs.gis.util;
 
 import com.caobugs.gis.geometry.Coordinate;
 import com.caobugs.gis.geometry.LinearRing;
-import com.caobugs.gis.geometry.Polygon;
 import com.caobugs.gis.geometry.primary.Envelope;
 import com.caobugs.gis.view.map.BaseMap;
 import com.caobugs.gis.view.map.util.Projection;

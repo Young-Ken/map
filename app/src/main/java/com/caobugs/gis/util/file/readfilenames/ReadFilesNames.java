@@ -1,6 +1,6 @@
-package com.caobugs.gis.tool.file.readfilenames;
+package com.caobugs.gis.util.file.readfilenames;
 
-import com.caobugs.gis.tool.file.ToolFile;
+import com.caobugs.gis.util.file.ToolFile;
 
 import java.io.File;
 import java.util.ArrayList;

@@ -1,4 +1,4 @@
-package com.caobugs.gis.tool;
+package com.caobugs.gis.util;
 
 /**
  * @author Young-Ken

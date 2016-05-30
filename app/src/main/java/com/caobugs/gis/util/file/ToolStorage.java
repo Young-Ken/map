@@ -1,4 +1,4 @@
-package com.caobugs.gis.tool.file;
+package com.caobugs.gis.util.file;
 
 import android.os.Environment;
 import android.os.StatFs;

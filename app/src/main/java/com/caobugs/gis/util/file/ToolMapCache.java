@@ -1,20 +1,14 @@
-package com.caobugs.gis.tool.file;
+package com.caobugs.gis.util.file;
 
-
-import android.util.Log;
 
 import com.caobugs.gis.enumeration.ConstantFile;
-import com.caobugs.gis.io.InputStreamInStream;
 
-import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
-import java.io.FileDescriptor;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.OutputStream;
 
 /**
  * 这个缓存sd卡级别的缓存
