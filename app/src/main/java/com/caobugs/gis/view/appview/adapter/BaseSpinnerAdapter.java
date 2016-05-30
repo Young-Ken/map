@@ -19,14 +19,11 @@ public class BaseSpinnerAdapter extends BaseAdapter
     protected ArrayList<?> arrayList = null;
     protected Context context;
 
-
-
     public BaseSpinnerAdapter(Context context, ArrayList<?> list)
     {
         this.arrayList = list;
         this.context = context;
     }
-
 
     @Override
     public void registerDataSetObserver(DataSetObserver observer)

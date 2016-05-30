@@ -189,7 +189,7 @@ public class DownTile extends Activity
             setTextIsError(editTextMinY, "ssssss");
             return;
         }
-        if (mapMaxLevel > tileInfo.getResolutions().length)
+        if (mapMaxLevel > tileInfo.getResolutions().length-1)
         {
             setTextIsError(editTextMaxLevel, "sssss");
             return;
@@ -253,8 +253,8 @@ public class DownTile extends Activity
         @Override
         public void run()
         {
-            TileInfo tileInfo = new CoordinateSystemFactory().create(CoordinateSystemEnum.GOOGLE_CS).getTileInfo();
-            BaseTiledURL baseTiledURL = TiledLayerFactory.getInstance().createTiledURL(GoogleTiledTypes.GOOGLE_VECTOR);
+           // TileInfo tileInfo = new CoordinateSystemFactory().create(CoordinateSystemEnum.GOOGLE_CS).getTileInfo();
+            BaseTiledURL baseTiledURL = TiledLayerFactory.getInstance().createTiledURL(GoogleTiledTypes.GOOGLE_IMAGE);
             com.caobugs.gis.tile.downtile.DownTile downTile = new com.caobugs.gis.tile.downtile.DownTile(tileInfo, baseTiledURL
                     ,new Envelope(mapMinX, mapMaxX, mapMinY, mapMaxY),mapMinLevel,mapMaxLevel,mHandler);
             try

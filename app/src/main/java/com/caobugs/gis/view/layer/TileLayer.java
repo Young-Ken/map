@@ -70,10 +70,9 @@ public class TileLayer extends BaseLayer
 
     private byte[][][] getByteTile(int level, int minTileNumX, int minTileNumY, int maxTileNumX, int maxTileNumY)
     {
-        byte[] result[][] = null;
+        byte[] result[][];
         int tileNumX = maxTileNumX - minTileNumX;
         int tileNumY = maxTileNumY - minTileNumY;
-        //Log.e("BaseMap", tileNumX + " tileNumX " + tileNumY + " tileNumY ");
         result = new byte[tileNumX + 1][tileNumY + 1][];
 
         for (int i = 0; i <= tileNumX; i++)
@@ -105,7 +104,7 @@ public class TileLayer extends BaseLayer
                 memoryTileCache.put(tileKey, bytes);
             }else
             {
-                Log.e("BaseMap", level + "   " + col + "  " + row + " null " );
+                Log.d("BaseMap", level + "   " + col + "  " + row + " null " );
             }
 
             return bytes;
@@ -144,8 +143,9 @@ public class TileLayer extends BaseLayer
                 }
 
                 Bitmap bitmap = BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
+                if(bitmap == null)
+                    continue;
                 canvas.drawBitmap(bitmap, (float) ((i-minX) * 256 - loadX  + x), (float) ((j-minY) * 256 - loadY + y), paint);
-               // canvas.drawPoint((float) (i * 256 + loadX  + x), (float) (j * 256 + loadY + y), paint);
             }
         }
     }
@@ -169,8 +169,11 @@ public class TileLayer extends BaseLayer
                     continue;
                 }
                 Bitmap bitmap = BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
+                if(bitmap == null)
+                {
+                     continue;
+                }
                 canvas.drawBitmap(bitmap, (float) (i * 256 - loadX ), (float) (j * 256 - loadY ), paint);
-                //canvas.drawPoint((float) (i * 256 -loadX ), (float) (j * 256 - loadY ), paint);
             }
         }
     }
@@ -188,9 +191,9 @@ public class TileLayer extends BaseLayer
 
     private String appendTileString(int level, int col, int row)
     {
-        StringBuffer buffer = new StringBuffer();
-        buffer.append(level).append("_").append(col).append("_").append(row);
-        return buffer.toString();
+        StringBuffer tilePath = new StringBuffer();
+        tilePath.append(level).append("_").append(col).append("_").append(row);
+        return tilePath.toString();
     }
 
     @Override

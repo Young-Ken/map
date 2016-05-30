@@ -60,6 +60,8 @@ public class MapActivity extends Activity implements View.OnClickListener, OnMap
     private LinearLayout selectFarmlandTool = null;
     private LinearLayout mapDarwFarmland = null;
     private FarmlandLayer farmlandLayer = null;
+    private long lastBackTime = 0;
+    private long currentBackTime = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -268,20 +270,16 @@ public class MapActivity extends Activity implements View.OnClickListener, OnMap
                 break;
 
             case R.id.zoom_in:
-//                map.setCurrentCenterImage(map.getMapCenter());
-//                map.setLevel(map.getLevel() - 1);
-                map.getMapInfo().setCurrentCurrentImageLevel(map.getMapCenter(), map.getLevel() - 1);
+                map.getMapController().zoomIn();
                 map.refresh();
                 break;
             case R.id.zoom_out:
-                map.getMapInfo().setCurrentCurrentImageLevel(map.getMapCenter(),map.getLevel() + 1);
+                map.getMapController().zoomOut();
                 map.refresh();
                 break;
         }
 
     }
-
-
 
 
     public void drawFarmland()
@@ -338,51 +336,47 @@ public class MapActivity extends Activity implements View.OnClickListener, OnMap
     @Override
     public void onMapStatusChanged(String type, Intent intent)
     {
+        if (type.equals(MapStatus.Defualt.ZOOM.name()) || type.equals(MapStatus.Defualt.SCROLLTO.name()))
+        {
+            queryFarmlandByEnvelop();
+        }
+    }
+
+    private void queryFarmlandByEnvelop()
+    {
         MapLayerManger mapLayerManger = MapLayerManger.getInstance();
         List<BaseLayer> layers = mapLayerManger.getArrayList();
 
-        if (type.equals(MapStatus.Defualt.ZOOM.name()))
+        int level = map.getLevel();
+        if (level > 16)
         {
-            Bundle bundle = intent.getExtras();
-            int level = bundle.getInt(MapStatus.Defualt.ZOOM.name());
-            if (level > 16)
+            Envelope temp = map.getEnvelope();
+            farmlandSQL.selectFarmlandByEnvelop(GeomToString.geomToStringWEB(temp, map));
+        }
+        if (level <= 15)
+        {
+            for (BaseLayer layer : layers)
             {
-                Envelope temp = map.getEnvelope();
-                farmlandSQL.selectFarmlandByEnvelop(GeomToString.geomToStringWEB(temp, map));
-            }
-            if (level <= 15)
-            {
-                for (BaseLayer layer : layers)
+                if (layer instanceof FarmlandLayer)
                 {
-                    if (layer instanceof FarmlandLayer)
-                    {
-                        layer.recycle();
-                    }
+                    layer.recycle();
                 }
             }
         }
     }
 
-
-    //上次按下返回键的系统时间
-    private long lastBackTime = 0;
-    //当前按下返回键的系统时间
-    private long currentBackTime = 0;
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event)
     {
-        //捕获返回键按下的事件
         if (keyCode == KeyEvent.KEYCODE_BACK)
         {
-            //获取当前系统时间的毫秒数
             currentBackTime = System.currentTimeMillis();
-            //比较上次按下返回键和当前按下返回键的时间差，如果大于2秒，则提示再按一次退出
             if (currentBackTime - lastBackTime > 2 * 1000)
             {
                 Toast.makeText(this, "再按一次返回键退出", Toast.LENGTH_SHORT).show();
                 lastBackTime = currentBackTime;
             } else
-            { //如果两次按下的时间差小于2秒，则退出程序
+            {
                 finish();
                 android.os.Process.killProcess(android.os.Process.myPid());
                 System.exit(0);

@@ -19,7 +19,7 @@ public class Farmland
     private int id = 0;
     private String farmName = null;
     private String address = null;
-    private int area = 0;
+    private double area = 0;
     private LinearRing farmGeom = null;
     private String tel = null;
 
@@ -44,7 +44,7 @@ public class Farmland
         return address;
     }
 
-    public int getArea()
+    public double getArea()
     {
         return area;
     }
@@ -74,9 +74,9 @@ public class Farmland
         this.address = address;
     }
 
-    public void setArea(int area)
+    public void setArea(double area)
     {
-        this.area = area;
+        this.area = Double.parseDouble(String.format("%.2f", area));
     }
 
     public void setFarmGeom(LinearRing farmGeom)

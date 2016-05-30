@@ -3,6 +3,8 @@ package com.caobugs.gis.view.layer;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
+import android.text.Layout;
+import android.text.StaticLayout;
 import android.text.TextPaint;
 import android.util.Log;
 
@@ -158,7 +160,6 @@ public class FarmlandLayer extends BaseLayer
 //
 //                Coordinate coordinate = getMap().getProjection().toScreenPoint(c.x, c.y);
                 coordinateArrayList.add(coordinate);
-                Log.e("xxxxxxx", coordinate.x +"    "+ coordinate.y);
                 points[i*2] = (float)(coordinate.x);
                 points[i*2 + 1] = (float)(coordinate.y);
             }
@@ -191,12 +192,28 @@ public class FarmlandLayer extends BaseLayer
             Coordinate coordinate = (Coordinate) envelope.getCentre().clone();
             coordinate = logLanToScreen(coordinate.x, coordinate.y);
 
-            canvas.drawText(farmland.getFarmName(),(float)coordinate.x, (float)coordinate.y, textPaint);
+           // StaticLayout layout = new StaticLayout(farmland.getFarmName()+"\n"+ farmland.getArea(), textPaint, 240, Layout.Alignment.ALIGN_NORMAL, 1.0F, 0.0F, true);
 
-
+            drawMultiLineText(farmland.getFarmName()+"\n"+ farmland.getArea(),(float)coordinate.x, (float)coordinate.y, textPaint, canvas);
             //canvas.drawLines(tempPoint, paint);
 
-            Log.e("xxxxxxx", "------------------------");
+        }
+    }
+
+    void drawMultiLineText(String str, float x, float y, Paint paint,
+                           Canvas canvas)
+    {
+        String[] lines = str.split("\n");
+        float txtSize = -paint.ascent() + paint.descent();
+
+        if (paint.getStyle() == Paint.Style.FILL_AND_STROKE || paint.getStyle() == Paint.Style.STROKE)
+        {
+            txtSize += paint.getStrokeWidth(); // add stroke width to the text
+        }
+        float lineSpace = txtSize * 0.1f; // default line spacing
+        for (int i = 0; i < lines.length; ++i)
+        {
+            canvas.drawText(lines[i], x, y + (txtSize + lineSpace) * i, paint);
         }
     }
 

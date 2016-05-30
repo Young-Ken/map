@@ -45,7 +45,7 @@ public class SpatialDB
 
     public static class SingletonHolder
     {
-        public static jsqlite.Database dataCollectDB = new jsqlite.Database();
+        public static jsqlite.Database dataCollectDB = null;
     }
 
 
@@ -53,6 +53,7 @@ public class SpatialDB
     public static jsqlite.Database newInstance(String dbFile, String decrypt)
             throws jsqlite.Exception
     {
+        SingletonHolder.dataCollectDB = new jsqlite.Database();
         Boolean isOpen = openDBConnection(SingletonHolder.dataCollectDB,
                 dbFile, decrypt);
         if (isOpen)

@@ -4,13 +4,17 @@ package com.caobugs.gis.tool.file;
 import android.util.Log;
 
 import com.caobugs.gis.enumeration.ConstantFile;
+import com.caobugs.gis.io.InputStreamInStream;
 
+import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.io.FileDescriptor;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.OutputStream;
 
 /**
  * 这个缓存sd卡级别的缓存
@@ -46,7 +50,9 @@ public class ToolMapCache
         resultPath.append(File.separator);
         resultPath.append(path);
         resultPath.append(String.format(File.separator + "%d" + File.separator + "%d_%d.ZY", level, col, row));
-        return resultPath.toString();
+        String result = resultPath.toString();
+        resultPath.delete(0,resultPath.length());
+        return result;
     }
 
 
@@ -62,7 +68,7 @@ public class ToolMapCache
     public static boolean isExistByte(final String path, final int level, final int col, final int row)
     {
         File file = ToolFile.createFile(getMapCachePath(path, level, col, row));
-        return file.exists() && !file.getPath().equals("");
+        return !file.getPath().equals("") && file.exists();
     }
 
     /**
@@ -75,7 +81,7 @@ public class ToolMapCache
      * @param row   列
      * @return true 写入成功 false 写入不成功
      */
-    public synchronized static boolean saveByte(final byte[] bytes, final String path, final int level, final int col, int row)
+    public static boolean saveByte(final byte[] bytes, final String path, final int level, final int col, int row)
     {
         File file = ToolFile.createFile(getMapCachePath(path, level, col, row));
 
@@ -86,14 +92,12 @@ public class ToolMapCache
 
         File parentFile = ToolFile.createFile(file.getParent());
 
-
-
-        if (!parentFile.exists())
+        if (parentFile.exists())
         {
-            return parentFile.mkdirs() && writeToBytes(bytes, file);
+            return !file.isDirectory() && writeToBytes(bytes, file);
         } else
         {
-            return file.isDirectory() && writeToBytes(bytes, file);
+            return parentFile.mkdirs() && writeToBytes(bytes, file);
         }
     }
 

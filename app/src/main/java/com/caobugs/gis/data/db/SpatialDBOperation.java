@@ -1,8 +1,6 @@
 package com.caobugs.gis.data.db;
 
 
-import android.util.Log;
-
 import com.caobugs.gis.enumeration.ConstantFile;
 import com.caobugs.gis.tool.file.ToolStorage;
 
@@ -12,6 +10,7 @@ public class SpatialDBOperation
 
     private String path = null;
     private jsqlite.Database dataCollectDB;
+
 
     public SpatialDBOperation()
     {
@@ -37,7 +36,14 @@ public class SpatialDBOperation
         {
             try
             {
-                dataCollectDB = SpatialDB.newInstance(path, "");
+                if(SpatialDB.SingletonHolder.dataCollectDB != null)
+                {
+                    dataCollectDB = SpatialDB.SingletonHolder.dataCollectDB;
+                }else {
+                    dataCollectDB = SpatialDB.newInstance(path, "");
+                }
+
+
             } catch (jsqlite.Exception e)
             {
                 result = false;

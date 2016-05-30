@@ -15,6 +15,7 @@ public class MapStatus
         ZOOMOUT,
         ZOOMIN,
         ZOOM,
+        SCROLLTO,
         MOVING
     }
 

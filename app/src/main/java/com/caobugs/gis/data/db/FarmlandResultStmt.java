@@ -88,7 +88,7 @@ public class FarmlandResultStmt extends ResultStmt
                         farmland.setAddress(getString(3));
                     } else if ("area".equals(name))
                     {
-                        farmland.setArea(getInt(4));
+                        farmland.setArea(getDouble(4));
                     } else if ("geom".equals(name))
                     {
                         try

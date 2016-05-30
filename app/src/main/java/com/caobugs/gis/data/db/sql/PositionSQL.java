@@ -5,9 +5,10 @@ import com.caobugs.gis.data.db.PositionResultStmt;
 import com.caobugs.gis.data.db.ResultStmt;
 import com.caobugs.gis.vo.Position;
 
+import java.lang.Exception;
 import java.util.ArrayList;
 
-import jsqlite.Stmt;
+import jsqlite.*;
 
 /**
  * @author Young-Ken
@@ -35,9 +36,6 @@ public class PositionSQL
         } catch (Exception e)
         {
             e.printStackTrace();
-        } finally
-        {
-            spatialDBOperation.close();
         }
         return positions;
     }
@@ -52,23 +50,39 @@ public class PositionSQL
         {
             PositionResultStmt positionResultStmt = (PositionResultStmt) executeQuery(sql, spatialDBOperation.getDataCollectDB());
             positions = positionResultStmt.getPositions();
-            positions.set(0,new Position("-1","请选择地市"));
+            positions.add(0,new Position("-1","请选择地市"));
         } catch (Exception e)
         {
             e.printStackTrace();
-        } finally
-        {
-            spatialDBOperation.close();
         }
         return positions;
     }
 
 
 
-    public ResultStmt executeQuery(String sql, jsqlite.Database database) throws Exception
+    public ResultStmt executeQuery(String sql, jsqlite.Database database)
     {
-        Stmt stmt;
-        stmt = database.prepare(sql.toString());
-        return (new PositionResultStmt(stmt));
+        Stmt stmt = null;
+        try
+        {
+            stmt = database.prepare(sql);
+            return (new PositionResultStmt(stmt));
+        } catch (jsqlite.Exception e)
+        {
+            e.printStackTrace();
+            return null;
+        }finally
+        {
+            try
+            {
+                if(stmt != null)
+                {
+                    stmt.close();
+                }
+            } catch (jsqlite.Exception e)
+            {
+                e.printStackTrace();
+            }
+        }
     }
 }

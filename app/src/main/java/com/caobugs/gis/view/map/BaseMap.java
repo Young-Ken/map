@@ -140,46 +140,34 @@ public abstract class BaseMap extends ViewGroup implements IBaseMap
         mapLayerManger.draw(canvas);
 
         //tileTool.drawTile(canvas);
-
-       // Coordinate coordin = getProjection().mercatorToLonLat(getMapCenter().x, getMapCenter().y);
-       // Log.e("mapCentent",coordin.x+"    "+coordin.y);
-       // mapLayerManger.draw(canvas);
-
-
-
-        List<Coordinate> lists  = getEnvelope().getLines();
-
-
-
-
-
-
-
-
-
-
-        Coordinate center = new Coordinate(getEnvelope().getMinX() , getEnvelope().getMinY());
-        Coordinate screen = getProjection().toScreenPoint(center.x, center.y);
-
-        Paint paint = new Paint();
-        paint.setColor(Color.RED);
-        paint.setAntiAlias(true);
-        canvas.drawCircle((float) (screen.x + getWidth() / 2), (float) (screen.y + getHeight() / 2), 5, paint);
-
-        canvas.drawLine(0, 0, getWidth(), getHeight(), paint);
-        canvas.drawLine(0, getHeight(), getWidth(), 0, paint);
-
-        Paint red = new Paint();
-        red.setStrokeWidth(100);
-        for(Coordinate coordinate : lists)
-        {
-            coordinate = Projection.getInstance(this).toScreenPoint(coordinate);
-            canvas.drawPoint((float)coordinate.x, (float)coordinate.y, red);
-        }
-
-
-
-        Coordinate coordinate = projection.toMapPoint((float) (screen.x + getWidth() / 2), (float) (screen.y + getHeight() / 2));
+        // Coordinate coordin = getProjection().mercatorToLonLat(getMapCenter().x, getMapCenter().y);
+        // Log.e("mapCentent",coordin.x+"    "+coordin.y);
+        // mapLayerManger.draw(canvas);
+        //        List<Coordinate> lists  = getEnvelope().getLines();
+        //
+        //
+        //        Coordinate center = new Coordinate(getEnvelope().getMinX() , getEnvelope().getMinY());
+        //        Coordinate screen = getProjection().toScreenPoint(center.x, center.y);
+        //
+        //        Paint paint = new Paint();
+        //        paint.setColor(Color.RED);
+        //        paint.setAntiAlias(true);
+        //        canvas.drawCircle((float) (screen.x + getWidth() / 2), (float) (screen.y + getHeight() / 2), 5, paint);
+        //
+        //        canvas.drawLine(0, 0, getWidth(), getHeight(), paint);
+        //        canvas.drawLine(0, getHeight(), getWidth(), 0, paint);
+        //
+        //        Paint red = new Paint();
+        //        red.setStrokeWidth(100);
+        //        for(Coordinate coordinate : lists)
+        //        {
+        //            coordinate = Projection.getInstance(this).toScreenPoint(coordinate);
+        //            canvas.drawPoint((float)coordinate.x, (float)coordinate.y, red);
+        //        }
+        //
+        //
+        //
+        //        Coordinate coordinate = projection.toMapPoint((float) (screen.x + getWidth() / 2), (float) (screen.y + getHeight() / 2));
     }
 
 
@@ -333,6 +321,7 @@ public abstract class BaseMap extends ViewGroup implements IBaseMap
     {
         getMapInfo().setCurrentLevel(level);
     }
+
     public Projection getProjection()
     {
         return projection;

@@ -1,5 +1,6 @@
 package com.caobugs.gis.data.db.sql;
 
+import android.util.Log;
 import android.widget.Toast;
 
 import com.caobugs.gis.data.db.SpatialDBOperation;
@@ -11,9 +12,10 @@ import com.caobugs.gis.view.layer.FarmlandLayer;
 import com.caobugs.gis.view.map.MapManger;
 import com.caobugs.gis.vo.Farmland;
 
+import java.lang.Exception;
 import java.util.ArrayList;
 
-import jsqlite.Stmt;
+import jsqlite.*;
 
 public class FarmlandSQL
 {
@@ -34,20 +36,22 @@ public class FarmlandSQL
 	{
 		SpatialDBOperation spatialDBOperation = new SpatialDBOperation();
 		spatialDBOperation.open();
-		String sql = "select id,tel,farmname,address,area,AsBinary(geom) as geom from farmland where within(geom,GeomFromText('"+envelop+"'))";
+		String sql = "select id,tel,farmname,address,area(Transform(setsrid(geom,4326),900913))/10000 as area,AsBinary(geom) as geom from farmland where within(geom,GeomFromText('"+envelop+"'))";
+		Log.e("sql",sql);
 		FarmlandResultStmt resultStmt = (FarmlandResultStmt) executeQuery(sql,
 				spatialDBOperation.getDataCollectDB(),
 				farmlandLayer.getFarmlands());
 		ArrayList<Farmland> farmlands = resultStmt.getFarmlands();
 		farmlandLayer.setFarmlands(farmlands);
-		spatialDBOperation.close();
+		//spatialDBOperation.close();
 	}
 
 	public FarmlandLayer selectFarmLandByPoint(String point)
 	{
 		SpatialDBOperation spatialDBOperation = new SpatialDBOperation();
 		spatialDBOperation.open();
-		String sql = "select id,tel,farmname,address,area,AsBinary(geom) as geom from farmland where within(GeomFromText('" + point + "'),geom)";
+		String sql = "select id,tel,farmname,address,area(Transform(setsrid(geom,4326),900913))/10000 as area,AsBinary(geom) as geom from farmland where within(GeomFromText('" + point + "'),geom)";
+		Log.e("sql",sql);
 		FarmlandResultStmt resultStmt = null;
 		try
 		{
@@ -66,9 +70,6 @@ public class FarmlandSQL
 		{
 			e.printStackTrace();
 			return null;
-		}finally
-		{
-			spatialDBOperation.close();
 		}
 
 	}
@@ -88,9 +89,6 @@ public class FarmlandSQL
 			result = false;
 			Toast.makeText(ApplicationContext.getContext(), "删除失败", Toast.LENGTH_LONG).show();
 			e.printStackTrace();
-		} finally
-		{
-			spatialDBOperation.close();
 		}
 		return result;
 	}
@@ -115,28 +113,59 @@ public class FarmlandSQL
 		{
 			e.printStackTrace();
 		}
-		spatialDBOperation.close();
+
 	}
 
 	public ResultStmt executeQuery(String sql, jsqlite.Database database, ArrayList<Farmland> arrayList)
 	{
-		Stmt stmt;
+		Stmt stmt = null;
 		try
 		{
-			stmt = database.prepare(sql.toString());
+			stmt = database.prepare(sql);
 			return (new FarmlandResultStmt(stmt, arrayList));
-		} catch (Exception e)
+		} catch (jsqlite.Exception e)
 		{
 			e.printStackTrace();
+		}finally
+		{
+			try
+			{
+				if(stmt != null)
+				{
+					stmt.close();
+				}
+			} catch (jsqlite.Exception e)
+			{
+				e.printStackTrace();
+			}
 		}
 
 		return null;
 	}
 
-	public ResultStmt executeQuery(String sql, jsqlite.Database database) throws Exception
+	public ResultStmt executeQuery(String sql, jsqlite.Database database)
 	{
-		Stmt stmt;
-		stmt = database.prepare(sql.toString());
-		return (new FarmlandResultStmt(stmt));
+		Stmt stmt = null;
+		try
+		{
+			stmt = database.prepare(sql);
+			return (new FarmlandResultStmt(stmt));
+		} catch (jsqlite.Exception e)
+		{
+			e.printStackTrace();
+			return null;
+		}finally
+		{
+			try
+			{
+				if(stmt != null)
+				{
+					stmt.close();
+				}
+			} catch (jsqlite.Exception e)
+			{
+				e.printStackTrace();
+			}
+		}
 	}
 }

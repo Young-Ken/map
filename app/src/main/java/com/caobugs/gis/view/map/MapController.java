@@ -23,18 +23,23 @@ public class MapController implements IMapController
     {
         this.map = map;
     }
-    private OnMapStatusChangeListener mapStatusChanged = null;
+
+    /**
+     * 监听当前map的放大缩小漫游的事件的发生，用回调去处理当前的事件变化
+     */
+    //private OnMapStatusChangeListener mapStatusChanged = null;
+
     @Override
     public boolean mapScroll(double x, double y)
     {
 
-        if(mapStatusChanged != null)
+        if(getMapStaticChange() != null)
         {
             Intent intent = new Intent();
             Bundle bundle = new Bundle();
             bundle.putString(MapStatus.Defualt.MOVING.name(), x + "," + y);
             intent.putExtras(bundle);
-            mapStatusChanged.onMapStatusChanged(MapStatus.Defualt.MOVING.name(),intent);
+            getMapStaticChange().onMapStatusChanged(MapStatus.Defualt.MOVING.name(), intent);
         }
 
         map.getMapInfo().moveX = x;
@@ -52,13 +57,13 @@ public class MapController implements IMapController
         }
         zoomTo(map.getMapCenter(), map.getLevel() - 1);
 
-        if(mapStatusChanged != null)
+        if(getMapStaticChange() != null)
         {
             Intent intent = new Intent();
             Bundle bundle = new Bundle();
             bundle.putInt(MapStatus.Defualt.ZOOM.name(), (map.getLevel() - 1));
             intent.putExtras(bundle);
-            mapStatusChanged.onMapStatusChanged(MapStatus.Defualt.ZOOM.name(),intent);
+            getMapStaticChange().onMapStatusChanged(MapStatus.Defualt.ZOOM.name(), intent);
         }
         return false;
     }
@@ -73,14 +78,14 @@ public class MapController implements IMapController
         {
             return false;
         }
-        getMapStaticChange();
-        if(mapStatusChanged != null)
+
+        if(getMapStaticChange() != null)
         {
             Intent intent = new Intent();
             Bundle bundle = new Bundle();
             bundle.putInt(MapStatus.Defualt.ZOOM.name(), (map.getLevel() + 1));
             intent.putExtras(bundle);
-            mapStatusChanged.onMapStatusChanged(MapStatus.Defualt.ZOOM.name(),intent);
+            getMapStaticChange().onMapStatusChanged(MapStatus.Defualt.ZOOM.name(),intent);
         }
 
         zoomTo(map.getMapCenter(), map.getLevel() + 1);
@@ -151,12 +156,24 @@ public class MapController implements IMapController
     public boolean scrollTo(double downX, double downY, double upX, double upY)
     {
         Projection projection = Projection.getInstance(map);
-        Coordinate downPoint = projection.toMapPoint((float) downX, (float)downY);
+        Coordinate downPoint = projection.toMapPoint((float) downX, (float) downY);
         Coordinate upPoint = projection.toMapPoint((float)upX, (float)upY);
 
         Coordinate mapCenter = new Coordinate(map.getMapCenter().x - (upPoint.x - downPoint.x),
                 map.getMapCenter().y - (upPoint.y - downPoint.y));
         zoomTo(mapCenter, map.getLevel());
+
+
+        if(getMapStaticChange() != null)
+        {
+            Intent intent = new Intent();
+            Bundle bundle = new Bundle();
+            bundle.putInt(MapStatus.Defualt.SCROLLTO.name(), 0);
+            intent.putExtras(bundle);
+            getMapStaticChange().onMapStatusChanged(MapStatus.Defualt.SCROLLTO.name(),intent);
+        }
+
+
         return true;
     }
 
@@ -167,8 +184,8 @@ public class MapController implements IMapController
         return false;
     }
 
-    public void getMapStaticChange()
+    public OnMapStatusChangeListener getMapStaticChange()
     {
-        mapStatusChanged = map.getMapStatusChangedListener();
+        return map.getMapStatusChangedListener();
     }
 }

@@ -15,6 +15,12 @@
         attribute:max_y = "4808863.74626"
         />
 
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:src="@drawable/cross"
+        />
    <Button
         android:id="@+id/search_envelope"
         android:layout_width="wrap_content"
