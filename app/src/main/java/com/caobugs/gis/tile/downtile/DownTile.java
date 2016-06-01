@@ -72,10 +72,8 @@ public class DownTile
 
             for (int col = minTileNumX; col < maxTileNumX; col++)
             {
-                //Log.d("wwwwwwww","nnnnnnnnn");
                 for (int row = minTileNumY; row < maxTileNumY; row++)
                 {
-                    //Log.e("wwwwwwww","wwwwwwww");
                     threadPool.submit(new TileDownThread(i, col, row));
                 }
             }
@@ -128,7 +126,7 @@ public class DownTile
             {
                tileDownloader.getStream(path, tiledURL.getMapServiceType().getName(), level, col, row);
             }
-
         }
     }
+
 }

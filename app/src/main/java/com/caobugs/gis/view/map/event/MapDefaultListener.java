@@ -220,7 +220,6 @@ public class MapDefaultListener implements OnMapDefaultListener
                     map.getMapController().scrollTo(down.x, down.y, event.getX(), event.getY());
                 }
 
-
                 init();
                 break;
             }

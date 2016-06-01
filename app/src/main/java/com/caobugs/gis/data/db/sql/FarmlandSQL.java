@@ -14,6 +14,7 @@ import com.caobugs.gis.vo.Farmland;
 
 import java.lang.Exception;
 import java.util.ArrayList;
+import java.util.Date;
 
 import jsqlite.*;
 
@@ -104,8 +105,8 @@ public class FarmlandSQL
 		SpatialDBOperation spatialDBOperation = new SpatialDBOperation();
 		spatialDBOperation.open();
 
-		StringBuffer sql = new StringBuffer("Insert into farmland(tel,farmname,address,geom) values (" +
-				""+farmland.getTel()+",'"+farmland.getFarmName()+"','"+farmland.getAddress()+"',GeomFromText('"+ GeomToString.polygonToString(farmland.getFarmGeom())+"'))");
+		StringBuffer sql = new StringBuffer("Insert into farmland(tel,farmname,address,geom,time) values (" +
+				""+farmland.getTel()+",'"+farmland.getFarmName()+"','"+farmland.getAddress()+"',GeomFromText('"+ GeomToString.polygonToString(farmland.getFarmGeom())+"'),"+new Date().getTime()+")");
 		try
 		{
 			ResultStmt resultStmt =  executeQuery(sql.toString(), spatialDBOperation.getDataCollectDB());

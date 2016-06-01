@@ -84,19 +84,19 @@ public abstract class BaseLayer extends MapBroadcastReceiver
     @Override
     public void onReceive(Context context, Intent intent)
     {
-        mapStatus = intent.getStringExtra(MapEvent.EVENT_TYPE);
-
-        if (mapStatus.equals(MapStatus.Defualt.MOVING.name()))
-        {
-            moveX = intent.getDoubleExtra(MapEvent.KEY_X, 0.0);
-            moveY = intent.getDoubleExtra(MapEvent.KEY_Y, 0.0);
-
-        } else
-        {
-            mapStatus = MapStatus.Defualt.DEFUALT.name();
-            moveY = 0;
-            moveX = 0;
-        }
+//        mapStatus = intent.getStringExtra(MapEvent.EVENT_TYPE);
+//
+//        if (mapStatus.equals(MapStatus.Defualt.MOVING.name()))
+//        {
+//            moveX = intent.getDoubleExtra(MapEvent.KEY_X, 0.0);
+//            moveY = intent.getDoubleExtra(MapEvent.KEY_Y, 0.0);
+//
+//        } else
+//        {
+//            mapStatus = MapStatus.Defualt.DEFUALT.name();
+//            moveY = 0;
+//            moveX = 0;
+//        }
         //getMap().refresh();
     }
 }

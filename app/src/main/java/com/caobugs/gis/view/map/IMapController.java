@@ -13,5 +13,6 @@ public interface IMapController
     boolean zoomIn();
     boolean zoomOut();
     boolean zoomTo(Coordinate point, int level);
-    boolean refresh();
+    boolean zoom(MapStatus.Defualt mapStatus);
+    void refresh();
 }

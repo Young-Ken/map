@@ -12,7 +12,6 @@ import android.widget.Toast;
 
 import com.caobugs.gis.R;
 import com.caobugs.gis.data.db.sql.FarmlandSQL;
-import com.caobugs.gis.util.constants.ConstantResult;
 import com.caobugs.gis.geometry.Coordinate;
 import com.caobugs.gis.geometry.LinearRing;
 import com.caobugs.gis.geometry.primary.Envelope;
@@ -20,6 +19,7 @@ import com.caobugs.gis.location.GpsInfo;
 import com.caobugs.gis.location.bd.BaiduLocation;
 import com.caobugs.gis.util.ApplicationContext;
 import com.caobugs.gis.util.GeomToString;
+import com.caobugs.gis.util.constants.ConstantResult;
 import com.caobugs.gis.view.appview.DownTile;
 import com.caobugs.gis.view.appview.FarmlandInfoActivity;
 import com.caobugs.gis.view.layer.BaseLayer;
@@ -96,6 +96,13 @@ public class MapActivity extends Activity implements View.OnClickListener, OnMap
 
         Button zoomOut = (Button) findViewById(R.id.zoom_out);
         zoomOut.setOnClickListener(this);
+
+        Button editFarmland = (Button)findViewById(R.id.edit_farmland);
+        editFarmland.setOnClickListener(this);
+
+        Button cancleButton = (Button)findViewById(R.id.cancel_button);
+        cancleButton.setOnClickListener(this);
+
         // attribute:min_x = "12945986.606604"
         //attribute:min_y = "4838237.908444"
         // attribute:max_x = "12963719.997167"
@@ -255,6 +262,9 @@ public class MapActivity extends Activity implements View.OnClickListener, OnMap
                     if (farmlandLayer.getSelected() != null)
                     {
                         Intent infoIntent = new Intent(MapActivity.this, FarmlandInfoActivity.class);
+                        Bundle bundle = new Bundle();
+                        bundle.putSerializable("editFarmland",farmlandLayer.getSelected());
+                        infoIntent.putExtras(bundle);
                         startActivity(infoIntent);
                     } else
                     {

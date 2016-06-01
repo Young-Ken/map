@@ -144,6 +144,15 @@ public class MapInfo
         this.currentResolution = tileInfo.getResolutions()[currentLevel];
     }
 
+    public void initMapInfo(int level)
+    {
+        TileInfo tileInfo = CoordinateSystemManager.getInstance().getCoordinateSystem().getTileInfo();
+        setCurrentLevel(level);
+        setCurrentResolution(tileInfo.getResolutions()[level]);
+        setCurrentScale(tileInfo.getScales()[level]);
+        setCurrentEnvelope(calculationEnvelope());
+    }
+
     public void setDeviceHeight(int deviceHeight)
     {
         this.deviceHeight = deviceHeight;
@@ -254,6 +263,8 @@ public class MapInfo
        // Log.d("RUN",currentEnvelope+"");
     }
 
+
+
     public void setCurrentLevel(Coordinate currentCenter, int level)
     {
         TileInfo tileInfo = CoordinateSystemManager.getInstance().getCoordinateSystem().getTileInfo();
@@ -271,6 +282,11 @@ public class MapInfo
 
         //Envelope tempEn = new Envelope(envelope.getMinY(), envelope.getMaxY(), envelope.getMinX(), envelope.getMaxX());
         //currentEnvelope = envelope;
+    }
+
+    public int getMapMaxLevel()
+    {
+        return  CoordinateSystemManager.getInstance().getCoordinateSystem().getTileInfo().getResolutions().length - 1;
     }
 
     public void setCurrentResolution(double currentResolution)

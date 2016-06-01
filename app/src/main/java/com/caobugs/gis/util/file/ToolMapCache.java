@@ -43,7 +43,7 @@ public class ToolMapCache
         resultPath.append(ConstantFile.MAP_CACHE);
         resultPath.append(File.separator);
         resultPath.append(path);
-        resultPath.append(String.format(File.separator + "%d" + File.separator + "%d_%d.ZY", level, col, row));
+        resultPath.append(String.format(File.separator + "%d" + File.separator + "%d" + File.separator + "%d.ZY", level, col, row));
         String result = resultPath.toString();
         resultPath.delete(0,resultPath.length());
         return result;

@@ -264,4 +264,9 @@ public class DownTile extends Activity
         return toY;
     }
 
+    @Override
+    protected void onDestroy()
+    {
+        super.onDestroy();
+    }
 }

@@ -2,12 +2,14 @@ package com.caobugs.gis.vo;
 
 import com.caobugs.gis.geometry.LinearRing;
 
+import java.io.Serializable;
+
 /**
  * @author Young-Ken
  * @version 0.1
  * @since 2016/5/4
  */
-public class Farmland
+public class Farmland implements Serializable
 {
     public static final String ID = "id";
     public static final String FARMNAME = "farmName";

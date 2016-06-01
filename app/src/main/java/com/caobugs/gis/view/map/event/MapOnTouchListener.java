@@ -8,6 +8,7 @@ import android.view.View;
 
 import com.caobugs.gis.util.TAG;
 import com.caobugs.gis.view.map.BaseMap;
+import com.caobugs.gis.view.map.MapStatus;
 
 /**
  * @author Young-Ken
@@ -71,13 +72,13 @@ public class MapOnTouchListener extends GestureDetector.SimpleOnGestureListener 
         if(zoomt - detector.getCurrentSpan() > 100)
         {
             zoomt = detector.getCurrentSpan();
-            map.getMapController().zoomTemp(-1);
+            map.getMapController().zoom(MapStatus.Defualt.ZOOMIN);
         }
 
         if( detector.getCurrentSpan() - zoomt> 100)
         {
             zoomt = detector.getCurrentSpan();
-            map.getMapController().zoomTemp(1);
+            map.getMapController().zoom(MapStatus.Defualt.ZOOMOUT);
         }
 
         return false;

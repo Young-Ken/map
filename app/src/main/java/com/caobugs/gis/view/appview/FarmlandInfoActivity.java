@@ -38,12 +38,26 @@ public class FarmlandInfoActivity extends Activity implements
     private Spinner village_name = null;
     private String villageID = null;
     private RunTimeData runTimeData = null;
+    private Farmland editFarmland = null;
+
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.farmland_info_layout);
 
+        Intent intent = getIntent();
+        Bundle bundle = intent.getExtras();
+        if(bundle != null)
+        {
+            editFarmland = (Farmland) bundle.getSerializable("editFarmland");
+        }
+
+        initView();
+    }
+
+    public void initView()
+    {
         editTextTel = (EditText) findViewById(R.id.farmland_info_tel);
         editTextFarmName = (EditText) findViewById(R.id.farmland_info_name);
         buttonSubmit = (Button) findViewById(R.id.submit_farmland);
