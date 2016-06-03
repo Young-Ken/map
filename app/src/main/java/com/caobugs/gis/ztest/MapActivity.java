@@ -2,7 +2,9 @@ package com.caobugs.gis.ztest;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.ViewTreeObserver;
@@ -22,6 +24,7 @@ import com.caobugs.gis.util.GeomToString;
 import com.caobugs.gis.util.constants.ConstantResult;
 import com.caobugs.gis.view.appview.DownTile;
 import com.caobugs.gis.view.appview.FarmlandInfoActivity;
+import com.caobugs.gis.view.appview.LoginActivity;
 import com.caobugs.gis.view.layer.BaseLayer;
 import com.caobugs.gis.view.layer.FarmlandLayer;
 import com.caobugs.gis.view.layer.MapLayerManger;
@@ -124,8 +127,23 @@ public class MapActivity extends Activity implements View.OnClickListener, OnMap
                 farmlandSQL = new FarmlandSQL();
             }
         });
-
+        checkIdentity();
     }
+
+    public void checkIdentity()
+    {
+        SharedPreferences settings = getSharedPreferences("setting", 0);
+        String tel = settings.getString("tel","null");
+
+        if(tel.equals("null"))
+        {
+            Intent intent = new Intent(this, LoginActivity.class);
+            startActivity(intent);
+        }
+    }
+
+
+
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data)

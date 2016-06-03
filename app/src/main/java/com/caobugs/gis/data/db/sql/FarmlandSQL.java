@@ -44,7 +44,6 @@ public class FarmlandSQL
 				farmlandLayer.getFarmlands());
 		ArrayList<Farmland> farmlands = resultStmt.getFarmlands();
 		farmlandLayer.setFarmlands(farmlands);
-		//spatialDBOperation.close();
 	}
 
 	public FarmlandLayer selectFarmLandByPoint(String point)
