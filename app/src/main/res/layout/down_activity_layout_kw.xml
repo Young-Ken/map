@@ -18,7 +18,7 @@
         android:layout_height="wrap_content"
         android:textSize="40sp"
         android:hint="@string/map_min_x_text_hint"
-        android:text="112.074990"
+        android:text="112.358209"
         android:inputType="numberDecimal"
         />
 
@@ -28,7 +28,7 @@
         android:layout_height="wrap_content"
         android:textSize="40sp"
         android:hint="@string/map_min_y_text_hint"
-        android:text="31.771904"
+        android:text="31.598019"
         android:inputType="numberDecimal"
         />
 
@@ -38,7 +38,7 @@
         android:layout_height="wrap_content"
         android:textSize="40sp"
         android:hint="@string/map_max_x_text_hint"
-        android:text="112.221760"
+        android:text="112.224087"
         android:inputType="numberDecimal"
         />
 
@@ -48,7 +48,7 @@
         android:layout_height="wrap_content"
         android:textSize="40sp"
         android:hint="@string/map_max_y_text_hint"
-        android:text="31.832011"
+        android:text="31.548119"
         android:inputType="numberDecimal"
         />
 

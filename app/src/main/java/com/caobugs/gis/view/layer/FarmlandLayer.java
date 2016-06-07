@@ -28,6 +28,7 @@ public class FarmlandLayer extends BaseLayer
     private Paint selectedPaint = null;
     private Paint textPaint = null;
     private Farmland selected = null;
+
     public FarmlandLayer()
     {
         defaultPaint = new Paint();
@@ -48,11 +49,11 @@ public class FarmlandLayer extends BaseLayer
 
     public void setFarmlands(ArrayList<Farmland> farmlands)
     {
-        if(farmlands == null)
+        if (farmlands == null)
         {
             return;
         }
-        if(this.farmlands == null)
+        if (this.farmlands == null)
         {
             this.farmlands = farmlands;
         } else
@@ -74,13 +75,13 @@ public class FarmlandLayer extends BaseLayer
 
     public void farmlandSlimming()
     {
-        if (farmlands.size() > 400)
+        if (farmlands.size() > 200)
         {
-            for(int i = 0; i < farmlands.size() - 400; i++)
+            for (int i = 0; i < farmlands.size() - 200; i++)
             {
                 if (selected != null)
                 {
-                    if(farmlands.get(i).getId() == selected.getId())
+                    if (farmlands.get(i).getId() == selected.getId())
                     {
                         continue;
                     }
@@ -96,11 +97,10 @@ public class FarmlandLayer extends BaseLayer
     @Override
     public void recycle()
     {
-        if(farmlands != null)
+        if (farmlands != null)
         {
             this.farmlands.clear();
         }
-
         selected = null;
     }
 
@@ -122,83 +122,62 @@ public class FarmlandLayer extends BaseLayer
 
     }
 
-    private void drawFarmland(Canvas canvas, double moveX, double moveY)
-    {
-
-    }
 
     public Farmland getSelected()
     {
         return selected;
     }
 
-    private void drawFarmland(Canvas canvas)
+    private void drawFarmland(Canvas canvas, double moveX, double moveY)
     {
-        if(farmlands == null)
+        if (farmlands == null)
         {
             return;
         }
-        for(Farmland farmland : farmlands)
+        for (Farmland farmland : farmlands)
         {
             LinearRing linearRing = farmland.getFarmGeom();
 
 
             float[] points = null;
-            points = new float[linearRing.getNumPoints()*2];
+            points = new float[linearRing.getNumPoints() * 2];
             ArrayList<Coordinate> coordinateArrayList = new ArrayList<>();
-            for(int i = 0; i < linearRing.getNumPoints(); i++)
+            for (int i = 0; i < linearRing.getNumPoints(); i++)
             {
                 Coordinate point = linearRing.getCoordinateN(i);
-
-                Coordinate coordinate = logLanToScreen(point.x, point.y);
-//                Coordinate c = getMap().getProjection().lonLatToMercator(point.x, point.y);
-//
-//                c = getMap().getProjection().earthTransFormImage(c.x, c.y);
-//
-//                Coordinate coordinate = getMap().getProjection().toScreenPoint(c.x, c.y);
+                Coordinate coordinate = logLanToScreen(point.x, point.y, moveX, moveY);
                 coordinateArrayList.add(coordinate);
-                points[i*2] = (float)(coordinate.x);
-                points[i*2 + 1] = (float)(coordinate.y);
+                points[i * 2] = (float) (coordinate.x);
+                points[i * 2 + 1] = (float) (coordinate.y);
             }
             float[] tempPoint = points.clone();
-
-            //canvas.drawPoints(tempPoint, paint);
-
-            for(int i = 0; i < coordinateArrayList.size()-1;i++)
+            for (int i = 0; i < coordinateArrayList.size() - 1; i++)
             {
                 Coordinate start = coordinateArrayList.get(i);
-                Coordinate end = coordinateArrayList.get(i+1);
+                Coordinate end = coordinateArrayList.get(i + 1);
                 canvas.drawLine((float) start.x, (float) start.y, (float) end.x, (float) end.y, defaultPaint);
             }
 
-            if(selected != null)
+            if (selected != null)
             {
-                if(farmland.getId() == selected.getId())
+                if (farmland.getId() == selected.getId())
                 {
-
-
-                    for(int i = 0; i < coordinateArrayList.size()-1;i++)
+                    for (int i = 0; i < coordinateArrayList.size() - 1; i++)
                     {
                         Coordinate start = coordinateArrayList.get(i);
-                        Coordinate end = coordinateArrayList.get(i+1);
-                        canvas.drawLine((float)start.x, (float)start.y, (float)end.x, (float)end.y, selectedPaint);
+                        Coordinate end = coordinateArrayList.get(i + 1);
+                        canvas.drawLine((float) start.x, (float) start.y, (float) end.x, (float) end.y, selectedPaint);
                     }
                 }
             }
             Envelope envelope = linearRing.getEnvelopeInternal();
             Coordinate coordinate = (Coordinate) envelope.getCentre().clone();
-            coordinate = logLanToScreen(coordinate.x, coordinate.y);
-
-           // StaticLayout layout = new StaticLayout(farmland.getFarmName()+"\n"+ farmland.getArea(), textPaint, 240, Layout.Alignment.ALIGN_NORMAL, 1.0F, 0.0F, true);
-
-            drawMultiLineText(farmland.getFarmName()+"\n"+ farmland.getArea(),(float)coordinate.x, (float)coordinate.y, textPaint, canvas);
-            //canvas.drawLines(tempPoint, paint);
-
+            coordinate = logLanToScreen(coordinate.x, coordinate.y, moveX, moveY);
+            drawMultiLineText(farmland.getFarmName() + "\n" + farmland.getArea(), (float) coordinate.x, (float) coordinate.y, textPaint, canvas);
         }
     }
 
-    void drawMultiLineText(String str, float x, float y, Paint paint,
-                           Canvas canvas)
+    void drawMultiLineText(String str, float x, float y, Paint paint, Canvas canvas)
     {
         String[] lines = str.split("\n");
         float txtSize = -paint.ascent() + paint.descent();
@@ -217,24 +196,27 @@ public class FarmlandLayer extends BaseLayer
     public void drawLines(Canvas canvas, float[] points, double x, double y)
     {
         float[] tempPoints = points.clone();
-        for(int i = 0; i < tempPoints.length; i++)
+        for (int i = 0; i < tempPoints.length; i++)
         {
-            if(i % 2 == 0)
+            if (i % 2 == 0)
             {
-                tempPoints[i] = (float)(tempPoints[i] + x);
-            } else {
-                tempPoints[i] = (float)(tempPoints[i] + y);
+                tempPoints[i] = (float) (tempPoints[i] + x);
+            } else
+            {
+                tempPoints[i] = (float) (tempPoints[i] + y);
             }
         }
 
         canvas.drawLines(tempPoints, defaultPaint);
     }
 
-    private Coordinate logLanToScreen(double x, double y)
+    private Coordinate logLanToScreen(double x, double y,double moveX, double moveY)
     {
         Coordinate c = getMap().getProjection().lonLatToMercator(x, y);
         c = getMap().getProjection().earthTransFormImage(c.x, c.y);
         c = getMap().getProjection().toScreenPoint(c.x, c.y);
+        c.x = c.x + moveX;
+        c.y = c.y + moveY;
         return c;
     }
 
@@ -244,12 +226,12 @@ public class FarmlandLayer extends BaseLayer
         double moveX = MapManger.getInstance().getMap().getMapInfo().moveX;
         double moveY = MapManger.getInstance().getMap().getMapInfo().moveY;
         Log.e(TAG.TILE, moveX + "    " + moveY);
-        if (moveX != 0&& moveY != 0)
+        if (moveX != 0 && moveY != 0)
         {
             drawFarmland(canvas, moveX, moveY);
         } else
         {
-            drawFarmland(canvas);
+            drawFarmland(canvas,0,0);
         }
     }
 

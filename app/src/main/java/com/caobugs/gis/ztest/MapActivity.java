@@ -1,6 +1,8 @@
 package com.caobugs.gis.ztest;
 
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -12,7 +14,9 @@ import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
+import com.caobugs.gis.MainActivity;
 import com.caobugs.gis.R;
+import com.caobugs.gis.algorithm.RobustDeterminant;
 import com.caobugs.gis.data.db.sql.FarmlandSQL;
 import com.caobugs.gis.geometry.Coordinate;
 import com.caobugs.gis.geometry.LinearRing;
@@ -100,11 +104,11 @@ public class MapActivity extends Activity implements View.OnClickListener, OnMap
         Button zoomOut = (Button) findViewById(R.id.zoom_out);
         zoomOut.setOnClickListener(this);
 
-        Button editFarmland = (Button)findViewById(R.id.edit_farmland);
-        editFarmland.setOnClickListener(this);
+//        Button editFarmland = (Button)findViewById(R.id.edit_farmland);
+//        editFarmland.setOnClickListener(this);
 
-        Button cancleButton = (Button)findViewById(R.id.cancel_button);
-        cancleButton.setOnClickListener(this);
+//        Button cancleButton = (Button)findViewById(R.id.cancel_button);
+//        cancleButton.setOnClickListener(this);
 
         // attribute:min_x = "12945986.606604"
         //attribute:min_y = "4838237.908444"
@@ -185,21 +189,7 @@ public class MapActivity extends Activity implements View.OnClickListener, OnMap
                 break;
 
             case R.id.location_button:
-                if (location == null)
-                {
-                    location = new BaiduLocation(map);
-                }
-
-                if (location.isStart())
-                {
-                    location.stop();
-                    locationButton.setText("开始定位");
-
-                } else
-                {
-                    location.start();
-                    locationButton.setText("停止定位");
-                }
+                location();
                 break;
             case R.id.select_farmland:
                 Coordinate temp = (Coordinate) map.getMapCenter().clone();
@@ -207,8 +197,10 @@ public class MapActivity extends Activity implements View.OnClickListener, OnMap
                 temp = Projection.getInstance(map).mercatorToLonLat(temp.x, temp.y);
                 temp.x = Double.parseDouble(String.format("%.7f", temp.x));
                 temp.y = Double.parseDouble(String.format("%.7f", temp.y));
+
                 String point = "POINT(" + temp.x + " " + temp.y + ")";
-                FarmlandLayer selectFarmLayer = farmlandSQL.selectFarmLandByPoint(point);
+                FarmlandLayer selectFarmLayer =
+                        farmlandSQL.selectFarmLandByPoint(point);
 
                 if (selectFarmLayer != null)
                 {
@@ -224,73 +216,39 @@ public class MapActivity extends Activity implements View.OnClickListener, OnMap
             case R.id.draw_farmland:
                 drawFarmland();
                 break;
-            case R.id.cancel_button:
-                if (farmlandLayer != null)
-                {
-                    farmlandLayer.setSelected(null);
-                    mapDarwFarmland.setVisibility(View.VISIBLE);
-                    selectFarmlandTool.setVisibility(View.GONE);
-                    map.refresh();
-                }
-                break;
+//            case R.id.cancel_button:
+//                if (farmlandLayer != null)
+//                {
+//                    farmlandLayer.setSelected(null);
+//                    mapDarwFarmland.setVisibility(View.VISIBLE);
+//                    selectFarmlandTool.setVisibility(View.GONE);
+//                    map.refresh();
+//                }
+//                break;
             case R.id.delete_farmland:
-                if (farmlandLayer == null)
-                {
-                    Toast.makeText(ApplicationContext.getContext(), "出现问题，不能删除，请从试", Toast.LENGTH_LONG).show();
-                    break;
-                } else
-                {
-                    if (farmlandLayer.getSelected() != null)
-                    {
-                        boolean result = farmlandSQL.delete(farmlandLayer.getSelected().getId());
-                        if (result)
-                        {
-                            Toast.makeText(ApplicationContext.getContext(), "删除成功", Toast.LENGTH_LONG).show();
-
-                            ArrayList<Farmland> farmlands = farmlandLayer.getFarmlands();
-
-                            for (Farmland farmland : farmlands)
-                            {
-                                if (farmland.getId() == farmlandLayer.getSelected().getId())
-                                {
-                                    farmlandLayer.getFarmlands().remove(farmland);
-                                    break;
-                                }
-                            }
-                        } else
-                        {
-                            Toast.makeText(ApplicationContext.getContext(), "删除失败", Toast.LENGTH_LONG).show();
-                        }
-
-                        farmlandLayer.setSelected(null);
-                        mapDarwFarmland.setVisibility(View.VISIBLE);
-                        selectFarmlandTool.setVisibility(View.GONE);
-                        map.refresh();
-                    }
-                }
-
+                deleteFarmland();
                 break;
-            case R.id.edit_farmland:
-                if (farmlandLayer == null)
-                {
-                    Toast.makeText(ApplicationContext.getContext(), "出现问题，不能修改，请从试", Toast.LENGTH_LONG).show();
-                    return;
-                } else
-                {
-                    if (farmlandLayer.getSelected() != null)
-                    {
-                        Intent infoIntent = new Intent(MapActivity.this, FarmlandInfoActivity.class);
-                        Bundle bundle = new Bundle();
-                        bundle.putSerializable("editFarmland",farmlandLayer.getSelected());
-                        infoIntent.putExtras(bundle);
-                        startActivity(infoIntent);
-                    } else
-                    {
-                        Toast.makeText(ApplicationContext.getContext(), "出现问题，没有选中的田块，请从试", Toast.LENGTH_LONG).show();
-                        return;
-                    }
-                }
-                break;
+//            case R.id.edit_farmland:
+//                if (farmlandLayer == null)
+//                {
+//                    Toast.makeText(ApplicationContext.getContext(), "出现问题，不能修改，请从试", Toast.LENGTH_LONG).show();
+//                    return;
+//                } else
+//                {
+//                    if (farmlandLayer.getSelected() != null)
+//                    {
+//                        Intent infoIntent = new Intent(MapActivity.this, FarmlandInfoActivity.class);
+//                        Bundle bundle = new Bundle();
+//                        bundle.putSerializable("editFarmland",farmlandLayer.getSelected());
+//                        infoIntent.putExtras(bundle);
+//                        startActivity(infoIntent);
+//                    } else
+//                    {
+//                        Toast.makeText(ApplicationContext.getContext(), "出现问题，没有选中的田块，请从试", Toast.LENGTH_LONG).show();
+//                        return;
+//                    }
+//                }
+//                break;
 
             case R.id.zoom_in:
                 map.getMapController().zoomIn();
@@ -300,6 +258,100 @@ public class MapActivity extends Activity implements View.OnClickListener, OnMap
                 map.getMapController().zoomOut();
                 map.refresh();
                 break;
+        }
+
+    }
+
+
+    public void location()
+    {
+        if (location == null)
+        {
+            location = new BaiduLocation(map);
+        }
+
+        if (location.isStart())
+        {
+            location.stop();
+            locationButton.setText("开始定位");
+
+        } else
+        {
+            location.start();
+            locationButton.setText("停止定位");
+        }
+    }
+
+    public void stopLocation()
+    {
+        if (location == null)
+        {
+            location = new BaiduLocation(map);
+        }
+        if (location.isStart())
+        {
+            location.stop();
+            locationButton.setText("开始定位");
+
+        }
+    }
+
+    public void deleteFarmland()
+    {
+        if (farmlandLayer == null || farmlandLayer.getSelected() == null)
+        {
+            Toast.makeText(ApplicationContext.getContext(), "出现问题，不能删除，请从试", Toast.LENGTH_LONG).show();
+            return;
+        } else
+        {
+
+
+            new AlertDialog.Builder(this).setTitle("系统提示").setMessage("确定要删除田块数据！").setPositiveButton("确定", new DialogInterface.OnClickListener()
+            {
+                @Override
+                public void onClick(DialogInterface dialog, int which)
+                {
+                    boolean result = farmlandSQL.delete(farmlandLayer.getSelected().getId());
+                    if (result)
+                    {
+                        Toast.makeText(ApplicationContext.getContext(), "删除成功", Toast.LENGTH_LONG).show();
+
+                        ArrayList<Farmland> farmlands = farmlandLayer.getFarmlands();
+
+                        for (Farmland farmland : farmlands)
+                        {
+                            if (farmland.getId() == farmlandLayer.getSelected().getId())
+                            {
+                                farmlandLayer.getFarmlands().remove(farmland);
+                                break;
+                            }
+                        }
+                    } else
+                    {
+                        Toast.makeText(ApplicationContext.getContext(), "删除失败", Toast.LENGTH_LONG).show();
+                    }
+
+                    farmlandLayer.setSelected(null);
+                    mapDarwFarmland.setVisibility(View.VISIBLE);
+                    selectFarmlandTool.setVisibility(View.GONE);
+                    map.refresh();
+                }
+            }).setNegativeButton("返回", new DialogInterface.OnClickListener()
+            {
+                @Override
+
+                public void onClick(DialogInterface dialog, int which)
+                {
+                    if (farmlandLayer != null)
+                    {
+                        farmlandLayer.setSelected(null);
+                        mapDarwFarmland.setVisibility(View.VISIBLE);
+                        selectFarmlandTool.setVisibility(View.GONE);
+                        map.refresh();
+                    }
+                }
+
+            }).show();
         }
 
     }
@@ -319,9 +371,11 @@ public class MapActivity extends Activity implements View.OnClickListener, OnMap
             Toast.makeText(this.getApplicationContext(), "请放到16级以上，才能进行绘制！", Toast.LENGTH_LONG).show();
             return;
         }
+        stopLocation();
 
         if (!isDrawFarmland)
         {
+
             isDrawFarmland = true;
             drawFarmlandPointButton.setVisibility(View.VISIBLE);
             drawFarmlandButton.setText("结束绘制");
@@ -352,9 +406,34 @@ public class MapActivity extends Activity implements View.OnClickListener, OnMap
         temp = Projection.getInstance(map).mercatorToLonLat(temp.x, temp.y);
         temp.x = Double.parseDouble(String.format("%.7f", temp.x));
         temp.y = Double.parseDouble(String.format("%.7f", temp.y));
+
+        for (int i = 0; i < farmlandPoint.size(); i++)
+        {
+            if (temp.x == farmlandPoint.get(i).x && temp.y == farmlandPoint.get(i).y)
+            {
+                Toast.makeText(getApplicationContext(), "这个点已经存在", Toast.LENGTH_SHORT).show();
+                return;
+            }
+        }
+
+        for (int i = 0; i < farmlandPoint.size() - 1; i++)
+        {
+            if (RobustDeterminant.orientationIndex(
+                    farmlandPoint.get(i),
+                    farmlandPoint.get(i + 1),
+                    new Coordinate(temp.x, temp.y)) == 0)
+            {
+                Toast.makeText(getApplicationContext(), "这个点在线上", Toast.LENGTH_SHORT).show();
+                return;
+            }
+        }
+
+
         farmlandPoint.add(temp);
         Toast.makeText(getApplicationContext(), "你已经绘制了" + farmlandPoint.size() + "个点", Toast.LENGTH_SHORT).show();
     }
+
+
 
     @Override
     public void onMapStatusChanged(String type, Intent intent)

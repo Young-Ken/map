@@ -37,7 +37,7 @@ public class FarmlandSQL
 	{
 		SpatialDBOperation spatialDBOperation = new SpatialDBOperation();
 		spatialDBOperation.open();
-		String sql = "select id,tel,farmname,address,area(Transform(setsrid(geom,4326),900913))/10000 as area,AsBinary(geom) as geom from farmland where within(geom,GeomFromText('"+envelop+"'))";
+		String sql = "select id,tel,farmname,address,area(Transform(setsrid(geom,4326),900913))*0.59567*0.0015 as area,AsBinary(geom) as geom from farmland where within(geom,GeomFromText('"+envelop+"'))";
 		Log.e("sql",sql);
 		FarmlandResultStmt resultStmt = (FarmlandResultStmt) executeQuery(sql,
 				spatialDBOperation.getDataCollectDB(),
@@ -50,21 +50,21 @@ public class FarmlandSQL
 	{
 		SpatialDBOperation spatialDBOperation = new SpatialDBOperation();
 		spatialDBOperation.open();
-		String sql = "select id,tel,farmname,address,area(Transform(setsrid(geom,4326),900913))/10000 as area,AsBinary(geom) as geom from farmland where within(GeomFromText('" + point + "'),geom)";
+		String sql = "select id,tel,farmname,address,area(Transform(setsrid(geom,4326),900913))*0.59567*0.0015 as area,AsBinary(geom) as geom from farmland where within(GeomFromText('" + point + "'),geom)";
 		Log.e("sql",sql);
 		FarmlandResultStmt resultStmt = null;
 		try
 		{
 			resultStmt = (FarmlandResultStmt) executeQuery(sql, spatialDBOperation.getDataCollectDB());
 			ArrayList<Farmland> farmlands = resultStmt.getFarmlands();
-			if (farmlands.size() == 1)
+			if (farmlands.size() == 0)
+			{
+				Toast.makeText(ApplicationContext.getContext(), "没有选中数据，不能进行删除操作", Toast.LENGTH_LONG).show();
+				return null;
+			} else
 			{
 				farmlandLayer.setSelected(farmlands.get(0));
 				return farmlandLayer;
-			} else
-			{
-				Toast.makeText(ApplicationContext.getContext(), "选中了多条，不能进行删除操作", Toast.LENGTH_LONG).show();
-				return null;
 			}
 		} catch (Exception e)
 		{

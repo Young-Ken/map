@@ -28,7 +28,6 @@
         android:text="@string/search_envelope_text"
         />
 
-
     <LinearLayout
         android:id="@+id/selected_tool_layout"
         android:layout_alignParentBottom="true"
@@ -44,6 +43,8 @@
             android:layout_weight="1"
             android:text="@string/delete_text"
             />
+
+        <!--
         <Button
             android:id="@+id/edit_farmland"
             android:layout_width="0dp"
@@ -51,7 +52,6 @@
             android:layout_weight="1"
             android:text="@string/edit_text"
             />
-
         <Button
             android:id="@+id/cancel_button"
             android:layout_width="0dp"
@@ -59,6 +59,7 @@
             android:layout_weight="1"
             android:text="@string/cancel_text"
             />
+           -->
     </LinearLayout>
 
     <LinearLayout
