@@ -22,6 +22,4 @@ public class VolleyActivity extends Activity
         Volley.newRequestQueue(this.getApplicationContext());
 
     }
-
-
 }

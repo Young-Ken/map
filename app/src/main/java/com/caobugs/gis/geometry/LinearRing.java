@@ -57,4 +57,5 @@ public class LinearRing extends LineString
     {
         return "LinearRing";
     }
+
 }

@@ -73,9 +73,19 @@ public class BaiduLocation
                     gpsInfo.setTime(location.getTime());
                     gpsInfo.setLatitude(location.getLatitude());
                     gpsInfo.setLongitude(location.getLongitude());
-                    gpsInfo.setProvince(location.getProvince());
-                    gpsInfo.setCity(location.getCity());
-                    gpsInfo.setCounty(location.getDistrict());
+
+                    if(location.getProvince() != null && !location.getProvince().equals(""))
+                    {
+                        gpsInfo.setProvince(location.getProvince());
+                    }
+                    if(location.getCity() != null && !location.getCity().equals(""))
+                    {
+                        gpsInfo.setCity(location.getCity());
+                    }
+                    if(location.getDistrict() != null && !location.getDistrict().equals(""))
+                    {
+                        gpsInfo.setCounty(location.getDistrict());
+                    }
 
                     if (location.getLocType() == BDLocation.TypeGpsLocation)
                     {
@@ -98,6 +108,7 @@ public class BaiduLocation
 
     public void locationMap(double longitude, double latitude)
     {
+        //112.163089,31.804153
         Coordinate coordinate = Projection.getInstance(baseMap).lonLatToMercator(longitude, latitude);
         baseMap.setMapCenterLevel(coordinate, baseMap.getLevel());
         baseMap.refresh();

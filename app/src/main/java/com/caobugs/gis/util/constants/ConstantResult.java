@@ -13,6 +13,11 @@ public class ConstantResult
     public static final int RESULT_OK = 1;
 
     /**
+     * 更新
+     */
+    public static final int RESULT_UPDATE = 2;
+
+    /**
      * 失败的结果
      */
     public static final int RESULT_FAILD = -1;

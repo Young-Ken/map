@@ -24,9 +24,10 @@ public class PositionSQL
 
     public ArrayList<Position> selectByCounty(String countyName)
     {
+        countyName = "宜城市";
         SpatialDBOperation spatialDBOperation = new SpatialDBOperation();
         spatialDBOperation.open();
-        String sql = "SELECT DISTINCT(town_id) as pid, town_name as name from j_position j where j.county_name= '宜城市'";
+        String sql = "SELECT DISTINCT(town_id) as pid, town_name as name from j_position j where j.county_name= '"+countyName+"'";
         ArrayList<Position> positions = null;
         try
         {

@@ -38,20 +38,12 @@ public class FarmlandInfoActivity extends Activity implements
     private Spinner village_name = null;
     private String villageID = null;
     private RunTimeData runTimeData = null;
-    private Farmland editFarmland = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.farmland_info_layout);
-
-        Intent intent = getIntent();
-        Bundle bundle = intent.getExtras();
-        if(bundle != null)
-        {
-            editFarmland = (Farmland) bundle.getSerializable("editFarmland");
-        }
 
         initView();
     }
@@ -63,7 +55,6 @@ public class FarmlandInfoActivity extends Activity implements
         buttonSubmit = (Button) findViewById(R.id.submit_farmland);
         town_name = (Spinner) findViewById(R.id.town_name);
         village_name = (Spinner) findViewById(R.id.village_name);
-
 
         buttonSubmit.setOnClickListener(this);
         town_name.setOnItemSelectedListener(this);
@@ -124,8 +115,7 @@ public class FarmlandInfoActivity extends Activity implements
     public void onClick(View v)
     {
         int id = v.getId();
-        if (editTextTel.getText().toString().equals("") ||
-                editTextTel.getText().toString().equals("") || villageID == null || villageID.equals("-1"))
+        if (villageID == null || villageID.equals("-1"))
         {
             Toast.makeText(FarmlandInfoActivity.this, "请输入对应的参数", Toast.LENGTH_LONG).show();
             return;

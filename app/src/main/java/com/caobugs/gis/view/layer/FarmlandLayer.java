@@ -138,7 +138,6 @@ public class FarmlandLayer extends BaseLayer
         {
             LinearRing linearRing = farmland.getFarmGeom();
 
-
             float[] points = null;
             points = new float[linearRing.getNumPoints() * 2];
             ArrayList<Coordinate> coordinateArrayList = new ArrayList<>();
@@ -150,13 +149,21 @@ public class FarmlandLayer extends BaseLayer
                 points[i * 2] = (float) (coordinate.x);
                 points[i * 2 + 1] = (float) (coordinate.y);
             }
-            float[] tempPoint = points.clone();
+
+            if(farmland.getFarmName().equals("") || farmland.getTel().equals("0"))
+            {
+                defaultPaint.setColor(Color.BLUE);
+            } else
+            {
+                defaultPaint.setColor(Color.BLACK);
+            }
             for (int i = 0; i < coordinateArrayList.size() - 1; i++)
             {
                 Coordinate start = coordinateArrayList.get(i);
                 Coordinate end = coordinateArrayList.get(i + 1);
                 canvas.drawLine((float) start.x, (float) start.y, (float) end.x, (float) end.y, defaultPaint);
             }
+
 
             if (selected != null)
             {
@@ -206,7 +213,6 @@ public class FarmlandLayer extends BaseLayer
                 tempPoints[i] = (float) (tempPoints[i] + y);
             }
         }
-
         canvas.drawLines(tempPoints, defaultPaint);
     }
 

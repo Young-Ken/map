@@ -98,6 +98,9 @@ public class FarmlandResultStmt extends ResultStmt
                         {
                             e.printStackTrace();
                         }
+                    } else if("time".equals(name))
+                    {
+                        farmland.setTime(getString(5));
                     }
                 }
                 farmlands.add(farmland);

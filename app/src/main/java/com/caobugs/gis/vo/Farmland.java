@@ -17,6 +17,7 @@ public class Farmland implements Serializable
     public static final String AERA = "area";
     public static final String FARMGROM = "farmGeom";
     public static final String TEL = "tel";
+    public static final String TIME = "time";
 
     private int id = 0;
     private String farmName = null;
@@ -24,6 +25,7 @@ public class Farmland implements Serializable
     private double area = 0;
     private LinearRing farmGeom = null;
     private String tel = null;
+    private String time = null;
 
 
     public int getId()
@@ -86,4 +88,13 @@ public class Farmland implements Serializable
         this.farmGeom = farmGeom;
     }
 
+    public String getTime()
+    {
+        return time;
+    }
+
+    public void setTime(String time)
+    {
+        this.time = time;
+    }
 }
