@@ -3,9 +3,11 @@ import android.app.IntentService;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.telephony.TelephonyManager;
 import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
+import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
@@ -25,6 +27,7 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.UUID;
 
 /**
  * @author Young-Ken
@@ -35,24 +38,25 @@ public class UploadServer extends IntentService
 {
     private FarmlandSQL farmlandSQL = null;
     private ArrayList<Farmland> uploadFarmlands = null;
-    private String url = "http://192.168.1.166/api/farmland/uploadInfo";
+    private String url = "http://120.27.44.6/api/farmland/uploadInfo";
+    private TelephonyManager telephonyManager = null;
     private RequestQueue mRequestQueue;
     private StringRequest mStringRequest;
     private String tel = "";
+
     public UploadServer()
     {
         super("UploadServer");
-
     }
 
     public void checkCollectionTel()
     {
         SharedPreferences settings = getSharedPreferences("setting", 0);
-        String tel = settings.getString("tel","");
+        String tel = settings.getString("tel", "");
 
-        if(!tel.equals(""))
+        if (!tel.equals(""))
         {
-          this.tel = tel;
+            this.tel = tel;
         }
     }
 
@@ -69,8 +73,9 @@ public class UploadServer extends IntentService
             Intent dialogIntent = new Intent(getBaseContext(), LoginActivity.class);
             dialogIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             getApplication().startActivity(dialogIntent);
-        }else
+        } else
         {
+            telephonyManager = (TelephonyManager) this.getSystemService(TELEPHONY_SERVICE);
             queryFarmland();
             uploadFarmland();
         }
@@ -104,7 +109,7 @@ public class UploadServer extends IntentService
                                 {
                                     farmlandSQL.updateUploadFarmland(farmland.getId() + "", "3");
                                 }
-                                Toast.makeText(getApplicationContext(), "上传了"+uploadFarmlands.size()+"条数据", Toast.LENGTH_LONG).show();
+                                Toast.makeText(getApplicationContext(), "上传了" + uploadFarmlands.size() + "条数据", Toast.LENGTH_LONG).show();
                             } else
                             {
                                 Toast.makeText(getApplicationContext(), "上传失败", Toast.LENGTH_LONG).show();
@@ -133,7 +138,6 @@ public class UploadServer extends IntentService
             {
                 Map<String, String> hash = new HashMap<>();
                 JSONObject jsonObject = new JSONObject();
-                //ArrayList<HashMap<String, String>> arrayList = new ArrayList<>();
                 JSONArray jsonArray = new JSONArray();
                 try
                 {
@@ -149,8 +153,9 @@ public class UploadServer extends IntentService
                         jsonArray.put(farmJson);
                     }
                     jsonObject.putOpt("farmlands", jsonArray);
-                    jsonObject.put("upPhone", "11111111111");
-                    jsonObject.put("uuid", "54464654654654654666565");
+                    jsonObject.put("upPhone", tel);
+
+
                 } catch (JSONException e)
                 {
                     e.printStackTrace();
@@ -160,6 +165,10 @@ public class UploadServer extends IntentService
             }
         };
         mRequestQueue.add(mStringRequest);
+        mStringRequest.setRetryPolicy(new DefaultRetryPolicy(
+                20 * 1000,
+                DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
+                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
     }
 }
 

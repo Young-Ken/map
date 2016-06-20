@@ -32,6 +32,8 @@ import com.caobugs.gis.tile.TileInfo;
 import com.caobugs.gis.tile.service.DownTileBinder;
 import com.caobugs.gis.util.ApplicationContext;
 import com.caobugs.gis.util.TAG;
+import com.caobugs.gis.util.file.ToolFile;
+import com.caobugs.gis.util.file.ToolStorage;
 import com.caobugs.gis.vo.Farmland;
 
 import java.util.ArrayList;
@@ -48,16 +50,18 @@ public class DownTileActivity extends Activity
     private double mapMinX;
     private double mapMaxY;
     private double mapMinY;
-    //private int mapMaxLevel;
-    //private int mapMinLevel;
+    private int mapMaxLevel;
+    private int mapMinLevel;
     private EditText editTextMinX = null;
     private EditText editTextMaxX = null;
     private EditText editTextMinY = null;
     private EditText editTextMaxY = null;
-    //private EditText editTextMaxLevel = null;
-    //private EditText editTextMinLevel = null;
+    private EditText editTextMaxLevel = null;
+    private EditText editTextMinLevel = null;
     private TextView currentLevel = null;
     private TextView currentPercent = null;
+    private TextView errorText = null;
+
 
     private LinearLayout layout;
 
@@ -76,13 +80,21 @@ public class DownTileActivity extends Activity
         setContentView(R.layout.down_activity_layout);
 
         layout = (LinearLayout) findViewById(R.id.downActivity);
-
         currentLevel = (TextView) findViewById(R.id.currentLevel);
         currentLevel.setText("开始下载");
         currentPercent = (TextView) findViewById(R.id.currentPercent);
 
+        editTextMinX = (EditText) findViewById(R.id.minXText);
+        editTextMinY = (EditText) findViewById(R.id.minYText);
+        editTextMaxX = (EditText) findViewById(R.id.maxXText);
+        editTextMaxY = (EditText) findViewById(R.id.maxYText);
+
+        editTextMaxLevel = (EditText) findViewById(R.id.mapMaxLevel);
+        editTextMinLevel = (EditText) findViewById(R.id.mapMinLevel);
+
+
         tileInfo = CoordinateSystemManager.getInstance().getCoordinateSystem().getTileInfo();
-        getEditTextValue();
+        //getEditTextValue();
         getEnvelope();
 
         downButton = (Button) findViewById(R.id.downButton);
@@ -91,19 +103,52 @@ public class DownTileActivity extends Activity
             @Override
             public void onClick(View v)
             {
-                downButton.setEnabled(true);
-                checkTileInfo();
-                saveEnvelope();
-                downTile();
+                checkExtendCard();
             }
         });
 
+        errorText = (TextView) findViewById(R.id.error_text);
+    }
+
+    public void checkExtendCard()
+    {
+        if(ToolStorage.getCanUserFile().size() == 1)
+        {
+            new AlertDialog.Builder(this).setTitle("系统提示").setMessage("没有外置SD确定要下载吗？").setPositiveButton("确定", new DialogInterface.OnClickListener()
+            {
+                @Override
+                public void onClick(DialogInterface dialog, int which)
+                {
+                    downLoadActivity();
+                }
+            }).setNegativeButton("返回", new DialogInterface.OnClickListener()
+            {
+                @Override
+
+                public void onClick(DialogInterface dialog, int which)
+                {
+
+                }
+
+            }).show();
+        }else {
+            downLoadActivity();
+        }
+    }
+
+    public void downLoadActivity()
+    {
+        downButton.setEnabled(false);
+        checkTileInfo();
+        saveEnvelope();
+        getEditTextValue();
+        downTile();
     }
 
     public void getEditTextValue()
     {
         String tempString = null;
-        editTextMinX = (EditText) findViewById(R.id.minXText);
+
         tempString = editTextMinX.getText().toString();
         if ("".equals(tempString))
         {
@@ -113,7 +158,7 @@ public class DownTileActivity extends Activity
         mapMinX = Double.parseDouble(editTextMinX.getText().toString());
         mapMinX = lonLatToMercatorX(mapMinX);
 
-        editTextMinY = (EditText) findViewById(R.id.minYText);
+
         tempString = editTextMinY.getText().toString();
         if ("".equals(tempString))
         {
@@ -123,7 +168,7 @@ public class DownTileActivity extends Activity
         mapMinY = Double.parseDouble(editTextMinY.getText().toString());
         mapMinY = lonLatToMercatorY(mapMinY);
 
-        editTextMaxX = (EditText) findViewById(R.id.maxXText);
+
         tempString = editTextMaxX.getText().toString();
         if ("".equals(tempString))
         {
@@ -133,7 +178,7 @@ public class DownTileActivity extends Activity
         mapMaxX = Double.parseDouble(editTextMaxX.getText().toString());
         mapMaxX = lonLatToMercatorX(mapMaxX);
 
-        editTextMaxY = (EditText) findViewById(R.id.maxYText);
+
         tempString = editTextMaxY.getText().toString();
         if ("".equals(tempString))
         {
@@ -143,23 +188,21 @@ public class DownTileActivity extends Activity
         mapMaxY = Double.parseDouble(editTextMaxY.getText().toString());
         mapMaxY = lonLatToMercatorY(mapMaxY);
 
-        //        editTextMaxLevel = (EditText) findViewById(R.id.mapMaxLevel);
-        //        tempString = editTextMaxLevel.getText().toString();
-        //        if ("".equals(tempString))
-        //        {
-        //            setTextIsError(editTextMaxLevel, getResources().getString(R.string.edit_text_null_error));
-        //            return;
-        //        }
-        //        mapMaxLevel = Integer.parseInt(editTextMaxLevel.getText().toString());
-        //
-        //        editTextMinLevel = (EditText) findViewById(R.id.mapMinLevel);
-        //        tempString = editTextMinLevel.getText().toString();
-        //        if ("".equals(tempString))
-        //        {
-        //            setTextIsError(editTextMinLevel, getResources().getString(R.string.edit_text_null_error));
-        //            return;
-        //        }
-        //        mapMinLevel = Integer.parseInt(editTextMinLevel.getText().toString());
+        tempString = editTextMaxLevel.getText().toString();
+        if ("".equals(tempString))
+        {
+            setTextIsError(editTextMaxLevel, getResources().getString(R.string.edit_text_null_error));
+            return;
+        }
+        mapMaxLevel = Integer.parseInt(editTextMaxLevel.getText().toString());
+
+        tempString = editTextMinLevel.getText().toString();
+        if ("".equals(tempString))
+        {
+            setTextIsError(editTextMinLevel, getResources().getString(R.string.edit_text_null_error));
+            return;
+        }
+        mapMinLevel = Integer.parseInt(editTextMinLevel.getText().toString());
     }
 
 
@@ -222,22 +265,6 @@ public class DownTileActivity extends Activity
         editText.setHintTextColor(Color.RED);
     }
 
-    private ServiceConnection connection = new ServiceConnection()
-    {
-        @Override
-        public void onServiceConnected(ComponentName name, IBinder service)
-        {
-            myBinder = (DownTileBinder) service;
-            myBinder.startDownLoad();
-        }
-
-        @Override
-        public void onServiceDisconnected(ComponentName name)
-        {
-            Log.e(TAG.DOWNTILESERVER, "onServiceDisconnected      " + name);
-        }
-    };
-
     private Handler mHandler = new Handler()
     {
         public synchronized void handleMessage(Message msg)
@@ -248,12 +275,14 @@ public class DownTileActivity extends Activity
                 case 0:
                     currentLevel.setText(msg.arg1 + "");
                 case 1:
-                    int num = msg.arg1;
-                    if (num == 0)
-                    {
-                        downButton.setEnabled(false);
-                    }
                     currentPercent.setText(msg.arg1 + "");
+                    break;
+                case 2:
+                    Bundle bundle = msg.getData();
+                    if(bundle != null)
+                    {
+                        errorText.setText(bundle.getInt("errorNum")+"");
+                    }
                     break;
             }
         }
@@ -271,7 +300,7 @@ public class DownTileActivity extends Activity
         public void run()
         {
             BaseTiledURL baseTiledURL = TiledLayerFactory.getInstance().createTiledURL(GoogleTiledTypes.GOOGLE_IMAGE);
-            downTile = new DownTile(tileInfo, baseTiledURL, new Envelope(mapMinX, mapMaxX, mapMinY, mapMaxY), 0, 20, mHandler);
+            downTile = new DownTile(tileInfo, baseTiledURL, new Envelope(mapMinX, mapMaxX, mapMinY, mapMaxY), mapMinLevel, mapMaxLevel, mHandler);
             try
             {
                 downTile.run();
@@ -328,8 +357,6 @@ public class DownTileActivity extends Activity
         }
         return super.onKeyDown(keyCode, event);
     }
-
-
 
 
     @Override

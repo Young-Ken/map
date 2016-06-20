@@ -1,4 +1,5 @@
 package com.caobugs.gis.tile.downtile;
+import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.util.Log;
@@ -29,10 +30,12 @@ public class DownTile
 
     private TileInfo tileInfo = null;
     private BaseTiledURL tiledURL = null;
-    private TileDownloader tileDownloader = new TileDownloader();
+
     private Handler handler = null;
     private AtomicInteger downTileNum = new AtomicInteger(0);
     private AtomicInteger releaseNum = new AtomicInteger(0);
+    private AtomicInteger errorNum = new AtomicInteger(0);
+    private TileDownloader tileDownloader = new TileDownloader();
     private ArrayList<ArrayList<int[]>> taskArray = new ArrayList<>();
     private ExecutorService threadPool = null;
 
@@ -53,14 +56,14 @@ public class DownTile
 
     public void run() throws Exception
     {
-        threadPool = Executors.newScheduledThreadPool(7);
+        threadPool = Executors.newScheduledThreadPool(5);
         if (maxLevel < minLevel)
         {
             throw new RuntimeException("最大级别一定要大于最小级别");
         }
 
         int num = 0;
-        ArrayList<int[]> tileInfos = null;
+        ArrayList<int[]> tileInfos = new ArrayList<>();
         for (int i = minLevel; i <= maxLevel; i++)
         {
             Message msg = handler.obtainMessage();
@@ -81,32 +84,25 @@ public class DownTile
                 {
                     if (num == 0)
                     {
-                        tileInfos = new ArrayList<>();
+                        tileInfos.clear();
                     }
                     tileInfos.add(new int[]{i, col, row});
                     num++;
                     if (num == 100)
                     {
                         num = 0;
-                        taskArray.add(tileInfos);
+                        releaseNum.set(tileInfos.size());
+                        for (int j = 0; j < tileInfos.size(); j++)
+                        {
+                            int[] tileInfo = tileInfos.get(j);
+                            threadPool.submit(new TileDownThread(tileInfo[0], tileInfo[1], tileInfo[2]));
+                        }
+                        while (!(releaseNum.get() == 0))
+                        {
+                            Thread.sleep(1);
+                        }
                     }
                 }
-            }
-        }
-
-
-        for (int i = 0; i < taskArray.size(); i++)
-        {
-            ArrayList<int[]> arrayList = taskArray.get(i);
-            releaseNum.set(arrayList.size());
-            for (int j = 0; j < arrayList.size(); j++)
-            {
-                int[] tileInfo = arrayList.get(j);
-                threadPool.submit(new TileDownThread(tileInfo[0], tileInfo[1], tileInfo[2]));
-            }
-            while (!(releaseNum.get() == 0))
-            {
-
             }
         }
     }
@@ -117,6 +113,14 @@ public class DownTile
         int minTileNumY = getTileNum(tileInfo.getOriginPoint().y - mapEnv.getMaxY(), level);
         int maxTileNumX = getTileNum(mapEnv.getMaxX() + (-tileInfo.getOriginPoint().x), level);
         int maxTileNumY = getTileNum(tileInfo.getOriginPoint().y - mapEnv.getMinY(), level);
+        if(level > 5)
+        {
+            minTileNumX = minTileNumX -1;
+            minTileNumY = minTileNumY -1;
+            maxTileNumX = maxTileNumX + 1;
+            maxTileNumY = maxTileNumY + 1;
+        }
+
         Log.i(TAG.DOWNTILESERVER, "x轴切片的数量 = " + (maxTileNumX - minTileNumX) + "y轴切片的数量 = " + (maxTileNumY - minTileNumY));
         return new int[]{minTileNumX, minTileNumY, maxTileNumX, maxTileNumY};
 
@@ -157,28 +161,59 @@ public class DownTile
             releaseNum.decrementAndGet();
             if (ToolMapCache.isExistByte(tiledURL.getMapServiceType().getName(), level, col, row))
             {
-                Log.d(TAG.DOWNTILESERVER, "  " + level + "  level " + col + "  col  " + row + "  row   " + "已经存在");
+
             } else
             {
-                tileDownloader.getStream(path, tiledURL.getMapServiceType().getName(), level, col, row);
+                try
+                {
+                    if(!new TileDownloader().getStream(path, tiledURL.getMapServiceType().getName(), level, col, row))
+                    {
+                       sendErrorMessage();
+                    }
+                }catch (Exception e)
+                {
+                    e.printStackTrace();
+                    sendErrorMessage();
+                }
             }
+        }
+
+        public void sendErrorMessage()
+        {
+            errorNum.incrementAndGet();
+            Message errorMessage = handler.obtainMessage();
+            errorMessage.what = 2;
+            Bundle bundle = new Bundle();
+            bundle.putInt("errorNum",errorNum.get());
+            errorMessage.setData(bundle);
+            errorMessage.sendToTarget();
         }
     }
 
    public void destroy()
    {
-       try
-       {
-           threadPool.shutdown();
-           while (!threadPool.awaitTermination(1, TimeUnit.SECONDS))
-           {
-               Log.e(TAG.DOWNTILESERVER, "线程池没有关闭");
-           }
-
-       } catch (InterruptedException e)
-       {
-           e.printStackTrace();
-       }
-       Log.e(TAG.DOWNTILESERVER, "线程池已经关闭");
+      new ShoutDownThread().start();
    }
+
+    class ShoutDownThread extends Thread
+    {
+        @Override
+        public void run()
+        {
+            super.run();
+            try
+            {
+                threadPool.shutdown();
+                while (!threadPool.awaitTermination(1, TimeUnit.SECONDS))
+                {
+                    Log.e(TAG.DOWNTILESERVER, "线程池没有关闭");
+                }
+
+            } catch (InterruptedException e)
+            {
+                e.printStackTrace();
+            }
+            Log.e(TAG.DOWNTILESERVER, "线程池已经关闭");
+        }
+    }
 }

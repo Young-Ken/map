@@ -36,14 +36,14 @@ public class ReadShapeFile implements IReadFilesNames,OnShapeStatusListener
 {
     public ReadShapeFile()
     {
-        File rootShape = ToolStorage.getSDCordFile();
+        //File rootShape = ToolStorage.getWorkSpaceFile();
         //rootShape = ToolFile.appendFile(rootShape, ConstantFile.ROOT, ConstantFile.SHAPE_ROOT, ConstantFile.SHAPE_FILE);
 
-        rootShape = ToolFile.appendFile(rootShape, ConstantFile.ROOT, ConstantFile.SHAPE_ROOT,"text");
+        //rootShape = ToolFile.appendFile(rootShape, ConstantFile.ROOT, ConstantFile.SHAPE_ROOT,"text");
 
-        String[] strings = {"shp"};
-        String[] fileName = {"Point","gaoxin"};
-        new ReadFilesNames(this, fileName, strings, true).execute(rootShape);
+//        String[] strings = {"shp"};
+//        String[] fileName = {"Point","gaoxin"};
+//        new ReadFilesNames(this, fileName, strings, true).execute(rootShape);
     }
 
     @Override

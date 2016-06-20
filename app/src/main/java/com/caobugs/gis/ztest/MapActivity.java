@@ -6,6 +6,8 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.os.storage.StorageManager;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.ViewTreeObserver;
@@ -23,7 +25,10 @@ import com.caobugs.gis.location.GpsInfo;
 import com.caobugs.gis.location.bd.BaiduLocation;
 import com.caobugs.gis.util.ApplicationContext;
 import com.caobugs.gis.util.GeomToString;
+import com.caobugs.gis.util.constants.ConstantFile;
 import com.caobugs.gis.util.constants.ConstantResult;
+import com.caobugs.gis.util.file.ToolFile;
+import com.caobugs.gis.util.file.ToolStorage;
 import com.caobugs.gis.view.appview.DownTileActivity;
 import com.caobugs.gis.view.appview.EditFarmlandInfoActivity;
 import com.caobugs.gis.view.appview.FarmlandInfoActivity;
@@ -39,6 +44,7 @@ import com.caobugs.gis.view.map.event.OnMapStatusChangeListener;
 import com.caobugs.gis.view.map.util.Projection;
 import com.caobugs.gis.vo.Farmland;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
@@ -90,7 +96,7 @@ public class MapActivity extends Activity implements View.OnClickListener, OnMap
         drawFarmlandPointButton = (Button) findViewById(R.id.draw_farmland_point);
         drawFarmlandPointButton.setOnClickListener(this);
 
-        uploadFarmland = (Button)findViewById(R.id.upload_farmland);
+        uploadFarmland = (Button) findViewById(R.id.upload_farmland);
         uploadFarmland.setOnClickListener(this);
 
         ViewTreeObserver vto = map.getViewTreeObserver();
@@ -108,10 +114,10 @@ public class MapActivity extends Activity implements View.OnClickListener, OnMap
         Button zoomOut = (Button) findViewById(R.id.zoom_out);
         zoomOut.setOnClickListener(this);
 
-        Button editFarmland = (Button)findViewById(R.id.edit_farmland);
+        Button editFarmland = (Button) findViewById(R.id.edit_farmland);
         editFarmland.setOnClickListener(this);
 
-        Button cancleButton = (Button)findViewById(R.id.cancel_button);
+        Button cancleButton = (Button) findViewById(R.id.cancel_button);
         cancleButton.setOnClickListener(this);
 
         vto.addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener()
@@ -127,21 +133,47 @@ public class MapActivity extends Activity implements View.OnClickListener, OnMap
             }
         });
         checkIdentity();
+        checkAOGFile();
+    }
+
+
+    public void checkAOGFile()
+    {
+        List<String> list = ToolStorage.getCanUserFile();
+
+
+        if(list.size() == 1)
+        {
+            Toast.makeText(ApplicationContext.getContext(), "没有外置的SD卡！", Toast.LENGTH_LONG).show();
+        }
+       // Toast.makeText(this,list.size()+"  "+ list.get(0)+list.get(1)+"  ",Toast.LENGTH_LONG).show();
+        if (ToolStorage.getMapCachePath() == null)
+        {
+            StringBuffer stringBuffer = new StringBuffer(list.get(list.size() == 1 ? 0 : 1));
+            stringBuffer.append(File.separator);
+            stringBuffer.append(ConstantFile.MAP_CACHE_ROOT);
+            stringBuffer.append(File.separator);
+            ToolFile.mkdir(stringBuffer.toString());
+        }
     }
 
     public void checkIdentity()
     {
-        SharedPreferences settings = getSharedPreferences("setting", 0);
-        String tel = settings.getString("tel","null");
-
-        if(tel.equals("null"))
+        if (getSettingsString("setting", "tel").equals(""))
         {
             Intent intent = new Intent(this, LoginActivity.class);
             startActivity(intent);
         }
     }
 
-
+    public String getSettingsString(String setting, String key)
+    {
+        synchronized (this)
+        {
+            SharedPreferences settings = getSharedPreferences(setting, 0);
+            return settings.getString(key, "");
+        }
+    }
 
 
     @Override
@@ -165,6 +197,7 @@ public class MapActivity extends Activity implements View.OnClickListener, OnMap
                 {
                     Envelope temp = map.getEnvelope();
                     farmlandSQL.selectFarmlandByEnvelop(GeomToString.geomToStringWEB(temp, map));
+                    map.refresh();
                 } else
                 {
                     Toast.makeText(ApplicationContext.getContext(), "请放到到16级别查看绘制完的田块", Toast.LENGTH_LONG).show();

@@ -18,10 +18,6 @@ import java.io.InputStream;
  */
 public class ToolMapCache
 {
-    /**
-     * 默认切片缓存
-     */
-    //public static final String MAPCACHE_PATH = "MapCache";
 
     /**
      * 拼接缓存切片地址
@@ -32,17 +28,10 @@ public class ToolMapCache
      * @param row   列
      * @return 切片路径
      */
-    public static String getMapCachePath(final String path, final int level, final int col, final int row)
+    public static String getMapCachePath(final String tileType, final int level, final int col, final int row)
     {
-        StringBuffer resultPath = new StringBuffer();
-        File sdPath = ToolStorage.getSDCordFile();
-        resultPath.append(sdPath);
-        resultPath.append(File.separator);
-        resultPath.append(ConstantFile.ROOT);
-        resultPath.append(File.separator);
-        resultPath.append(ConstantFile.MAP_CACHE);
-        resultPath.append(File.separator);
-        resultPath.append(path);
+        StringBuffer resultPath = new StringBuffer(ToolStorage.getMapCacheWorkSpace());
+        resultPath.append(tileType);
         resultPath.append(String.format(File.separator + "%d" + File.separator + "%d" + File.separator + "%d.ZY", level, col, row));
         String result = resultPath.toString();
         resultPath.delete(0,resultPath.length());

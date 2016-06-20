@@ -10,8 +10,9 @@ public class ConstantFile
     /**
      * 这个App的根目录
      */
-    public static final String ROOT = "AZY";
+    public static final String MAP_CACHE_ROOT = "AOG";
 
+    public static final String DB_ROOT = "AZY";
     /**
      * 缓存路径
      */

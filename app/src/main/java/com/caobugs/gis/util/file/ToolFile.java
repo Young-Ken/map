@@ -27,10 +27,6 @@ public class ToolFile
     public static boolean createNewFile(String path)
     {
         File file = createFile(path);
-        if (file == null)
-        {
-            return false;
-        }
         try
         {
             return file.createNewFile();
@@ -158,7 +154,7 @@ public class ToolFile
     }
 
 
-    private static boolean mkdir(String path)
+    public static boolean mkdir(String path)
     {
         try
         {

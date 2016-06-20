@@ -64,17 +64,17 @@ public class MapController implements IMapController
 
         if (level > map.getMapInfo().getMapMaxLevel())
         {
-            Toast.makeText(ApplicationContext.getContext(), "当前级别大于地图最大级别", Toast.LENGTH_LONG).show();
+            Toast.makeText(ApplicationContext.getContext(), "当前级别大于地图最大级别", Toast.LENGTH_SHORT).show();
             return false;
         } else if (level == map.getMapInfo().getMapMaxLevel())
         {
-            Toast.makeText(ApplicationContext.getContext(), "最大级别"+level, Toast.LENGTH_LONG).show();
+            Toast.makeText(ApplicationContext.getContext(), "最大级别"+level, Toast.LENGTH_SHORT).show();
         } else if (level == 0)
         {
-            Toast.makeText(ApplicationContext.getContext(), "最小级别", Toast.LENGTH_LONG).show();
+            Toast.makeText(ApplicationContext.getContext(), "最小级别", Toast.LENGTH_SHORT).show();
         } else if (level < 0)
         {
-            Toast.makeText(ApplicationContext.getContext(), "当前级别小于地图最小级别", Toast.LENGTH_LONG).show();
+            Toast.makeText(ApplicationContext.getContext(), "当前级别小于地图最小级别", Toast.LENGTH_SHORT).show();
             return false;
         }else {
             Toast.makeText(ApplicationContext.getContext(), "当前级别"+level, Toast.LENGTH_SHORT).show();

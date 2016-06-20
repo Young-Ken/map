@@ -21,6 +21,8 @@ import com.caobugs.gis.vo.Position;
 import com.caobugs.gis.vo.RunTimeData;
 
 import java.util.ArrayList;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 
 /**
@@ -125,6 +127,16 @@ public class FarmlandInfoActivity extends Activity implements
             case R.id.submit_farmland:
                 Intent intent = new Intent();
                 Bundle bundle = new Bundle();
+                if(!editTextTel.getText().toString().equals(""))
+                {
+                    Pattern p = Pattern.compile("^((13[0-9])|(15[^4,\\D])|(18[0,5-9]))\\d{8}$");
+                    Matcher m = p.matcher(editTextTel.getText().toString());
+                    if (!m.matches())
+                    {
+                        Toast.makeText(FarmlandInfoActivity.this, "手机号码不对，请仔细检查", Toast.LENGTH_LONG).show();
+                        return;
+                    }
+                }
                 bundle.putString(Farmland.TEL, editTextTel.getText().toString());
                 bundle.putString(Farmland.FARMNAME, editTextFarmName.getText().toString());
                 bundle.putString(Farmland.ADDRESS, villageID);

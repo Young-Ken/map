@@ -150,7 +150,7 @@ public class FarmlandLayer extends BaseLayer
                 points[i * 2 + 1] = (float) (coordinate.y);
             }
 
-            if(farmland.getFarmName().equals("") || farmland.getTel().equals("0"))
+            if(farmland.getFarmName().equals("") || farmland.getTel().equals("1"))
             {
                 defaultPaint.setColor(Color.BLUE);
             } else

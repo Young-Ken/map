@@ -54,12 +54,8 @@ public class EditFarmlandInfoActivity extends Activity implements View.OnClickLi
     {
         int id = view.getId();
 
-        if (editTextTel.getText().toString().equals("") ||
-                editTextName.getText().toString().equals(""))
+        if(!editTextTel.getText().toString().equals("1"))
         {
-            Toast.makeText(EditFarmlandInfoActivity.this, "请输入对应的参数", Toast.LENGTH_LONG).show();
-            return;
-        } else {
             Pattern p = Pattern.compile("^((13[0-9])|(15[^4,\\D])|(18[0,5-9]))\\d{8}$");
             Matcher m = p.matcher(editTextTel.getText().toString());
             if (!m.matches())

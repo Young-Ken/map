@@ -98,9 +98,16 @@ public class FarmlandSQL
 			return;
 		}
 
-		farmland.setTel(farmland.getTel() == null ? farmland.getTel() : "0");
-		StringBuffer sql = new StringBuffer("Insert into farmland(tel,farmname,address,geom,time) values (" +
-				""+farmland.getTel()+",'"+farmland.getFarmName()+"','"+farmland.getAddress()+"',GeomFromText('"+ GeomToString.polygonToString(farmland.getFarmGeom())+"'),"+new Date().getTime()+")");
+		StringBuffer sql = null;
+		farmland.setTel(farmland.getTel().equals("") ? "1" : farmland.getTel());
+		if(!"".equals(farmland.getTel()) && !"".equals(farmland.getFarmName()))
+		{
+			sql = new StringBuffer("Insert into farmland(tel,farmname,address,geom,time,state) values (" +
+					""+farmland.getTel()+",'"+farmland.getFarmName()+"','"+farmland.getAddress()+"',GeomFromText('"+ GeomToString.polygonToString(farmland.getFarmGeom())+"'),"+new Date().getTime()+",2)");
+		}else {
+			sql = new StringBuffer("Insert into farmland(tel,farmname,address,geom,time,state) values (" +
+					""+farmland.getTel()+",'"+farmland.getFarmName()+"','"+farmland.getAddress()+"',GeomFromText('"+ GeomToString.polygonToString(farmland.getFarmGeom())+"'),"+new Date().getTime()+",1)");
+		}
 
 		Log.e("sql",sql.toString());
 		try
@@ -116,13 +123,16 @@ public class FarmlandSQL
 	public boolean update(Farmland farmland)
 	{
 		boolean result = false;
-		if(farmland.getTel() == null || farmland.getFarmName() == null)
+		StringBuffer sql = null;
+		farmland.setTel(farmland.getTel().equals("") ? "1" : farmland.getTel());
+		if(!"1".equals(farmland.getTel()) && !"".equals(farmland.getFarmName()))
 		{
-			Toast.makeText(ApplicationContext.getContext(), "数据为空操作失败，从新绘制",Toast.LENGTH_LONG).show();
-			return false;
+			sql = new StringBuffer("UPDATE farmland SET tel = "+farmland.getTel()+", farmname= '"+farmland.getFarmName()+"',state = 2 where id = "+farmland.getId()+"");
+		}else {
+			sql = new StringBuffer("UPDATE farmland SET tel = "+farmland.getTel()+", farmname= '"+farmland.getFarmName()+"',state = 1 where id = "+farmland.getId()+"");
 		}
 
-		StringBuffer sql = new StringBuffer("UPDATE farmland SET tel = "+farmland.getTel()+", farmname= '"+farmland.getFarmName()+"' where id = "+farmland.getId()+"");
+
 		try
 		{
 			ResultStmt resultStmt =  executeQuery(sql.toString());
