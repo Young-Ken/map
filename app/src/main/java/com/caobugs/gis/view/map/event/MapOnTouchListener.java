@@ -15,22 +15,15 @@ import com.caobugs.gis.view.map.MapStatus;
  * @version 0.1
  * @since 2016/1/6
  */
-public class MapOnTouchListener extends GestureDetector.SimpleOnGestureListener implements ScaleGestureDetector.OnScaleGestureListener, View.OnTouchListener
+public class MapOnTouchListener implements ScaleGestureDetector.OnScaleGestureListener, View.OnTouchListener
 {
     private BaseMap map = null;
     private OnMapDefaultListener defaultListener = null;
+    private int fingleNum = 0;
     public MapOnTouchListener(BaseMap map)
     {
         this.map = map;
         defaultListener = new MapDefaultListener(map);
-    }
-
-
-    @Override
-    public boolean onDown(MotionEvent e)
-    {
-        Log.e(TAG.EVENT,"onDown");
-        return true;
     }
 
     public void onLongPress(MotionEvent e)
@@ -38,32 +31,15 @@ public class MapOnTouchListener extends GestureDetector.SimpleOnGestureListener 
 
     }
 
-    @Override
-    public boolean onSingleTapUp(MotionEvent e)
-    {
-        Log.e(TAG.EVENT,"onSingleTapUp");
-        return true;
-    }
-
-    @Override
-    public boolean onFling(MotionEvent e1, MotionEvent e2, float velocityX, float velocityY)
-    {
-        Log.e(TAG.EVENT,"onFling");
-        return super.onFling(e1, e2, velocityX, velocityY);
-    }
-
-    @Override
-    public boolean onScroll(MotionEvent e1, MotionEvent e2, float distanceX, float distanceY) {
-        Log.e(TAG.EVENT," onScroll");
-        return true;
-    }
-
-
-
     private float zoomt = 0;
     @Override
     public boolean onScale(ScaleGestureDetector detector)
     {
+        if(fingleNum == 1 || fingleNum == 0)
+        {
+            return false;
+        }
+
         if(zoomt == 0)
         {
             zoomt = detector.getCurrentSpan();
@@ -101,7 +77,8 @@ public class MapOnTouchListener extends GestureDetector.SimpleOnGestureListener 
     @Override
     public boolean onTouch(View v, MotionEvent event)
     {
-        if(event.getPointerCount() == 1)
+        fingleNum = event.getPointerCount();
+        if(fingleNum == 1)
         {
             defaultListener.onMapDefaultEvent(event);
         }

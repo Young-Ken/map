@@ -38,7 +38,7 @@ public class UploadServer extends IntentService
 {
     private FarmlandSQL farmlandSQL = null;
     private ArrayList<Farmland> uploadFarmlands = null;
-    private String url = "http://120.27.44.6/api/farmland/uploadInfo";
+    private String url = "http://m.farm-keeper.com/api/farmland/uploadInfo";
     private TelephonyManager telephonyManager = null;
     private RequestQueue mRequestQueue;
     private StringRequest mStringRequest;
@@ -121,11 +121,8 @@ public class UploadServer extends IntentService
                         }
                     }
 
-                }, new Response.ErrorListener()
-        {
-
+                }, new Response.ErrorListener(){
             @Override
-
             public void onErrorResponse(VolleyError error)
             {
                 Toast.makeText(getApplicationContext(), "上传失败", Toast.LENGTH_LONG).show();
@@ -166,7 +163,7 @@ public class UploadServer extends IntentService
         };
         mRequestQueue.add(mStringRequest);
         mStringRequest.setRetryPolicy(new DefaultRetryPolicy(
-                20 * 1000,
+                200 * 1000,
                 DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
                 DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
     }

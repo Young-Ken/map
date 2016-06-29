@@ -10,6 +10,7 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.caobugs.gis.R;
+import com.caobugs.gis.util.constants.ConstantFile;
 import com.caobugs.gis.util.constants.ConstantResult;
 import com.caobugs.gis.vo.Farmland;
 
@@ -56,7 +57,7 @@ public class EditFarmlandInfoActivity extends Activity implements View.OnClickLi
 
         if(!editTextTel.getText().toString().equals("1"))
         {
-            Pattern p = Pattern.compile("^((13[0-9])|(15[^4,\\D])|(18[0,5-9]))\\d{8}$");
+            Pattern p = Pattern.compile(ConstantFile.TEL_CHECK);
             Matcher m = p.matcher(editTextTel.getText().toString());
             if (!m.matches())
             {

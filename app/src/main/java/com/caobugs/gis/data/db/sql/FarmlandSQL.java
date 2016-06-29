@@ -38,7 +38,7 @@ public class FarmlandSQL
 	{
 		SpatialDBOperation spatialDBOperation = new SpatialDBOperation();
 		spatialDBOperation.open();
-		String sql = "select id,tel,farmname,address,area(Transform(setsrid(geom,4326),900913))*0.0015 as area,AsBinary(geom) as geom from farmland where within(geom,GeomFromText('"+envelop+"'))";
+		String sql = "select id,tel,farmname,address,area(Transform(setsrid(geom,4326),900913))*0.0015* 0.7276 as area,AsBinary(geom) as geom from farmland where within(geom,GeomFromText('"+envelop+"'))";
 		Log.e("sql",sql);
 		FarmlandResultStmt resultStmt = (FarmlandResultStmt) executeQuery(sql,
 				farmlandLayer.getFarmlands());
@@ -48,7 +48,7 @@ public class FarmlandSQL
 
 	public FarmlandLayer selectFarmLandByPoint(String point)
 	{
-		String sql = "select id,tel,farmname,address,area(Transform(setsrid(geom,4326),900913))*0.0015 as area,AsBinary(geom) as geom from farmland where within(GeomFromText('" + point + "'),geom)";
+		String sql = "select id,tel,farmname,address,area(Transform(setsrid(geom,4326),900913))*0.0015 * 0.7276 as area,AsBinary(geom) as geom from farmland where within(GeomFromText('" + point + "'),geom)";
 		Log.e("sql",sql);
 		FarmlandResultStmt resultStmt = null;
 		try
@@ -100,7 +100,7 @@ public class FarmlandSQL
 
 		StringBuffer sql = null;
 		farmland.setTel(farmland.getTel().equals("") ? "1" : farmland.getTel());
-		if(!"".equals(farmland.getTel()) && !"".equals(farmland.getFarmName()))
+		if(!"1".equals(farmland.getTel()) && !"".equals(farmland.getFarmName()))
 		{
 			sql = new StringBuffer("Insert into farmland(tel,farmname,address,geom,time,state) values (" +
 					""+farmland.getTel()+",'"+farmland.getFarmName()+"','"+farmland.getAddress()+"',GeomFromText('"+ GeomToString.polygonToString(farmland.getFarmGeom())+"'),"+new Date().getTime()+",2)");

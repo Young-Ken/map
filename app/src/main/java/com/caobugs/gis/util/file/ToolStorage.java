@@ -1,13 +1,8 @@
 package com.caobugs.gis.util.file;
 
-import android.app.Service;
 import android.os.Environment;
+import android.os.ParcelUuid;
 import android.os.StatFs;
-import android.os.storage.StorageManager;
-import android.util.Log;
-import android.widget.Toast;
-
-import com.caobugs.gis.util.ApplicationContext;
 import com.caobugs.gis.util.constants.ConstantFile;
 
 import java.io.BufferedReader;
@@ -15,7 +10,6 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -31,10 +25,10 @@ public class ToolStorage
     private static String TFPath = null;
     private static String mapCachePath = null;
     private static String dbWorkSpace = null;
-
-    private static String mapCacheWorkSpace = null;
-
     private static List<String> canUserPath = null;
+    private static File internalFile = null;
+    public static String internalMapCachePath = null;
+    public static String extendMapCachePath = null;
 
     /**
      * 判断SDCard是否存在
@@ -53,7 +47,42 @@ public class ToolStorage
      */
     public static File getInternalFile()
     {
-        return isInternalCard() ? Environment.getExternalStorageDirectory() : null;
+        if (internalFile == null)
+        {
+            internalFile = isInternalCard() ? Environment.getExternalStorageDirectory() : null;
+        }
+        return internalFile;
+    }
+
+    public static String getInternalMapCachePath()
+    {
+        if (internalMapCachePath == null)
+        {
+            StringBuffer imp = new StringBuffer(getInternalFile().getPath());
+            imp.append(File.separator)
+                    .append(ConstantFile.ROOT)
+                    .append(File.separator)
+                    .append(ConstantFile.MAP_CACHE);
+            internalMapCachePath = imp.toString();
+        }
+        return internalMapCachePath;
+    }
+
+    public static String getExtendMapCachePath()
+    {
+        if (extendMapCachePath == null)
+        {
+            if(getCanUserFile().size() >= 2)
+            {
+                StringBuffer imp = new StringBuffer(getCanUserFile().get(1));
+                imp.append(File.separator)
+                        .append(ConstantFile.MAP_CACHE_ROOT)
+                        .append(File.separator)
+                        .append(ConstantFile.MAP_CACHE);
+                extendMapCachePath = imp.toString();
+            }
+        }
+        return extendMapCachePath;
     }
 
     private static StatFs getStatFs()
@@ -145,23 +174,6 @@ public class ToolStorage
         return paths;
     }
 
-    public static String getMapCacheWorkSpace()
-    {
-        if(mapCacheWorkSpace == null)
-        {
-            StringBuffer resultPath = new StringBuffer();
-            String mapCachePath = ToolStorage.getMapCachePath();
-            resultPath.append(mapCachePath);
-            resultPath.append(File.separator);
-            resultPath.append(ConstantFile.MAP_CACHE_ROOT);
-            resultPath.append(File.separator);
-            resultPath.append(ConstantFile.MAP_CACHE);
-            resultPath.append(File.separator);
-            mapCacheWorkSpace = resultPath.toString();
-        }
-        return mapCacheWorkSpace;
-    }
-
     public static String getMapCachePath()
     {
         if (mapCachePath == null)
@@ -198,17 +210,17 @@ public class ToolStorage
     {
         if (dbWorkSpace == null)
         {
-            List<String> canUserFile = getCanUserFile();
-            StringBuffer tempPath = null;
-
-            tempPath = new StringBuffer(canUserFile.get(0));
-            tempPath.append(File.separator).append(ConstantFile.DB_ROOT);
-            dbWorkSpace = canUserFile.get(0);
+            StringBuffer imp = new StringBuffer(getInternalFile().getPath());
+            imp.append(File.separator)
+                    .append(ConstantFile.ROOT)
+                    .append(File.separator)
+                    .append(ConstantFile.DB_FILE);
+            dbWorkSpace = imp.toString();
         }
-        return mapCacheWorkSpace;
+        return dbWorkSpace;
     }
 
-    public static List<String> getCanUserFile()
+    public static synchronized List<String> getCanUserFile()
     {
         if(canUserPath == null)
         {

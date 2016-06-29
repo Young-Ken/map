@@ -39,7 +39,7 @@ public class TileLayer extends BaseLayer
     {
         this.tilePath = tilePath;
         tileInfo = CoordinateSystemManager.getInstance().getCoordinateSystem().getTileInfo();
-        memoryTileCache = new MemoryTileCache(256*1024);
+        memoryTileCache = new MemoryTileCache(2*1024*1024);
         paint.setColor(Color.RED);
         paint.setStyle(Paint.Style.FILL);
         paint.setStrokeWidth(30);
@@ -98,6 +98,8 @@ public class TileLayer extends BaseLayer
             }
 
             byte[] bytes = ToolMapCache.getByte(tilePath, level, col, row);
+
+
 
             if(bytes != null && bytes.length != 0)
             {

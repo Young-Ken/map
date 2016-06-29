@@ -12,7 +12,7 @@ public class ConstantFile
      */
     public static final String MAP_CACHE_ROOT = "AOG";
 
-    public static final String DB_ROOT = "AZY";
+    public static final String ROOT = "AZY";
     /**
      * 缓存路径
      */
@@ -46,4 +46,6 @@ public class ConstantFile
      * 渲染shape xml 文件名
      */
     public static final String SHAPE_XML_NAME = "shapeXML.xml";
+
+    public static final String TEL_CHECK = "^((13[0-9])|(15[^4,\\D])|(18[0-9]))\\d{8}$";
 }

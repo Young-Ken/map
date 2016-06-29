@@ -12,6 +12,7 @@ import android.widget.Toast;
 
 import com.caobugs.gis.R;
 import com.caobugs.gis.data.db.sql.PositionSQL;
+import com.caobugs.gis.util.constants.ConstantFile;
 import com.caobugs.gis.util.constants.ConstantResult;
 import com.caobugs.gis.location.GpsInfo;
 import com.caobugs.gis.view.appview.adapter.BaseSpinnerAdapter;
@@ -129,7 +130,7 @@ public class FarmlandInfoActivity extends Activity implements
                 Bundle bundle = new Bundle();
                 if(!editTextTel.getText().toString().equals(""))
                 {
-                    Pattern p = Pattern.compile("^((13[0-9])|(15[^4,\\D])|(18[0,5-9]))\\d{8}$");
+                    Pattern p = Pattern.compile(ConstantFile.TEL_CHECK);
                     Matcher m = p.matcher(editTextTel.getText().toString());
                     if (!m.matches())
                     {

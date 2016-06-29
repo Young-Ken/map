@@ -108,7 +108,7 @@ public class BaiduLocation
 
     public void locationMap(double longitude, double latitude)
     {
-        //112.163089,31.804153
+        //112.401181 32.119723
         Coordinate coordinate = Projection.getInstance(baseMap).lonLatToMercator(longitude, latitude);
         baseMap.setMapCenterLevel(coordinate, baseMap.getLevel());
         baseMap.refresh();

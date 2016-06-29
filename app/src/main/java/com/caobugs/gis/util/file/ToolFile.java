@@ -1,5 +1,7 @@
 package com.caobugs.gis.util.file;
 
+import android.util.Log;
+
 import java.io.File;
 import java.io.IOException;
 
@@ -179,7 +181,7 @@ public class ToolFile
             }
         } catch (Exception err)
         {
-            err.printStackTrace();
+            Log.e("error",err.toString());
             return false;
         }
     }

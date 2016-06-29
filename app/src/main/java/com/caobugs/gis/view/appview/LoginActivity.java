@@ -10,6 +10,8 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.caobugs.gis.R;
+import com.caobugs.gis.util.constants.ConstantFile;
+
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -41,7 +43,7 @@ public class LoginActivity extends Activity implements View.OnClickListener
         switch (id)
         {
             case R.id.submit_user_tel:
-                Pattern p = Pattern.compile("^((13[0-9])|(15[^4,\\D])|(18[0,5-9]))\\d{8}$");
+                Pattern p = Pattern.compile(ConstantFile.TEL_CHECK);
                 Matcher m = p.matcher(telText.getText().toString());
                 if (!m.matches())
                 {

@@ -56,7 +56,7 @@ public class DownTile
 
     public void run() throws Exception
     {
-        threadPool = Executors.newScheduledThreadPool(5);
+        threadPool = Executors.newScheduledThreadPool(10);
         if (maxLevel < minLevel)
         {
             throw new RuntimeException("最大级别一定要大于最小级别");
@@ -88,21 +88,42 @@ public class DownTile
                     }
                     tileInfos.add(new int[]{i, col, row});
                     num++;
-                    if (num == 100)
+                    if (num >= 100)
                     {
                         num = 0;
-                        releaseNum.set(tileInfos.size());
-                        for (int j = 0; j < tileInfos.size(); j++)
+                        submitTask(tileInfos);
+                    } else {
+                        if(num == downTileNum.get())
                         {
-                            int[] tileInfo = tileInfos.get(j);
-                            threadPool.submit(new TileDownThread(tileInfo[0], tileInfo[1], tileInfo[2]));
-                        }
-                        while (!(releaseNum.get() == 0))
-                        {
-                            Thread.sleep(1);
+                            submitTask(tileInfos);
                         }
                     }
                 }
+            }
+            while (!(downTileNum.get() == 0))
+            {
+                Thread.sleep(1);
+            }
+            num = 0;
+        }
+    }
+
+    public void submitTask(ArrayList<int[]> tileInfos)
+    {
+        releaseNum.set(tileInfos.size());
+        for (int j = 0; j < tileInfos.size(); j++)
+        {
+            int[] tileInfo = tileInfos.get(j);
+            threadPool.submit(new TileDownThread(tileInfo[0], tileInfo[1], tileInfo[2]));
+        }
+        while (!(releaseNum.get() == 0))
+        {
+            try
+            {
+                Thread.sleep(1);
+            } catch (InterruptedException e)
+            {
+                e.printStackTrace();
             }
         }
     }

@@ -14,7 +14,7 @@ public class SpatialDBOperation
 
     public SpatialDBOperation()
     {
-        path = ToolStorage.getInternalFile() +"/"+ ConstantFile.DB_ROOT+"/"+ConstantFile.DB_FILE+"/"+"dataSource.db";
+        path = ToolStorage.getDBPath()+"/"+"dataSource.db";
     }
 
     public void close()

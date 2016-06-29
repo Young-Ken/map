@@ -1,5 +1,6 @@
 package com.caobugs.gis.util.file;
 
+import android.os.storage.StorageManager;
 
 import com.caobugs.gis.util.constants.ConstantFile;
 
@@ -22,7 +23,7 @@ public class ToolMapCache
     /**
      * 拼接缓存切片地址
      *
-     * @param path  路径
+     * @param tileType  路径
      * @param level 级别
      * @param col   行
      * @param row   列
@@ -30,8 +31,15 @@ public class ToolMapCache
      */
     public static String getMapCachePath(final String tileType, final int level, final int col, final int row)
     {
-        StringBuffer resultPath = new StringBuffer(ToolStorage.getMapCacheWorkSpace());
-        resultPath.append(tileType);
+        StringBuffer resultPath = new StringBuffer(ToolStorage.getInternalMapCachePath());
+        resultPath.append(getMapCacheMosaicPath(tileType,level,col,row));
+        return resultPath.toString();
+    }
+
+    public static String getMapCacheMosaicPath(final String titleType, final int level, final int col, final int row)
+    {
+        StringBuffer resultPath = new StringBuffer(File.separator);
+        resultPath.append(titleType);
         resultPath.append(String.format(File.separator + "%d" + File.separator + "%d" + File.separator + "%d.ZY", level, col, row));
         String result = resultPath.toString();
         resultPath.delete(0,resultPath.length());
@@ -54,54 +62,89 @@ public class ToolMapCache
         return !file.getPath().equals("") && file.exists();
     }
 
-    /**
-     * 把Byte写入到sdcard中
-     *
-     * @param bytes byte数组
-     * @param path  路径
-     * @param level 级别
-     * @param col   行
-     * @param row   列
-     * @return true 写入成功 false 写入不成功
-     */
-    public static boolean saveByte(final byte[] bytes, final String path, final int level, final int col, int row)
+    public static String isExistByte(String path)
     {
-        File file = ToolFile.createFile(getMapCachePath(path, level, col, row));
-
-        if (file.getPath().equals(""))
+        StringBuffer tilePath = null;
+        if(ToolStorage.getCanUserFile() == null || ToolStorage.getCanUserFile().size() == 0)
         {
-            return false;
+            return null;
         }
-
-        File parentFile = ToolFile.createFile(file.getParent());
-
-        if (parentFile.exists())
+        if(ToolStorage.getCanUserFile().size() >= 2)
         {
-            return !file.isDirectory() && writeToBytes(bytes, file);
-        } else
-        {
-            return parentFile.mkdirs() && writeToBytes(bytes, file);
+            tilePath = new StringBuffer(ToolStorage.getInternalMapCachePath()).append(path);
+            if (!checkTileFile(tilePath.toString()).equals(""))
+            {
+                return tilePath.toString();
+            }
+            tilePath = new StringBuffer(ToolStorage.getExtendMapCachePath()).append(path);
+            if (!checkTileFile(tilePath.toString()).equals(""))
+            {
+                return tilePath.toString();
+            }
         }
+        return null;
     }
+
+    public static String checkTileFile(String path)
+    {
+        File file = new File(path);
+        if(file.exists())
+        {
+            return path;
+        }
+        return "";
+    }
+
+//    /**
+//     * 把Byte写入到sdcard中
+//     *
+//     * @param bytes byte数组
+//     * @param path  路径
+//     * @param level 级别
+//     * @param col   行
+//     * @param row   列
+//     * @return true 写入成功 false 写入不成功
+//     */
+//    public static boolean saveByte(final byte[] bytes, final String path, final int level, final int col, int row)
+//    {
+//        File file = ToolFile.createFile(getMapCachePath(path, level, col, row));
+//
+//        if (file.getPath().equals(""))
+//        {
+//            return false;
+//        }
+//
+//        File parentFile = ToolFile.createFile(file.getParent());
+//
+//        if (parentFile.exists())
+//        {
+//            return !file.isDirectory() && writeToBytes(bytes, file);
+//        } else
+//        {
+//            return parentFile.mkdirs() && writeToBytes(bytes, file);
+//        }
+//    }
 
     /**
      * 从sdcard中读取切片
      *
-     * @param path  路径
+     * @param tileType  路径
      * @param level 级别
      * @param col   行
      * @param row   列
      * @return true 写入成功 false 写入不成功
      */
-    public synchronized static byte[] getByte(final String path, final int level, final int col, final int row) throws IOException
+    public synchronized static byte[] getByte(final String tileType, final int level, final int col, final int row) throws IOException
     {
         InputStream is = null;
         ByteArrayOutputStream bos = null;
 
-        if (!isExistByte(path, level, col, row))
+        String mosaicPath = getMapCacheMosaicPath(tileType, level, col, row);
+        String titlePath = isExistByte(mosaicPath);
+        if (titlePath == null)
             return null;
 
-        is = new FileInputStream(getMapCachePath(path, level, col, row));
+        is = new FileInputStream(titlePath);
         bos = new ByteArrayOutputStream();
         byte[] b = new byte[1024];
 
@@ -113,6 +156,7 @@ public class ToolMapCache
 
         return bos.toByteArray();
     }
+
 
     public static boolean writeToBytes(byte bytes[], File file)
     {

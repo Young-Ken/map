@@ -45,6 +45,7 @@ import com.caobugs.gis.view.map.util.Projection;
 import com.caobugs.gis.vo.Farmland;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
@@ -133,28 +134,6 @@ public class MapActivity extends Activity implements View.OnClickListener, OnMap
             }
         });
         checkIdentity();
-        checkAOGFile();
-    }
-
-
-    public void checkAOGFile()
-    {
-        List<String> list = ToolStorage.getCanUserFile();
-
-
-        if(list.size() == 1)
-        {
-            Toast.makeText(ApplicationContext.getContext(), "没有外置的SD卡！", Toast.LENGTH_LONG).show();
-        }
-       // Toast.makeText(this,list.size()+"  "+ list.get(0)+list.get(1)+"  ",Toast.LENGTH_LONG).show();
-        if (ToolStorage.getMapCachePath() == null)
-        {
-            StringBuffer stringBuffer = new StringBuffer(list.get(list.size() == 1 ? 0 : 1));
-            stringBuffer.append(File.separator);
-            stringBuffer.append(ConstantFile.MAP_CACHE_ROOT);
-            stringBuffer.append(File.separator);
-            ToolFile.mkdir(stringBuffer.toString());
-        }
     }
 
     public void checkIdentity()

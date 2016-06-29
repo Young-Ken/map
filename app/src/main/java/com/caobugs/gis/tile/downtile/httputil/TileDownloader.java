@@ -161,7 +161,7 @@ public class TileDownloader
      * 把Byte写入到sdcard中
      *
      * @param bytes byte数组
-     * @param path  路径
+     * @param tileType  路径
      * @param level 级别
      * @param col   行
      * @param row   列

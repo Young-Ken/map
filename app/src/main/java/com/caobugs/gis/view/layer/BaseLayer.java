@@ -4,7 +4,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Canvas;
 
-import com.caobugs.gis.util.constants.MapEvent;
 import com.caobugs.gis.geometry.Coordinate;
 import com.caobugs.gis.view.broadcast.MapBroadcastReceiver;
 import com.caobugs.gis.view.map.BaseMap;
