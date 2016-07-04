@@ -1,12 +1,16 @@
 package com.caobugs.gis.ztest;
 
+import android.Manifest;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.os.storage.StorageManager;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
@@ -224,6 +228,7 @@ public class MapActivity extends Activity implements View.OnClickListener, OnMap
         switch (id)
         {
             case R.id.search_envelope:
+                stopLocation();
                 Intent downIntent = new Intent(MapActivity.this, DownTileActivity.class);
                 startActivity(downIntent);
                 break;
@@ -336,7 +341,6 @@ public class MapActivity extends Activity implements View.OnClickListener, OnMap
         {
             location.stop();
             locationButton.setText("开始定位");
-
         }
     }
 

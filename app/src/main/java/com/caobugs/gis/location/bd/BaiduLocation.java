@@ -1,10 +1,14 @@
 package com.caobugs.gis.location.bd;
 
 
+import android.util.Log;
+import android.widget.Toast;
+
 import com.baidu.location.BDLocation;
 import com.baidu.location.BDLocationListener;
 import com.caobugs.gis.geometry.Coordinate;
 import com.caobugs.gis.location.GpsInfo;
+import com.caobugs.gis.location.HeightAccuracyListener;
 import com.caobugs.gis.location.bd.server.LocationService;
 import com.caobugs.gis.util.ApplicationContext;
 import com.caobugs.gis.view.map.BaseMap;
@@ -18,12 +22,18 @@ import com.caobugs.gis.view.map.util.Projection;
 public class BaiduLocation
 {
     private LocationService locationService = null;
-
+    private HeightAccuracyListener listener = null;
     private BaseMap baseMap = null;
     public BaiduLocation(BaseMap baseMap)
     {
         this.baseMap = baseMap;
         init();
+    }
+
+    public BaiduLocation(BaseMap baseMap, HeightAccuracyListener listener)
+    {
+        this(baseMap);
+        this.listener = listener;
     }
 
     private void init()
@@ -62,10 +72,16 @@ public class BaiduLocation
             // TODO Auto-generated method stub
             if (null != location && location.getLocType() != BDLocation.TypeServerError)
             {
+               // Log.e("ssssss", location.getRadius()+"   location");
+                //Toast.makeText(ApplicationContext.getContext(),location.getRadius()+"   location",Toast.LENGTH_SHORT).show()yttr
+//                if(location.getRadius() >= 15)
+//                {
+//                    return;
+//                }
+
                 GpsInfo gpsInfo = GpsInfo.getInstance();
                 if(location.getTime().equals(gpsInfo.getTime()))
                 {
-
                     locationMap(location.getLongitude(), location.getLatitude());
                     return;
                 } else
@@ -102,6 +118,11 @@ public class BaiduLocation
                     }
                 }
                 locationMap(location.getLongitude(), location.getLatitude());
+
+                if(listener != null)
+                {
+                    listener.onReceiveHeightAccuracyLocation(gpsInfo);
+                }
             }
         }
     };

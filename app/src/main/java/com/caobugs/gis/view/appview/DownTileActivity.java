@@ -22,6 +22,10 @@ import android.widget.Toast;
 
 
 import com.caobugs.gis.R;
+import com.caobugs.gis.geometry.Coordinate;
+import com.caobugs.gis.location.GpsInfo;
+import com.caobugs.gis.location.HeightAccuracyListener;
+import com.caobugs.gis.location.bd.BaiduLocation;
 import com.caobugs.gis.tile.CoordinateSystemManager;
 import com.caobugs.gis.tile.downtile.DownTile;
 import com.caobugs.gis.tile.downtile.factory.TiledLayerFactory;
@@ -34,6 +38,8 @@ import com.caobugs.gis.util.ApplicationContext;
 import com.caobugs.gis.util.TAG;
 import com.caobugs.gis.util.file.ToolFile;
 import com.caobugs.gis.util.file.ToolStorage;
+import com.caobugs.gis.view.map.MapManger;
+import com.caobugs.gis.view.map.util.Projection;
 import com.caobugs.gis.vo.Farmland;
 
 import java.util.ArrayList;
@@ -43,7 +49,7 @@ import java.util.ArrayList;
  * @version 0.1
  * @since 2016/1/13
  */
-public class DownTileActivity extends Activity
+public class DownTileActivity extends Activity implements View.OnClickListener,HeightAccuracyListener
 {
     private DownTileBinder myBinder;
     private double mapMaxX;
@@ -61,7 +67,7 @@ public class DownTileActivity extends Activity
     private TextView currentLevel = null;
     private TextView currentPercent = null;
     private TextView errorText = null;
-
+    private BaiduLocation location = null;
 
     private LinearLayout layout;
 
@@ -72,6 +78,7 @@ public class DownTileActivity extends Activity
     private static double earthRExcept180 = 20037508.342787 / 180;
     private Button downButton = null;
     private DownTile downTile = null;
+    private Button downLocationButton = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -91,21 +98,15 @@ public class DownTileActivity extends Activity
 
         editTextMaxLevel = (EditText) findViewById(R.id.mapMaxLevel);
         editTextMinLevel = (EditText) findViewById(R.id.mapMinLevel);
-
+        downLocationButton = (Button) findViewById(R.id.downLocationButton);
+        downLocationButton.setOnClickListener(this);
 
         tileInfo = CoordinateSystemManager.getInstance().getCoordinateSystem().getTileInfo();
         //getEditTextValue();
         getEnvelope();
 
         downButton = (Button) findViewById(R.id.downButton);
-        downButton.setOnClickListener(new View.OnClickListener()
-        {
-            @Override
-            public void onClick(View v)
-            {
-                checkExtendCard();
-            }
-        });
+        downButton.setOnClickListener(this);
 
         errorText = (TextView) findViewById(R.id.error_text);
     }
@@ -138,7 +139,7 @@ public class DownTileActivity extends Activity
 
     public void downLoadActivity()
     {
-        downButton.setEnabled(false);
+        setButtonEnabled();
         checkTileInfo();
         saveEnvelope();
         getEditTextValue();
@@ -203,6 +204,20 @@ public class DownTileActivity extends Activity
             return;
         }
         mapMinLevel = Integer.parseInt(editTextMinLevel.getText().toString());
+    }
+
+    public void downLocationTile()
+    {
+        setButtonEnabled();
+
+        if(location == null)
+        {
+            location = new BaiduLocation(MapManger.getInstance().getMap(), this);
+        }
+        if(!location.isStart())
+        {
+            location.start();
+        }
     }
 
 
@@ -367,5 +382,45 @@ public class DownTileActivity extends Activity
         {
             downTile.destroy();
         }
+    }
+
+    @Override
+    public void onClick(View v)
+    {
+        int id = v.getId();
+        switch (id)
+        {
+            case R.id.downButton:
+                checkExtendCard();
+                break;
+            case R.id.downLocationButton:
+                downLocationTile();
+                break;
+
+        }
+    }
+
+    @Override
+    public void onReceiveHeightAccuracyLocation(GpsInfo gpsInfo)
+    {
+        if (location.isStart())
+        {
+            location.stop();
+        }
+        //Projection projection = Projection.getInstance(MapManger.getInstance().getMap());
+        //Coordinate coordinate = projection.GCJ02ToWGS84(gpsInfo.getLongitude(), gpsInfo.getLatitude());
+        mapMinLevel = 0;
+        mapMaxLevel = 20;
+        mapMinX = lonLatToMercatorX(gpsInfo.getLongitude() - 0.001);
+        mapMaxX = lonLatToMercatorX(gpsInfo.getLongitude() + 0.001);
+        mapMinY = lonLatToMercatorY(gpsInfo.getLatitude() - 0.001);
+        mapMaxY = lonLatToMercatorY(gpsInfo.getLatitude() + 0.001);
+        downTile();
+    }
+
+    public void setButtonEnabled()
+    {
+        downButton.setEnabled(false);
+        downLocationButton.setEnabled(false);
     }
 }

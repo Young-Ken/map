@@ -37,4 +37,5 @@
     <string name="surplus_num">剩余</string>
     <string name="percent">百分比</string>
     <string name="error_text">错误个数</string>
+    <string name="down_location_button_text">下载当前位置的切片</string>
 </resources>
