@@ -7,4 +7,12 @@ package com.caobugs.gis.util.updateapp;
  */
 public class ApiClient
 {
+    public static Update checkVersion(AppContext appContext) throws Exception {
+        try {
+            return Update.parse(HtmlRegexpUtil
+                    .GetInputStreamByUrl("http://files.cnblogs.com/luomingui/MobileAppVersion.xml"));
+        } catch (Exception e) {
+            throw e;
+        }
+    }
 }
