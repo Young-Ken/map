@@ -354,8 +354,6 @@ public class UpdateManager {
 
     /**
      * 下载apk
-     *
-     * @param url
      */
     private void downloadApk() {
         downLoadThread = new Thread(mdownApkRunnable);
