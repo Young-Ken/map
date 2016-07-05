@@ -7,8 +7,6 @@ import android.content.Context;
 import android.graphics.drawable.Drawable;
 import android.os.Vibrator;
 
-import com.android.volley.RequestQueue;
-import com.android.volley.toolbox.Volley;
 import com.caobugs.gis.R;
 import com.caobugs.gis.location.bd.server.LocationService;
 
@@ -115,12 +113,6 @@ public class ApplicationContext extends Application
     public static LocationService getLocationService()
     {
         return locationService;
-    }
-
-
-    public static RequestQueue getRequestQueue()
-    {
-        return Volley.newRequestQueue(getContext());
     }
 
     public static String getAppPackageName()

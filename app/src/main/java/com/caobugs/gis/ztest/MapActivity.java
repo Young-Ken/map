@@ -46,6 +46,7 @@ import com.caobugs.gis.tile.factory.CoordinateSystemEnum;
 import com.caobugs.gis.view.map.MapStatus;
 import com.caobugs.gis.view.map.event.OnMapStatusChangeListener;
 import com.caobugs.gis.view.map.util.Projection;
+import com.caobugs.gis.view.server.UploadServerOkHttp;
 import com.caobugs.gis.vo.Farmland;
 
 import java.io.File;
@@ -297,7 +298,7 @@ public class MapActivity extends Activity implements View.OnClickListener, OnMap
                 break;
 
             case R.id.upload_farmland:
-                Intent intent = new Intent(MapActivity.this, UploadServer.class);
+                Intent intent = new Intent(MapActivity.this, UploadServerOkHttp.class);
                 startService(intent);
                 break;
 

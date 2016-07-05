@@ -53,7 +53,7 @@
             android:screenOrientation="portrait"
             android:launchMode="singleInstance"
         />
-        <service android:name=".view.server.UploadServer"/>
+        <service android:name=".view.server.UploadServerOkHttp"/>
         <!--<service android:name=".tile.service.DownTileService" android:screenOrientation="portrait"/>-->
         <service android:name="com.baidu.location.f" android:enabled="true" android:process=":remote">
         </service>

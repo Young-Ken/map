@@ -24,7 +24,7 @@ public class PositionSQL
 
     public ArrayList<Position> selectByCounty(String countyName)
     {
-        //countyName = "宜城市";
+        countyName = "宜城市";
         if(countyName == null || "".equals(countyName))
         {
             countyName = "宜城市";
