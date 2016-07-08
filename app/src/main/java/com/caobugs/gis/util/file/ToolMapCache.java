@@ -1,9 +1,5 @@
 package com.caobugs.gis.util.file;
 
-import android.os.storage.StorageManager;
-
-import com.caobugs.gis.util.constants.ConstantFile;
-
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
@@ -69,7 +65,16 @@ public class ToolMapCache
         {
             return null;
         }
-        if(ToolStorage.getCanUserFile().size() >= 2)
+
+        if(ToolStorage.getCanUserFile().size() == 1)
+        {
+            tilePath = new StringBuffer(ToolStorage.getInternalMapCachePath()).append(path);
+            if (!checkTileFile(tilePath.toString()).equals(""))
+            {
+                return tilePath.toString();
+            }
+        }
+        else if(ToolStorage.getCanUserFile().size() >= 2)
         {
             tilePath = new StringBuffer(ToolStorage.getInternalMapCachePath()).append(path);
             if (!checkTileFile(tilePath.toString()).equals(""))
@@ -95,35 +100,6 @@ public class ToolMapCache
         return "";
     }
 
-//    /**
-//     * 把Byte写入到sdcard中
-//     *
-//     * @param bytes byte数组
-//     * @param path  路径
-//     * @param level 级别
-//     * @param col   行
-//     * @param row   列
-//     * @return true 写入成功 false 写入不成功
-//     */
-//    public static boolean saveByte(final byte[] bytes, final String path, final int level, final int col, int row)
-//    {
-//        File file = ToolFile.createFile(getMapCachePath(path, level, col, row));
-//
-//        if (file.getPath().equals(""))
-//        {
-//            return false;
-//        }
-//
-//        File parentFile = ToolFile.createFile(file.getParent());
-//
-//        if (parentFile.exists())
-//        {
-//            return !file.isDirectory() && writeToBytes(bytes, file);
-//        } else
-//        {
-//            return parentFile.mkdirs() && writeToBytes(bytes, file);
-//        }
-//    }
 
     /**
      * 从sdcard中读取切片

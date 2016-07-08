@@ -28,6 +28,7 @@ import com.caobugs.gis.view.appview.DownTileActivity;
 import com.caobugs.gis.view.appview.EditFarmlandInfoActivity;
 import com.caobugs.gis.view.appview.FarmlandInfoActivity;
 import com.caobugs.gis.view.appview.LoginActivity;
+import com.caobugs.gis.view.appview.UpdateAppActivity;
 import com.caobugs.gis.view.layer.BaseLayer;
 import com.caobugs.gis.view.layer.FarmlandLayer;
 import com.caobugs.gis.view.layer.MapLayerManger;
@@ -36,8 +37,10 @@ import com.caobugs.gis.tile.factory.CoordinateSystemEnum;
 import com.caobugs.gis.view.map.MapStatus;
 import com.caobugs.gis.view.map.event.OnMapStatusChangeListener;
 import com.caobugs.gis.view.map.util.Projection;
+import com.caobugs.gis.view.server.UpdateAppService;
 import com.caobugs.gis.view.server.UploadServerOkHttp;
 import com.caobugs.gis.vo.Farmland;
+import com.caobugs.gis.vo.RunTimeData;
 
 import java.util.ArrayList;
 import java.util.LinkedList;
@@ -127,7 +130,24 @@ public class MapActivity extends Activity implements View.OnClickListener, OnMap
             }
         });
         checkIdentity();
+
+        updateApp();
     }
+
+    public void updateApp()
+    {
+        checkUpdate();
+    }
+
+    public void checkUpdate()
+    {
+        if(!RunTimeData.getInstance().getDowningApp())
+        {
+            Intent intent = new Intent(MapActivity.this, UpdateAppService.class);
+            startService(intent);
+        }
+    }
+
 
     public void checkIdentity()
     {
@@ -388,7 +408,6 @@ public class MapActivity extends Activity implements View.OnClickListener, OnMap
 
             }).show();
         }
-
     }
 
 

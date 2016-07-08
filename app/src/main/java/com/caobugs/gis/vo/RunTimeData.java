@@ -40,6 +40,8 @@ public class RunTimeData
     private int selectedTown = -1;
     private int selectedVillage = -1;
 
+    private boolean isDowningAPP = false;
+
     public ArrayList<Position> getTown()
     {
         return town;
@@ -79,4 +81,14 @@ public class RunTimeData
     {
         this.selectedVillage = selectedVillage;
     }
+    public void setDowningAPP(boolean downingAPP)
+    {
+        isDowningAPP = downingAPP;
+    }
+
+    public boolean getDowningApp()
+    {
+        return isDowningAPP;
+    }
+
 }

@@ -99,8 +99,6 @@ public class TileLayer extends BaseLayer
 
             byte[] bytes = ToolMapCache.getByte(tilePath, level, col, row);
 
-
-
             if(bytes != null && bytes.length != 0)
             {
                 memoryTileCache.put(tileKey, bytes);

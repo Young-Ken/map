@@ -1,11 +1,8 @@
 package com.caobugs.gis.view.layer;
 
-import android.content.Context;
-import android.content.Intent;
 import android.graphics.Canvas;
 
 import com.caobugs.gis.geometry.Coordinate;
-import com.caobugs.gis.view.broadcast.MapBroadcastReceiver;
 import com.caobugs.gis.view.map.BaseMap;
 import com.caobugs.gis.view.map.MapManger;
 import com.caobugs.gis.view.map.MapStatus;
@@ -16,7 +13,7 @@ import com.caobugs.gis.view.map.MapStatus;
  * @version 0.1
  * @since 2015/12/10
  */
-public abstract class BaseLayer extends MapBroadcastReceiver
+public abstract class BaseLayer
 {
     public String mapStatus = MapStatus.Defualt.DEFUALT.name();
     public double moveX = 0;
@@ -80,22 +77,4 @@ public abstract class BaseLayer extends MapBroadcastReceiver
         return MapManger.getInstance().getMap();
     }
 
-    @Override
-    public void onReceive(Context context, Intent intent)
-    {
-//        mapStatus = intent.getStringExtra(MapEvent.EVENT_TYPE);
-//
-//        if (mapStatus.equals(MapStatus.Defualt.MOVING.name()))
-//        {
-//            moveX = intent.getDoubleExtra(MapEvent.KEY_X, 0.0);
-//            moveY = intent.getDoubleExtra(MapEvent.KEY_Y, 0.0);
-//
-//        } else
-//        {
-//            mapStatus = MapStatus.Defualt.DEFUALT.name();
-//            moveY = 0;
-//            moveX = 0;
-//        }
-        //getMap().refresh();
-    }
 }

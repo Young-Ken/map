@@ -11,6 +11,7 @@ import com.caobugs.gis.location.GpsInfo;
 import com.caobugs.gis.location.HeightAccuracyListener;
 import com.caobugs.gis.location.bd.server.LocationService;
 import com.caobugs.gis.util.ApplicationContext;
+import com.caobugs.gis.util.LogUtil;
 import com.caobugs.gis.view.map.BaseMap;
 import com.caobugs.gis.view.map.util.Projection;
 
@@ -117,6 +118,7 @@ public class BaiduLocation
                         gpsInfo.setTypeLocation(GpsInfo.TYPE_OFFLINE_LOCATION);
                     }
                 }
+                LogUtil.e("TAG", location.getLongitude()+"  ssssss  "+location.getLatitude());
                 locationMap(location.getLongitude(), location.getLatitude());
 
                 if(listener != null)
@@ -130,6 +132,7 @@ public class BaiduLocation
     public void locationMap(double longitude, double latitude)
     {
         //112.401181 32.119723
+
         Coordinate coordinate = Projection.getInstance(baseMap).lonLatToMercator(longitude, latitude);
         baseMap.setMapCenterLevel(coordinate, baseMap.getLevel());
         baseMap.refresh();

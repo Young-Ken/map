@@ -17,7 +17,8 @@ public class ConstantFile
      * 缓存路径
      */
     public static final String MAP_CACHE = "MapCache";
-
+    public static final String APP = "App";
+    public static final String DOWNLOAD = "Download";
     /**
      * shape文件的根目录
      */
