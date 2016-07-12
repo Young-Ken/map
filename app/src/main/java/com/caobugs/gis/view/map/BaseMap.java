@@ -92,7 +92,7 @@ public abstract class BaseMap extends ViewGroup implements IBaseMap
         /**
          * 需要map做参数的初始化在这个之后
          */
-        MapLayerManger.getInstance().addLayer(new TileLayer("GOOGLE_IMAGE"));
+        MapLayerManger.getInstance().addLayer(new TileLayer("GOOGLE_NET_ROAD"));
         projection = Projection.getInstance(this);
        // getTile();
        // ReadShapeFile readShapeFile = new ReadShapeFile();
@@ -109,9 +109,7 @@ public abstract class BaseMap extends ViewGroup implements IBaseMap
      */
     private void initCoordinateSystem(CoordinateSystemEnum systemEnum)
     {
-
          new CoordinateSystemFactory().create(systemEnum);
-        //tileInfo = coordinateSystem.getTileInfo();
     }
 
     /**

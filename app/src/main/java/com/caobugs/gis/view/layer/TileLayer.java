@@ -11,6 +11,7 @@ import com.caobugs.gis.geometry.Coordinate;
 import com.caobugs.gis.tile.CoordinateSystemManager;
 import com.caobugs.gis.tile.TileInfo;
 import com.caobugs.gis.tile.cache.MemoryTileCache;
+import com.caobugs.gis.tile.downtile.httputil.TileDownloader;
 import com.caobugs.gis.util.ApplicationContext;
 import com.caobugs.gis.util.TAG;
 import com.caobugs.gis.util.file.ToolMapCache;

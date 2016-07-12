@@ -19,7 +19,6 @@ import android.support.v7.app.NotificationCompat;
 import android.widget.Toast;
 
 import com.caobugs.gis.R;
-import com.caobugs.gis.util.ApplicationContext;
 import com.caobugs.gis.util.constants.ConstantFile;
 import com.caobugs.gis.view.map.MapManger;
 import com.caobugs.gis.vo.RunTimeData;
