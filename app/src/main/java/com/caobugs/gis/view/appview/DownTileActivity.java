@@ -314,7 +314,7 @@ public class DownTileActivity extends Activity implements View.OnClickListener,H
         @Override
         public void run()
         {
-            BaseTiledURL baseTiledURL = TiledLayerFactory.getInstance().createTiledURL(GoogleTiledTypes.GOOGLE_NET_ROAD);
+            BaseTiledURL baseTiledURL = TiledLayerFactory.getInstance().createTiledURL(GoogleTiledTypes.GOOGLE_IMAGE);
             downTile = new DownTile(tileInfo, baseTiledURL, new Envelope(mapMinX, mapMaxX, mapMinY, mapMaxY), mapMinLevel, mapMaxLevel, mHandler);
             try
             {

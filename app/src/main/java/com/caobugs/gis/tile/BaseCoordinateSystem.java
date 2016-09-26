@@ -17,7 +17,7 @@ public class BaseCoordinateSystem implements CoordinateSystem
 
     public BaseCoordinateSystem()
     {
-        tileInfo = new TileInfo();
+        tileInfo   = new TileInfo();
     }
     public BaseCoordinateSystem(Coordinate originPoint, double originScale, double originResolution, int maxLevel)
     {

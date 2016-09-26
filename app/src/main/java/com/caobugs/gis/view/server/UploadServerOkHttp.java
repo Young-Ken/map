@@ -8,6 +8,7 @@ import android.widget.Toast;
 
 import com.caobugs.gis.data.db.sql.FarmlandSQL;
 import com.caobugs.gis.util.GeomToString;
+import com.caobugs.gis.util.constants.ConstantFile;
 import com.caobugs.gis.view.appview.LoginActivity;
 import com.caobugs.gis.view.map.MapManger;
 import com.caobugs.gis.vo.Farmland;
@@ -34,7 +35,8 @@ public class UploadServerOkHttp extends IntentService
 
     private FarmlandSQL farmlandSQL = null;
     private ArrayList<Farmland> uploadFarmlands = null;
-    private String url = "http://m.farm-keeper.com/api/farmland/uploadInfo";
+    private  StringBuffer url = new StringBuffer(ConstantFile.URL_HTTP);
+
     private String tel = "";
     private String body;
     private OkHttpClient client;
@@ -42,6 +44,7 @@ public class UploadServerOkHttp extends IntentService
     public UploadServerOkHttp()
     {
         super("UploadServerOkHttp");
+        url.append("/api/farmland/uploadInfo");
     }
 
     public void checkCollectionTel()
@@ -120,7 +123,7 @@ public class UploadServerOkHttp extends IntentService
 
         String json = getParams();
         FormBody requestBody = new FormBody.Builder().add("json", json).build();
-        Request request = new Request.Builder().url(url).post(requestBody).build();
+        Request request = new Request.Builder().url(url.toString()).post(requestBody).build();
         Call call = client.newCall(request);
         Response response = call.execute();
         if (response.isSuccessful())

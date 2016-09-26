@@ -49,4 +49,7 @@ public class ConstantFile
     public static final String SHAPE_XML_NAME = "shapeXML.xml";
 
     public static final String TEL_CHECK = "^((13[0-9])|(15[^4,\\D])|(18[0-9]))\\d{8}$";
+
+    public static final String URL_HTTP = "http://mc.farm-keeper.com";
 }
+

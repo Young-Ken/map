@@ -1,12 +1,18 @@
 package com.caobugs.gis.view.appview;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.Spinner;
 import android.widget.Toast;
 
@@ -17,11 +23,16 @@ import com.caobugs.gis.util.constants.ConstantResult;
 import com.caobugs.gis.location.GpsInfo;
 import com.caobugs.gis.view.appview.adapter.BaseSpinnerAdapter;
 import com.caobugs.gis.view.appview.adapter.PositionSpinnerAdapter;
+import com.caobugs.gis.view.control.PositionRunTimeData;
+import com.caobugs.gis.view.control.PositionSpinner;
 import com.caobugs.gis.vo.Farmland;
 import com.caobugs.gis.vo.Position;
 import com.caobugs.gis.vo.RunTimeData;
 
 import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.LinkedHashMap;
+import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -31,94 +42,122 @@ import java.util.regex.Pattern;
  * @version 0.1
  * @since 2016/5/5
  */
-public class FarmlandInfoActivity extends Activity implements
-        View.OnClickListener, Spinner.OnItemSelectedListener
+public class FarmlandInfoActivity extends Activity implements View.OnClickListener
+
 {
     private EditText editTextTel = null;
     private EditText editTextFarmName = null;
     private Button buttonSubmit = null;
-    private Spinner town_name = null;
-    private Spinner village_name = null;
-    private String villageID = null;
-    private RunTimeData runTimeData = null;
+    private PositionRunTimeData positionRunTimeData = null;
+    private Context context = null;
+    private LinearLayout spinnerLayout = null;
+    private LinearLayout positionInfoLayout = null;
+    private LinkedHashMap<String, PositionSpinner> positionSpinners = new LinkedHashMap<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
+        this.context = getApplicationContext();
         setContentView(R.layout.farmland_info_layout);
-
         initView();
     }
 
     public void initView()
     {
+        positionRunTimeData = PositionRunTimeData.getInstance();
         editTextTel = (EditText) findViewById(R.id.farmland_info_tel);
         editTextFarmName = (EditText) findViewById(R.id.farmland_info_name);
         buttonSubmit = (Button) findViewById(R.id.submit_farmland);
-        town_name = (Spinner) findViewById(R.id.town_name);
-        village_name = (Spinner) findViewById(R.id.village_name);
-
+        spinnerLayout = (LinearLayout) findViewById(R.id.position_spinner_layout);
+        positionInfoLayout = (LinearLayout) findViewById(R.id.position_info_layout);
         buttonSubmit.setOnClickListener(this);
-        town_name.setOnItemSelectedListener(this);
-        town_name.setSelection(0, true);
-        village_name.setOnItemSelectedListener(this);
-        village_name.setSelection(0, true);
 
-        runTimeData = RunTimeData.getInstance();
-        fillPosition();
+        if(positionRunTimeData.getVillageID() == null)
+        {
+            initPosition();
+            positionInfoLayout.setVisibility(View.GONE);
+        } else
+        {
+            fillPosition();
+            spinnerLayout.setVisibility(View.GONE);
+        }
+    }
+
+
+    private void initPosition()
+    {
+        PositionSpinner provinceSpinner = new PositionSpinner(context, handler, PositionRunTimeData.Position.province, "");
+        spinnerLayout.addView(provinceSpinner);
+        positionSpinners.put("0", provinceSpinner);
+    }
+
+    Handler handler = new Handler()
+    {
+        @Override
+        public void dispatchMessage(Message message)
+        {
+            PositionSpinner layout = null;
+            String positionID = message.arg1 + "";
+            layout = positionSpinners.get(message.what + 1 + "");
+
+            if (message.what < 4)
+            {
+                if (layout != null)
+                {
+                    resetLevel(message.what);
+                    layout.init(PositionRunTimeData.Position.values()[message.what + 1], positionID);
+                } else
+                {
+                    layout = new PositionSpinner(context, handler, PositionRunTimeData.Position.values()[message.what + 1], positionID);
+                    spinnerLayout.addView(layout);
+                    positionSpinners.put(message.what + 1 + "", layout);
+                }
+            }
+        }
+    };
+
+    public void resetLevel(int position)
+    {
+        Iterator<Map.Entry<String, PositionSpinner>> iterator = positionSpinners.entrySet().iterator();
+
+        while (iterator.hasNext())
+        {
+            Map.Entry<String, PositionSpinner> map = iterator.next();
+            String key = map.getKey();
+            if (Integer.parseInt(key) > position)
+            {
+                PositionSpinner temp = map.getValue();
+                temp.reset();
+            }
+        }
     }
 
     public void fillPosition()
     {
-        GpsInfo gpsInfo = GpsInfo.getInstance();
-
         EditText province = (EditText) findViewById(R.id.province_name);
-        province.setText(gpsInfo.getProvince());
+        province.setText(positionRunTimeData.getProvinceName());
 
         EditText city = (EditText) findViewById(R.id.city_name);
-        city.setText(gpsInfo.getCity());
+        city.setText(positionRunTimeData.getCityName());
 
         EditText county = (EditText) findViewById(R.id.county_name);
-        county.setText(gpsInfo.getCounty());
+        county.setText(positionRunTimeData.getCountyName());
 
-        ArrayList<Position> town = null;
-        if (runTimeData.getTown() != null && runTimeData.getTown().size() > 0)
-        {
-            town = runTimeData.getTown();
-        } else
-        {
-            town = new PositionSQL().selectByCounty(county.getText().toString());
-            runTimeData.setTown(town);
-        }
+        EditText town = (EditText) findViewById(R.id.town_name);
+        town.setText(positionRunTimeData.getTownName());
 
-        BaseSpinnerAdapter baseSpinnerAdapter = new PositionSpinnerAdapter(this, town);
-        town_name.setAdapter(baseSpinnerAdapter);
-        if (runTimeData.getSelectedTown() != -1)
-        {
-            town_name.setSelection(runTimeData.getSelectedTown(), true);
-        }
-
-        if(runTimeData.getVillage() != null && runTimeData.getVillage().size() > 0)
-        {
-            BaseSpinnerAdapter baseSpinnerAdapter1 = new PositionSpinnerAdapter(this, runTimeData.getVillage());
-            village_name.setAdapter(baseSpinnerAdapter1);
-            village_name.setSelection(runTimeData.getSelectedVillage(), true);
-            if(runTimeData.getSelectedVillage() > 0)
-            {
-                villageID = runTimeData.getVillage().get(runTimeData.getSelectedVillage()).getPositionID();
-            }else {
-                villageID = null;
-            }
-
-        }
+        EditText village = (EditText) findViewById(R.id.village_name);
+        village.setText(positionRunTimeData.getVillageName());
     }
 
     @Override
     public void onClick(View v)
     {
         int id = v.getId();
-        if (villageID == null || villageID.equals("-1"))
+        String villageID = positionRunTimeData.getVillageID();
+
+        if (villageID == null)
         {
             Toast.makeText(FarmlandInfoActivity.this, "请输入对应的参数", Toast.LENGTH_LONG).show();
             return;
@@ -128,7 +167,7 @@ public class FarmlandInfoActivity extends Activity implements
             case R.id.submit_farmland:
                 Intent intent = new Intent();
                 Bundle bundle = new Bundle();
-                if(!editTextTel.getText().toString().equals(""))
+                if (!editTextTel.getText().toString().equals(""))
                 {
                     Pattern p = Pattern.compile(ConstantFile.TEL_CHECK);
                     Matcher m = p.matcher(editTextTel.getText().toString());
@@ -153,76 +192,5 @@ public class FarmlandInfoActivity extends Activity implements
     {
         setResult(ConstantResult.RESULT_FAILD);
         super.onBackPressed();
-    }
-
-
-    @Override
-    public void onItemSelected(AdapterView<?> parent, View view, int position, long id)
-    {
-        if (parent == null)
-        {
-            return;
-        }
-        int parentId = parent.getId();
-        switch (parentId)
-        {
-            case R.id.town_name:
-
-
-                if(position == runTimeData.getSelectedTown())
-                {
-                    break;
-                }
-                Position town = (Position) parent.getAdapter().getItem(position);
-                if (!town.getPositionID().equals("-1") || position == 0)
-                {
-                    runTimeData.setSelectedTown(position);
-                    runTimeData.setSelectedVillage(-1);
-                    runTimeData.setVillage(null);
-                }
-                ArrayList<Position> village = null;
-
-                if (runTimeData.getVillage() != null && runTimeData.getVillage().size() > 0)
-                {
-                    village = runTimeData.getVillage();
-                } else
-                {
-                    village = new PositionSQL().selectByTown(town.getPositionID());
-                    runTimeData.setVillage(village);
-                }
-
-                BaseSpinnerAdapter baseSpinnerAdapter = new PositionSpinnerAdapter(this, village);
-                village_name.setAdapter(baseSpinnerAdapter);
-                if (runTimeData.getSelectedVillage() != -1)
-                {
-                    village_name.setSelection(runTimeData.getSelectedVillage(), true);
-                }
-
-                break;
-            case R.id.village_name:
-                if(position == 0)
-                {
-                    villageID = null;
-                }
-
-                if(position == runTimeData.getSelectedVillage())
-                {
-                    break;
-                }
-
-                Position v = (Position) parent.getAdapter().getItem(position);
-                if (!v.getPositionID().equals("-1"))
-                {
-                    runTimeData.setSelectedVillage(position);
-                }
-                villageID = v.getPositionID();
-                break;
-        }
-    }
-
-    @Override
-    public void onNothingSelected(AdapterView<?> parent)
-    {
-
     }
 }

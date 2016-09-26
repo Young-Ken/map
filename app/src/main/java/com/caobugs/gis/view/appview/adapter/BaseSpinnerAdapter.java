@@ -25,6 +25,11 @@ public class BaseSpinnerAdapter extends BaseAdapter
         this.context = context;
     }
 
+    public void setArrayList(ArrayList<?> arrayList)
+    {
+        this.arrayList = arrayList;
+    }
+
     @Override
     public void registerDataSetObserver(DataSetObserver observer)
     {

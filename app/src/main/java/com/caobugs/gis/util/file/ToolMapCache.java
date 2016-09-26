@@ -36,7 +36,7 @@ public class ToolMapCache
     {
         StringBuffer resultPath = new StringBuffer(File.separator);
         resultPath.append(titleType);
-        resultPath.append(String.format(File.separator + "%d" + File.separator + "%d" + File.separator + "%d.ZY", level, col, row));
+        resultPath.append(String.format(File.separator + "%d" + File.separator + "%d" + File.separator + "%d.png", level, col, row));
         String result = resultPath.toString();
         resultPath.delete(0,resultPath.length());
         return result;

@@ -25,7 +25,6 @@ import java.util.regex.Pattern;
 public class EditFarmlandInfoActivity extends Activity implements View.OnClickListener
 {
 
-
     private EditText editTextTel = null;
     private EditText editTextName = null;
     private Button submit = null;

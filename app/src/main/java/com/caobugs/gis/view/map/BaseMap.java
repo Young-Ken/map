@@ -92,7 +92,7 @@ public abstract class BaseMap extends ViewGroup implements IBaseMap
         /**
          * 需要map做参数的初始化在这个之后
          */
-        MapLayerManger.getInstance().addLayer(new TileLayer("GOOGLE_NET_ROAD"));
+        MapLayerManger.getInstance().addLayer(new TileLayer("GOOGLE_IMAGE"));
         projection = Projection.getInstance(this);
        // getTile();
        // ReadShapeFile readShapeFile = new ReadShapeFile();

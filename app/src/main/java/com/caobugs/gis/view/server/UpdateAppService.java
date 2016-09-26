@@ -55,6 +55,7 @@ public class UpdateAppService extends Service
     private NotificationManager manager = null;
     private final static int DOWNLOAD_COMPLETE = 0;
     private final static int DOWNLOAD_FAIL = 1;
+    private StringBuffer url = new StringBuffer(ConstantFile.URL_HTTP);
 
     // 通知栏跳转Intent
     //private Intent updateIntent = null;
@@ -73,6 +74,7 @@ public class UpdateAppService extends Service
     public int onStartCommand(Intent intent, int flags, int startId)
     {
         this.intent = intent;
+        url.append("/api/version");
         new ServerVersionThread().start();
         return super.onStartCommand(intent, flags, startId);
     }
@@ -338,7 +340,7 @@ public class UpdateAppService extends Service
         public void run()
         {
             client = new OkHttpClient();
-            final Request request = new Request.Builder().url("http://192.168.1.101:8081/api/version").build();
+            final Request request = new Request.Builder().url(url.toString()).build();
             client.newCall(request).enqueue(new Callback()
             {
                 @Override
