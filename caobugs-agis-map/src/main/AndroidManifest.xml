@@ -53,6 +53,7 @@
             android:screenOrientation="portrait"
             android:launchMode="singleInstance"
         />
+
         <service android:name=".view.server.UploadServerOkHttp"/>
         <service android:name=".view.server.UpdateAppService"/>
         <!--<service android:name=".tile.service.DownTileService" android:screenOrientation="portrait"/>-->
