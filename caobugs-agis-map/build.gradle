@@ -1,13 +1,13 @@
 apply plugin: 'com.android.application'
 
 android {
-    compileSdkVersion 22
-    buildToolsVersion "23.0.3"
-
+    compileSdkVersion 24
+    buildToolsVersion "24.0.2"
+    useLibrary 'org.apache.http.legacy'
     defaultConfig {
         applicationId "com.caobugs.gis"
-        minSdkVersion 8
-        targetSdkVersion 22
+        minSdkVersion 9
+        targetSdkVersion 24
         versionCode 5
         versionName "1.0"
     }
@@ -32,11 +32,8 @@ android {
 
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
-    compile 'com.android.support:appcompat-v7:22.2.1'
-    // compile 'com.google.android.gms:play-services-appindexing:8.1.0'
+    compile 'com.android.support:appcompat-v7:22.2.0'
     compile files('libs/locSDK_6.23.jar')
-    //compile files('libs/spatialite-android-library.jar')
-    //    compile project(path: ':a-volley')
     compile files('libs/okhttp-3.4.0-RC1.jar')
     compile files('libs/okio-1.9.0.jar')
 }

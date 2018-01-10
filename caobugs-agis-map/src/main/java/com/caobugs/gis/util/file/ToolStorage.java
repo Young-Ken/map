@@ -49,7 +49,7 @@ public class ToolStorage
     {
         if (internalFile == null)
         {
-            internalFile = isInternalCard() ? Environment.getExternalStorageDirectory() : null;
+            internalFile = isInternalCard() ? new File(Environment.getExternalStorageDirectory().getAbsolutePath()) : null;
         }
         return internalFile;
     }

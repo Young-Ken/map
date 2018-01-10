@@ -125,7 +125,6 @@ public class DownTileActivity extends Activity implements View.OnClickListener,H
             }).setNegativeButton("返回", new DialogInterface.OnClickListener()
             {
                 @Override
-
                 public void onClick(DialogInterface dialog, int which)
                 {
 

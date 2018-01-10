@@ -7,7 +7,6 @@ import android.view.MotionEvent;
  * @version 0.1
  * @since 2015/12/25
  */
-public interface OnMapDefaultListener extends MapListener
-{
+public interface OnMapDefaultListener extends MapListener {
    void onMapDefaultEvent(MotionEvent event);
 }

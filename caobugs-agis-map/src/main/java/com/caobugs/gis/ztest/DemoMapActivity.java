@@ -28,7 +28,6 @@ import com.caobugs.gis.view.appview.DownTileActivity;
 import com.caobugs.gis.view.appview.EditFarmlandInfoActivity;
 import com.caobugs.gis.view.appview.FarmlandInfoActivity;
 import com.caobugs.gis.view.appview.LoginActivity;
-import com.caobugs.gis.view.appview.UpdateAppActivity;
 import com.caobugs.gis.view.layer.BaseLayer;
 import com.caobugs.gis.view.layer.FarmlandLayer;
 import com.caobugs.gis.view.layer.MapLayerManger;
@@ -51,7 +50,7 @@ import java.util.List;
  * @version 0.1
  * @since 2015/12/17
  */
-public class MapActivity extends Activity implements View.OnClickListener, OnMapStatusChangeListener
+public class DemoMapActivity extends Activity implements View.OnClickListener, OnMapStatusChangeListener
 {
     BaseMap map = null;
     private boolean isLocation = false;
@@ -131,23 +130,7 @@ public class MapActivity extends Activity implements View.OnClickListener, OnMap
         });
         checkIdentity();
 
-        updateApp();
     }
-
-    public void updateApp()
-    {
-        checkUpdate();
-    }
-
-    public void checkUpdate()
-    {
-        if(!RunTimeData.getInstance().getDowningApp())
-        {
-            Intent intent = new Intent(MapActivity.this, UpdateAppService.class);
-            startService(intent);
-        }
-    }
-
 
     public void checkIdentity()
     {
@@ -188,7 +171,7 @@ public class MapActivity extends Activity implements View.OnClickListener, OnMap
                 if (map.getLevel() > 16)
                 {
                     Envelope temp = map.getEnvelope();
-                    farmlandSQL.selectFarmlandByEnvelop(GeomToString.geomToStringWEB(temp, map));
+                    //farmlandSQL.selectFarmlandByEnvelop(GeomToString.geomToStringWEB(temp, map));
                     map.refresh();
                 } else
                 {
@@ -238,7 +221,7 @@ public class MapActivity extends Activity implements View.OnClickListener, OnMap
         {
             case R.id.search_envelope:
                 stopLocation();
-                Intent downIntent = new Intent(MapActivity.this, DownTileActivity.class);
+                Intent downIntent = new Intent(DemoMapActivity.this, DownTileActivity.class);
                 startActivity(downIntent);
                 break;
 
@@ -291,7 +274,7 @@ public class MapActivity extends Activity implements View.OnClickListener, OnMap
                 {
                     if (farmlandLayer.getSelected() != null)
                     {
-                        Intent infoIntent = new Intent(MapActivity.this, EditFarmlandInfoActivity.class);
+                        Intent infoIntent = new Intent(DemoMapActivity.this, EditFarmlandInfoActivity.class);
                         Bundle bundle = new Bundle();
                         bundle.putString(Farmland.TEL, farmlandLayer.getSelected().getTel());
                         bundle.putString(Farmland.FARMNAME, farmlandLayer.getSelected().getFarmName());
@@ -306,7 +289,7 @@ public class MapActivity extends Activity implements View.OnClickListener, OnMap
                 break;
 
             case R.id.upload_farmland:
-                Intent intent = new Intent(MapActivity.this, UploadServerOkHttp.class);
+                Intent intent = new Intent(DemoMapActivity.this, UploadServerOkHttp.class);
                 startService(intent);
                 break;
 
@@ -448,7 +431,7 @@ public class MapActivity extends Activity implements View.OnClickListener, OnMap
             farmlandPoint.add(0, farmlandPoint.get(farmlandPoint.size() - 1));
             //绘制结束 存储点
 
-            Intent farmInfoIntent = new Intent(MapActivity.this, FarmlandInfoActivity.class);
+            Intent farmInfoIntent = new Intent(DemoMapActivity.this, FarmlandInfoActivity.class);
             startActivityForResult(farmInfoIntent, 0);
         }
     }
@@ -493,7 +476,7 @@ public class MapActivity extends Activity implements View.OnClickListener, OnMap
     {
         if (type.equals(MapStatus.Defualt.ZOOM.name()) || type.equals(MapStatus.Defualt.SCROLLTO.name()))
         {
-            queryFarmlandByEnvelop();
+            //queryFarmlandByEnvelop();
         }
     }
 

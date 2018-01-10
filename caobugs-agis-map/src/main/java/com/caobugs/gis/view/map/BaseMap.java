@@ -27,7 +27,6 @@ import com.caobugs.gis.tile.factory.CoordinateSystemFactory;
 import java.util.List;
 
 /**
- * 先考虑单线程加载,每个App只能加载一个地图
  * @author Young-Ken
  * @version 0.1
  * @since 2015/12/10
@@ -39,7 +38,7 @@ public abstract class BaseMap extends ViewGroup implements IBaseMap
     private MapInfo mapInfo = new MapInfo();
     private Projection projection = null;
     private MapController mapController = null;
-    private ScaleGestureDetector scaleGestureDetector = null;
+    //private ScaleGestureDetector scaleGestureDetector = null;
     private View glassView = null;
     private OnMapStatusChangeListener mapStatusChanged = null;
 
@@ -47,10 +46,10 @@ public abstract class BaseMap extends ViewGroup implements IBaseMap
      * 当前Map的默认事件
      */
     private MapOnTouchListener mapDefaultTouch = null;
+
     /**
      * 暂时在这里
      */
-
     public BaseMap(Context context, AttributeSet attrs)
     {
         super(context, attrs);
@@ -177,7 +176,7 @@ public abstract class BaseMap extends ViewGroup implements IBaseMap
     public void setMapOnTouchListener(MapOnTouchListener mapDefaultTouch)
     {
         this.mapDefaultTouch = mapDefaultTouch;
-        scaleGestureDetector = new ScaleGestureDetector(this.getContext(), mapDefaultTouch);
+        //scaleGestureDetector = new ScaleGestureDetector(this.getContext(), mapDefaultTouch);
     }
 
     /**
@@ -206,13 +205,13 @@ public abstract class BaseMap extends ViewGroup implements IBaseMap
             this.setOnTouchListener(null);
         }
 
-        boolean retv = this.scaleGestureDetector.onTouchEvent(event);
-        if(!this.scaleGestureDetector.isInProgress())
-        {
-            retv = this.scaleGestureDetector.onTouchEvent(event);
-        }
+//        boolean retv = this.scaleGestureDetector.onTouchEvent(event);
+//        if(!this.scaleGestureDetector.isInProgress())
+//        {
+//            retv = this.scaleGestureDetector.onTouchEvent(event);
+//        }
 
-        return retv;
+        return true;
     }
 
     @Override

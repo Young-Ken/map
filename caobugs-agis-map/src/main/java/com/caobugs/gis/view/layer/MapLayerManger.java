@@ -60,8 +60,13 @@ public class MapLayerManger implements ILayerSubject
 
     public synchronized void draw(Canvas canvas)
     {
+        boolean isDraw = false;
         for(BaseLayer layer : arrayList)
         {
+            isDraw = !isDraw;
+            if (!isDraw) {
+                return;
+            }
             layer.draw(canvas);
         }
     }
