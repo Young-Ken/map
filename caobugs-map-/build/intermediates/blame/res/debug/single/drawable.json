@@ -1,0 +1,14 @@
+[
+    {
+        "merged": "/home/workspace/android/own/map/caobugs-map/build/intermediates/res/merged/debug/drawable/logo.png",
+        "source": "/home/workspace/android/own/map/caobugs-map/src/main/res/drawable/logo.png"
+    },
+    {
+        "merged": "/home/workspace/android/own/map/caobugs-map/build/intermediates/res/merged/debug/drawable/default_img.png",
+        "source": "/home/workspace/android/own/map/caobugs-map/src/main/res/drawable/default_img.png"
+    },
+    {
+        "merged": "/home/workspace/android/own/map/caobugs-map/build/intermediates/res/merged/debug/drawable/cross.png",
+        "source": "/home/workspace/android/own/map/caobugs-map/src/main/res/drawable/cross.png"
+    }
+]

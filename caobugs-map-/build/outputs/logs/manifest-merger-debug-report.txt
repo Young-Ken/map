@@ -1,0 +1,141 @@
+-- Merging decision tree log ---
+manifest
+ADDED from /home/workspace/android/own/map/caobugs-map/src/main/AndroidManifest.xml:2:1-59:12
+	package
+		ADDED from /home/workspace/android/own/map/caobugs-map/src/main/AndroidManifest.xml:3:5-30
+		INJECTED from /home/workspace/android/own/map/caobugs-map/src/main/AndroidManifest.xml
+		INJECTED from /home/workspace/android/own/map/caobugs-map/src/main/AndroidManifest.xml
+	android:versionName
+		INJECTED from /home/workspace/android/own/map/caobugs-map/src/main/AndroidManifest.xml
+		INJECTED from /home/workspace/android/own/map/caobugs-map/src/main/AndroidManifest.xml
+	xmlns:android
+		ADDED from /home/workspace/android/own/map/caobugs-map/src/main/AndroidManifest.xml:2:11-69
+	android:versionCode
+		INJECTED from /home/workspace/android/own/map/caobugs-map/src/main/AndroidManifest.xml
+		INJECTED from /home/workspace/android/own/map/caobugs-map/src/main/AndroidManifest.xml
+uses-permission#android.permission.ACCESS_COARSE_LOCATION
+ADDED from /home/workspace/android/own/map/caobugs-map/src/main/AndroidManifest.xml:6:5-80
+	android:name
+		ADDED from /home/workspace/android/own/map/caobugs-map/src/main/AndroidManifest.xml:6:22-78
+uses-permission#android.permission.ACCESS_FINE_LOCATION
+ADDED from /home/workspace/android/own/map/caobugs-map/src/main/AndroidManifest.xml:8:5-78
+	android:name
+		ADDED from /home/workspace/android/own/map/caobugs-map/src/main/AndroidManifest.xml:8:22-76
+uses-permission#android.permission.ACCESS_WIFI_STATE
+ADDED from /home/workspace/android/own/map/caobugs-map/src/main/AndroidManifest.xml:10:5-75
+	android:name
+		ADDED from /home/workspace/android/own/map/caobugs-map/src/main/AndroidManifest.xml:10:22-73
+uses-permission#android.permission.ACCESS_NETWORK_STATE
+ADDED from /home/workspace/android/own/map/caobugs-map/src/main/AndroidManifest.xml:12:5-78
+	android:name
+		ADDED from /home/workspace/android/own/map/caobugs-map/src/main/AndroidManifest.xml:12:22-76
+uses-permission#android.permission.CHANGE_WIFI_STATE
+ADDED from /home/workspace/android/own/map/caobugs-map/src/main/AndroidManifest.xml:14:5-75
+	android:name
+		ADDED from /home/workspace/android/own/map/caobugs-map/src/main/AndroidManifest.xml:14:22-73
+uses-permission#android.permission.WRITE_EXTERNAL_STORAGE
+ADDED from /home/workspace/android/own/map/caobugs-map/src/main/AndroidManifest.xml:16:5-80
+	android:name
+		ADDED from /home/workspace/android/own/map/caobugs-map/src/main/AndroidManifest.xml:16:22-78
+uses-permission#android.permission.INTERNET
+ADDED from /home/workspace/android/own/map/caobugs-map/src/main/AndroidManifest.xml:18:5-67
+	android:name
+		ADDED from /home/workspace/android/own/map/caobugs-map/src/main/AndroidManifest.xml:18:22-64
+uses-permission#android.permission.MOUNT_UNMOUNT_FILESYSTEMS
+ADDED from /home/workspace/android/own/map/caobugs-map/src/main/AndroidManifest.xml:20:5-83
+	android:name
+		ADDED from /home/workspace/android/own/map/caobugs-map/src/main/AndroidManifest.xml:20:22-81
+uses-permission#android.permission.READ_EXTERNAL_STORAGE
+ADDED from /home/workspace/android/own/map/caobugs-map/src/main/AndroidManifest.xml:21:5-80
+	android:name
+		ADDED from /home/workspace/android/own/map/caobugs-map/src/main/AndroidManifest.xml:21:22-77
+uses-permission#android.permission.INTERACT_ACROSS_USERS_FULL
+ADDED from /home/workspace/android/own/map/caobugs-map/src/main/AndroidManifest.xml:22:5-84
+	android:name
+		ADDED from /home/workspace/android/own/map/caobugs-map/src/main/AndroidManifest.xml:22:22-82
+uses-permission#android.permission.READ_PHONE_STATE
+ADDED from /home/workspace/android/own/map/caobugs-map/src/main/AndroidManifest.xml:23:5-75
+	android:name
+		ADDED from /home/workspace/android/own/map/caobugs-map/src/main/AndroidManifest.xml:23:22-72
+application
+ADDED from /home/workspace/android/own/map/caobugs-map/src/main/AndroidManifest.xml:26:5-58:19
+	android:label
+		ADDED from /home/workspace/android/own/map/caobugs-map/src/main/AndroidManifest.xml:30:9-41
+	android:allowBackup
+		ADDED from /home/workspace/android/own/map/caobugs-map/src/main/AndroidManifest.xml:28:9-35
+	android:icon
+		ADDED from /home/workspace/android/own/map/caobugs-map/src/main/AndroidManifest.xml:29:9-38
+	android:name
+		ADDED from /home/workspace/android/own/map/caobugs-map/src/main/AndroidManifest.xml:27:9-48
+meta-data#com.baidu.lbsapi.API_KEY
+ADDED from /home/workspace/android/own/map/caobugs-map/src/main/AndroidManifest.xml:31:9-33:64
+	android:value
+		ADDED from /home/workspace/android/own/map/caobugs-map/src/main/AndroidManifest.xml:33:13-61
+	android:name
+		ADDED from /home/workspace/android/own/map/caobugs-map/src/main/AndroidManifest.xml:32:13-52
+activity#com.caobugs.gis.ztest.DemoMapActivity
+ADDED from /home/workspace/android/own/map/caobugs-map/src/main/AndroidManifest.xml:34:9-41:20
+	android:label
+		ADDED from /home/workspace/android/own/map/caobugs-map/src/main/AndroidManifest.xml:36:13-45
+	android:name
+		ADDED from /home/workspace/android/own/map/caobugs-map/src/main/AndroidManifest.xml:35:13-65
+intent-filter#android.intent.action.MAIN+android.intent.category.LAUNCHER
+ADDED from /home/workspace/android/own/map/caobugs-map/src/main/AndroidManifest.xml:37:13-40:29
+action#android.intent.action.MAIN
+ADDED from /home/workspace/android/own/map/caobugs-map/src/main/AndroidManifest.xml:38:17-69
+	android:name
+		ADDED from /home/workspace/android/own/map/caobugs-map/src/main/AndroidManifest.xml:38:25-66
+category#android.intent.category.LAUNCHER
+ADDED from /home/workspace/android/own/map/caobugs-map/src/main/AndroidManifest.xml:39:17-77
+	android:name
+		ADDED from /home/workspace/android/own/map/caobugs-map/src/main/AndroidManifest.xml:39:27-74
+activity#com.caobugs.gis.view.appview.DownTileActivity
+ADDED from /home/workspace/android/own/map/caobugs-map/src/main/AndroidManifest.xml:42:9-43:57
+	android:screenOrientation
+		ADDED from /home/workspace/android/own/map/caobugs-map/src/main/AndroidManifest.xml:43:19-55
+	android:name
+		ADDED from /home/workspace/android/own/map/caobugs-map/src/main/AndroidManifest.xml:42:19-64
+activity#com.caobugs.gis.view.appview.FarmlandInfoActivity
+ADDED from /home/workspace/android/own/map/caobugs-map/src/main/AndroidManifest.xml:44:9-70
+	android:name
+		ADDED from /home/workspace/android/own/map/caobugs-map/src/main/AndroidManifest.xml:44:19-68
+activity#com.caobugs.gis.view.appview.EditFarmlandInfoActivity
+ADDED from /home/workspace/android/own/map/caobugs-map/src/main/AndroidManifest.xml:45:9-74
+	android:name
+		ADDED from /home/workspace/android/own/map/caobugs-map/src/main/AndroidManifest.xml:45:19-72
+activity#com.caobugs.gis.view.appview.UpdateAppActivity
+ADDED from /home/workspace/android/own/map/caobugs-map/src/main/AndroidManifest.xml:46:9-67
+	android:name
+		ADDED from /home/workspace/android/own/map/caobugs-map/src/main/AndroidManifest.xml:46:19-65
+activity#com.caobugs.gis.view.appview.LoginActivity
+ADDED from /home/workspace/android/own/map/caobugs-map/src/main/AndroidManifest.xml:47:9-51:11
+	android:screenOrientation
+		ADDED from /home/workspace/android/own/map/caobugs-map/src/main/AndroidManifest.xml:49:13-49
+	android:launchMode
+		ADDED from /home/workspace/android/own/map/caobugs-map/src/main/AndroidManifest.xml:50:13-48
+	android:name
+		ADDED from /home/workspace/android/own/map/caobugs-map/src/main/AndroidManifest.xml:48:13-55
+service#com.caobugs.gis.view.server.UploadServerOkHttp
+ADDED from /home/workspace/android/own/map/caobugs-map/src/main/AndroidManifest.xml:53:9-66
+	android:name
+		ADDED from /home/workspace/android/own/map/caobugs-map/src/main/AndroidManifest.xml:53:18-64
+service#com.caobugs.gis.view.server.UpdateAppService
+ADDED from /home/workspace/android/own/map/caobugs-map/src/main/AndroidManifest.xml:54:9-64
+	android:name
+		ADDED from /home/workspace/android/own/map/caobugs-map/src/main/AndroidManifest.xml:54:18-62
+service#com.baidu.location.f
+ADDED from /home/workspace/android/own/map/caobugs-map/src/main/AndroidManifest.xml:56:9-57:19
+	android:enabled
+		ADDED from /home/workspace/android/own/map/caobugs-map/src/main/AndroidManifest.xml:56:54-76
+	android:process
+		ADDED from /home/workspace/android/own/map/caobugs-map/src/main/AndroidManifest.xml:56:77-102
+	android:name
+		ADDED from /home/workspace/android/own/map/caobugs-map/src/main/AndroidManifest.xml:56:18-53
+uses-sdk
+INJECTED from /home/workspace/android/own/map/caobugs-map/src/main/AndroidManifest.xml reason: use-sdk injection requested
+	android:targetSdkVersion
+		INJECTED from /home/workspace/android/own/map/caobugs-map/src/main/AndroidManifest.xml
+		INJECTED from /home/workspace/android/own/map/caobugs-map/src/main/AndroidManifest.xml
+	android:minSdkVersion
+		INJECTED from /home/workspace/android/own/map/caobugs-map/src/main/AndroidManifest.xml
+		INJECTED from /home/workspace/android/own/map/caobugs-map/src/main/AndroidManifest.xml

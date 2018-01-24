@@ -1,0 +1,156 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:id="@+id/downActivity"
+              android:orientation="vertical"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent">
+
+    <!--
+    //39.946487, 116.288600
+    //39.933241, 116.304088
+
+    //31.832011, 112.074990
+    //31.771904, 112.221760
+    -->
+    <EditText
+        android:id="@+id/minXText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="40sp"
+        android:hint="@string/map_min_x_text_hint"
+        android:inputType="numberDecimal"
+        />
+
+    <EditText
+        android:id="@+id/minYText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="40sp"
+        android:hint="@string/map_min_y_text_hint"
+        android:inputType="numberDecimal"
+        />
+
+    <EditText
+        android:id="@+id/maxXText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="40sp"
+        android:hint="@string/map_max_x_text_hint"
+        android:inputType="numberDecimal"
+        />
+
+    <EditText
+        android:id="@+id/maxYText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="40sp"
+        android:hint="@string/map_max_y_text_hint"
+        android:inputType="numberDecimal"
+        />
+
+
+    <EditText
+        android:id="@+id/mapMinLevel"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="40sp"
+        android:hint="@string/map_min_level_text_hint"
+        android:inputType="numberSigned"
+        />
+
+
+    <EditText
+        android:id="@+id/mapMaxLevel"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="40sp"
+        android:hint="@string/map_max_level_text_hint"
+        android:inputType="numberSigned"
+        />
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+    >
+        <Button
+            android:id="@+id/downButton"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:text="@string/start_down"
+        />
+        <Button
+            android:id="@+id/downLocationButton"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:text="@string/down_location_button_text"
+        />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/level_text"
+        />
+
+        <TextView
+            android:id="@+id/currentLevel"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="0"
+        />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/surplus_num"
+        />
+
+        <TextView
+            android:id="@+id/currentPercent"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="0"
+        />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/error_text"
+        />
+
+        <TextView
+            android:id="@+id/error_text"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="0"
+        />
+    </LinearLayout>
+
+
+
+    <TextView
+        android:id="@+id/error_num"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+
+</LinearLayout>

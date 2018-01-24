@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="mapAttribute"><attr format="string" name="min_x"/><attr format="string" name="min_y"/><attr format="string" name="max_x"/><attr format="string" name="max_y"/><attr format="string" name="cs_type"/></declare-styleable>
+</resources>
