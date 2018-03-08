@@ -1,6 +1,3 @@
-/*
- * Copyright (C) 2018 FarmFriend Co., Ltd. All rights reserved.
- */
 package com.caobugs.map.layer;
 
 import com.caobugs.map.layer.api.ILayer;

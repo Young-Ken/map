@@ -8,4 +8,5 @@ public interface ILayerManager {
 
     void remove(ILayer layer);
     void add(ILayer layer);
+    void refreshLayer();
 }

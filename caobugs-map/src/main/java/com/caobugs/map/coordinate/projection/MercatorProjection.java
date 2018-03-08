@@ -508,6 +508,10 @@ public final class MercatorProjection {
         return Math.pow(2, zoomLevel);
     }
 
+    public static int getTitleSize() {
+        return DUMMY_TILE_SIZE;
+    }
+
     private MercatorProjection() {
         throw new IllegalStateException();
     }

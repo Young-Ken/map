@@ -6,8 +6,8 @@ package com.caobugs.map.model.api;
  */
 public interface IMapPosition {
 
-    float getLevel();
+    int getLevel();
     ILatLong getCenter();
-    void setLevel(float level);
+    void setLevel(int level);
     void setCenter(ILatLong center);
 }

@@ -9,17 +9,17 @@ import com.caobugs.map.model.api.IMapPosition;
  */
 public class MapPosition implements IMapPosition {
 
-    private float mLevel;
+    private int mLevel;
     private ILatLong mCenter;
 
-    public MapPosition(float level, ILatLong center) {
+    public MapPosition(int level, ILatLong center) {
 
         setLevel(level);
         setCenter(center);
     }
 
     @Override
-    public float getLevel() {
+    public int getLevel() {
         return mLevel;
     }
 
@@ -29,7 +29,7 @@ public class MapPosition implements IMapPosition {
     }
 
     @Override
-    public void setLevel(final float level) {
+    public void setLevel(final int level) {
         if (level < 0) {
             throw new IllegalArgumentException("level不能小于零");
         }

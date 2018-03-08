@@ -10,6 +10,6 @@ import com.caobugs.map.model.api.ILatLongBox;
  */
 public interface ILayer {
 
-    void draw(ILatLongBox box, float level, Canvas canvas);
+    void draw(ILatLongBox box, int level, Canvas canvas);
     void setVisible();
 }
